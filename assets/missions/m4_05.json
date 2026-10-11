@@ -1,0 +1,15 @@
+{"id":"m4_05","chapter":4,"title":"@m4_05_title","brief":["@m4_05_brief_1","@m4_05_brief_2"],"done":["@m4_05_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cd","cat","crontab","fix","run"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m4_05_f_readme"}},
+  "cron":{"name":"cron-box","cron":["0 3 * * * /opt/backup.sh","0 9 * * 1 /opt/report.sh"],
+    "fs":{"opt/":{"backup.sh":"#!/bin/sh\ntar -czf /backup/today.tgz /dat\necho done","report.sh":"#!/bin/sh\necho weekly"},"data/":{"db.sqlite":"(binary)"}}}},
+ "start":"home",
+ "puzzles":[{"id":"c1","type":"codefix","file":"cron:/opt/backup.sh",
+   "data":{"lang":"sh","lines":["#!/bin/sh","tar -czf /backup/today.tgz /dat","echo done"],
+           "bugs":[{"line":1,"choices":["/dat","/data","/date"],"answer":"/data"}],
+           "failOutput":"tar: /dat: No such file or directory","okOutput":"done"},
+   "answer":"bugs"}],
+ "goal":{"run":"cron:/opt/backup.sh"},
+ "hints":["@m4_05_hint_1","@m4_05_hint_2"],
+ "solution":["scan","connect cron-box","crontab -l","cd opt","run backup.sh","fix backup.sh",{"puzzle":"c1"},"run backup.sh"]}

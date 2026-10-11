@@ -1,0 +1,16 @@
+{"id":"m4_03","chapter":4,"title":"@m4_03_title","brief":["@m4_03_brief_1","@m4_03_brief_2"],"done":["@m4_03_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cat","git","fix","run"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m4_03_f_readme"}},
+  "repo":{"name":"repo-box",
+    "git":[{"hash":"c3d4","message":"add retry","diff":"+retries = 3"},{"hash":"a1b2","message":"tune timeout","diff":"-timeout = 30\n+timeout = 3"},{"hash":"9f8e","message":"initial","diff":"+connect(timeout, retries)"}],
+    "fs":{"client.py":"timeout = 3\nretries = 3\nconnect(timeout, retries)"}}},
+ "start":"home",
+ "puzzles":[{"id":"c1","type":"codefix","file":"repo:/client.py",
+   "data":{"lang":"python","lines":["timeout = 3","retries = 3","connect(timeout, retries)"],
+           "bugs":[{"line":0,"choices":["3","30","300"],"answer":"30"}],
+           "failOutput":"TimeoutError: no response in 3s","okOutput":"connected"},
+   "answer":"bugs"}],
+ "goal":{"run":"repo:/client.py"},
+ "hints":["@m4_03_hint_1","@m4_03_hint_2"],
+ "solution":["scan","connect repo-box","git log","git diff a1b2","fix client.py",{"puzzle":"c1"},"run client.py"]}

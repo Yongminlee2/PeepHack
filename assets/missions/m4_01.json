@@ -1,0 +1,14 @@
+{"id":"m4_01","chapter":4,"title":"@m4_01_title","brief":["@m4_01_brief_1","@m4_01_brief_2"],"done":["@m4_01_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cat","fix","run"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m4_01_f_readme"}},
+  "svc":{"name":"api-box","fs":{"check.py":"def can_enter(age):\n    if age > 18:\n        return True\n    return False\n\nassert can_enter(18), '18 should enter'\nprint('OK: 18 enters')"}}},
+ "start":"home",
+ "puzzles":[{"id":"c1","type":"codefix","file":"svc:/check.py",
+   "data":{"lang":"python","lines":["def can_enter(age):","    if age > 18:","        return True","    return False","","assert can_enter(18), '18 should enter'","print('OK: 18 enters')"],
+           "bugs":[{"line":1,"choices":[">",">=","=="],"answer":">="}],
+           "failOutput":"AssertionError: 18 should enter","okOutput":"OK: 18 enters"},
+   "answer":"bugs"}],
+ "goal":{"run":"svc:/check.py"},
+ "hints":["@m4_01_hint_1","@m4_01_hint_2"],
+ "solution":["scan","connect api-box","run check.py","cat check.py","fix check.py",{"puzzle":"c1"},"run check.py"]}
