@@ -321,8 +321,11 @@ class _MissionState extends State<MissionScreen> {
     );
   }
 
-  Widget _caughtPanel() => Container(
-        color: const Color(0xE6000000),
+  Widget _caughtPanel() => TweenAnimationBuilder<Color?>(
+        tween: ColorTween(begin: const Color(0xDDB00020), end: const Color(0xE6000000)),
+        duration: const Duration(milliseconds: 600),
+        builder: (_, color, child) => Container(color: color, child: child),
+        child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(24),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -337,5 +340,6 @@ class _MissionState extends State<MissionScreen> {
           ),
           TextButton(onPressed: () => Navigator.pop(context), child: Text(S.t('btn_back_inbox'))),
         ]),
+        ),
       );
 }

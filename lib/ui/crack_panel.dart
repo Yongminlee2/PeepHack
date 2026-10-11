@@ -80,6 +80,15 @@ class _CrackPanelState extends State<CrackPanel> {
             TextButton(onPressed: widget.onClose, child: Text(S.t('btn_close'))),
           ]),
         ),
+        // 처음 보는 판이어도 바로 할 수 있게 규칙 한 줄
+        Container(
+          color: const Color(0xFF101810),
+          padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+          child: Text(
+            S.t(isWordPort(chapter: widget.mission.chapter, port: port) ? 'crack_rule_word' : 'crack_rule_breach'),
+            style: const TextStyle(color: hqDim, fontSize: 12, height: 1.35),
+          ),
+        ),
         Expanded(
           child: isWordPort(chapter: widget.mission.chapter, port: port)
               ? WordBoard(

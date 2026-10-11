@@ -3,12 +3,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import 'fx.dart';
+
 /// 매트릭스 비. 이미지 파일 없이 코드로 그린다(저작권·용량 걱정 없음).
 ///
 /// 위젯 테스트에서는 [MatrixRain.animate] 를 끈다(test/flutter_test_config.dart).
 /// 계속 움직이는 화면은 pumpAndSettle 이 영원히 안 끝난다.
 class MatrixRain extends StatefulWidget {
-  static bool animate = true;
+  /// 예전 이름. [Fx.animate] 와 같다.
+  static bool get animate => Fx.animate;
+  static set animate(bool v) => Fx.animate = v;
 
   final double opacity;
   final double cell; // 글자 칸 크기(논리 픽셀)

@@ -58,6 +58,7 @@ void main() {
     await settle(t);
     await t.tap(find.text(S.tn('map_crack', {'n': 1})));
     await settle(t);
+    expect(find.text(S.t('crack_rule_breach')), findsOneWidget); // 처음 보는 판의 규칙 한 줄
     final puzzle = crackPuzzle(missionId: m.id, host: 'srv', port: 0, attempt: 0, chapter: 1, owned: const {});
     for (final (r, c) in puzzle.solution) {
       if (find.byKey(Key('cell_${r}_$c')).evaluate().isEmpty) break;
@@ -137,6 +138,7 @@ void main() {
       await t.pump();
     }
     await settle(t);
+    expect(find.text(S.t('crack_rule_word')), findsOneWidget);
     final w = wordCrackPuzzle(missionId: m.id, host: 'srv', port: 1, attempt: 0, chapter: 2, owned: const {});
     await t.ensureVisible(find.byKey(Key('word_${w.answer}')));
     await t.tap(find.byKey(Key('word_${w.answer}')));

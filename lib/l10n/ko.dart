@@ -136,6 +136,8 @@ const Map<String, String> kKo = {
   'cmd_tail': '파일 뒷부분만 보기',
   'confirm_reset': '정말 처음부터 다시 할까요?',
   'crack_fail': '크랙 실패 — 추적 +15%',
+  'crack_rule_breach': '규칙: 맨 윗줄에서 하나 → 그 세로줄에서 하나 → 그 가로줄에서 하나… 번갈아 골라, 고른 코드로 목표 순서를 만드세요.',
+  'crack_rule_word': '규칙: 단어를 눌러 비밀번호를 맞히세요. 틀리면 「같은 자리에 맞은 글자 수」를 알려 줍니다. 주황 괄호는 보너스.',
   'crack_title': '포트 크랙 {i}/{n} · {host}',
   'hint_next_cmd': '다음 명령: {cmd}',
   'hint_none_left': '힌트를 다 썼습니다',

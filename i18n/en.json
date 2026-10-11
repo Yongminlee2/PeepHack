@@ -526,5 +526,7 @@
   "m5_06_situation": "Running it says 41 is not the answer. Think of the number Ghost always mentions.",
   "m5_06_label_1": "the current value",
   "m5_06_label_2": "one more",
-  "m5_06_label_3": "two more"
+  "m5_06_label_3": "two more",
+  "crack_rule_breach": "Rule: pick one on the top row → one in its column → one in that row… alternate, and build the target sequences with the codes you pick.",
+  "crack_rule_word": "Rule: tap words to guess the password. A wrong guess tells how many letters are right and in the right place. Orange brackets are bonuses."
 }

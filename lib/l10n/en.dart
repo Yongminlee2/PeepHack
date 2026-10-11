@@ -136,6 +136,8 @@ const Map<String, String> kEn = {
   'cmd_tail': 'See only the end of a file',
   'confirm_reset': 'Start over from the beginning?',
   'crack_fail': 'Crack failed — trace +15%',
+  'crack_rule_breach': 'Rule: pick one on the top row → one in its column → one in that row… alternate, and build the target sequences with the codes you pick.',
+  'crack_rule_word': 'Rule: tap words to guess the password. A wrong guess tells how many letters are right and in the right place. Orange brackets are bonuses.',
   'crack_title': 'Port crack {i}/{n} · {host}',
   'hint_next_cmd': 'Next command: {cmd}',
   'hint_none_left': 'No hints left',
