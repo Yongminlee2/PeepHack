@@ -82,7 +82,7 @@ class RainField {
   late final List<int> _grid; // columns*rows 글자 인덱스
 
   RainField({required int seed, required this.columns, required this.rows}) : _rnd = Random(seed) {
-    heads = List.generate(columns, (_) => -_rnd.nextDouble() * rows);
+    heads = List.generate(columns, (_) => _rnd.nextDouble() * (rows + trail) - trail);
     _speed = List.generate(columns, (_) => 6 + _rnd.nextDouble() * 14);
     _grid = List.generate(columns * rows, (_) => _rnd.nextInt(glyphs.length));
   }

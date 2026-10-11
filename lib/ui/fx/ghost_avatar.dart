@@ -70,8 +70,8 @@ class _GhostPainter extends CustomPainter {
 
     // 눈: 기울어진 틈 + 초록 빛
     void eye(double cx, double tilt) {
-      final a = p(cx - 0.055, 0.46 - tilt);
-      final b = p(cx + 0.055, 0.46 + tilt);
+      final a = p(cx - 0.042, 0.46 - tilt);
+      final b = p(cx + 0.042, 0.46 + tilt);
       canvas.drawLine(a, b, Paint()..strokeWidth = s * 0.05..strokeCap = StrokeCap.round..color = Colors.black);
       canvas.drawLine(a, b, Paint()
         ..strokeWidth = s * 0.03
@@ -81,13 +81,13 @@ class _GhostPainter extends CustomPainter {
       canvas.drawLine(a, b, Paint()..strokeWidth = s * 0.012..strokeCap = StrokeCap.round..color = const Color(0xFFD8FFE0));
     }
 
-    eye(0.43, -0.012);
-    eye(0.57, 0.012);
+    eye(0.415, -0.012);
+    eye(0.585, 0.012);
 
     // 입
     canvas.drawLine(p(0.47, 0.63), p(0.53, 0.63), Paint()..strokeWidth = s * 0.008..strokeCap = StrokeCap.round..color = const Color(0xFF4A544B));
     // 눈 아래 초록 줄(코드 눈물)
-    canvas.drawLine(p(0.585, 0.50), p(0.585, 0.58), Paint()..strokeWidth = s * 0.006..color = green.withValues(alpha: 0.8));
+    canvas.drawLine(p(0.60, 0.50), p(0.60, 0.58), Paint()..strokeWidth = s * 0.006..color = green.withValues(alpha: 0.8));
   }
 
   @override

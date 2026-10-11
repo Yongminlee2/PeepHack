@@ -31,7 +31,7 @@ class TitleScreen extends StatelessWidget {
                 const GlitchText('HACKQUEST', style: TextStyle(
                   fontFamily: 'monospace', fontSize: 40, fontWeight: FontWeight.w900, letterSpacing: 6, color: hqGreen)),
                 const SizedBox(height: 12),
-                Text(S.t('title_tagline'), textAlign: TextAlign.center, style: const TextStyle(color: hqDim, fontSize: 15)),
+                Text(S.t('title_tagline'), textAlign: TextAlign.center, style: const TextStyle(color: hqGreen, fontSize: 15, shadows: [Shadow(blurRadius: 8), Shadow(blurRadius: 16)])),
                 const Spacer(flex: 3),
                 SizedBox(
                   width: double.infinity,
@@ -46,7 +46,7 @@ class TitleScreen extends StatelessWidget {
                     onPressed: () => Navigator.push(context, MaterialPageRoute(
                         settings: const RouteSettings(name: InboxScreen.routeName),
                         builder: (_) => InboxScreen(progress: progress, catalog: catalog))),
-                    child: Text('> ${S.t('btn_start')}_', style: const TextStyle(fontFamily: 'monospace', fontSize: 18, letterSpacing: 2)),
+                    child: Text('> ${S.t('btn_start')}_', style: TextStyle(fontFamily: monoFor(S.t('btn_start')), fontSize: 18, letterSpacing: 1)),
                   ),
                 ),
                 const SizedBox(height: 32),
