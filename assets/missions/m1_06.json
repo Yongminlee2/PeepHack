@@ -1,0 +1,28 @@
+{
+  "id": "m1_06", "chapter": 1, "title": "@m1_06_title",
+  "brief": ["@m1_06_brief_1", "@m1_06_brief_2", "@m1_06_brief_3"], "done": ["@m1_06_done_1", "@m1_06_done_2"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open", "decode", "back"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {
+      "note.txt": "@m1_06_f_note",
+      "hint.txt": {"text": "dpggff7", "encode": "caesar:1"}}},
+    "mail": {"name": "mail-box", "lock": {"type": "password", "answer": "coffee7"},
+             "fs": {"letter.txt": "@m1_06_f_letter"}},
+    "safe": {"name": "safe-box", "lock": {"type": "puzzle", "puzzle": "p1"},
+             "fs": {"prize.txt": "@m1_06_f_prize"}}
+  },
+  "start": "home",
+  "puzzles": [
+    {"id": "p1", "type": "match",
+     "data": {"left": ["red", "blue", "green"], "right": ["B", "C", "A"]},
+     "answer": [[0, 2], [1, 1], [2, 0]]},
+    {"id": "p2", "type": "order", "file": "safe:/prize.txt",
+     "data": {"items": ["Open lid", "Turn key", "Take prize"]},
+     "answer": [1, 0, 2]}
+  ],
+  "goal": {"all": [{"read": "safe:/prize.txt"}, {"puzzle": "p1"}, {"puzzle": "p2"}]},
+  "hints": ["@m1_06_hint_1", "@m1_06_hint_2", "@m1_06_hint_3"],
+  "solution": ["open note.txt", "decode hint.txt", "scan", "connect mail-box", "coffee7",
+               "open letter.txt", "connect safe-box", {"puzzle": "p1"}, "open prize.txt", {"puzzle": "p2"}]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "m1_01", "chapter": 1, "title": "@m1_01_title",
+  "brief": ["@m1_01_brief_1", "@m1_01_brief_2"], "done": ["@m1_01_done_1"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {"readme.txt": "@m1_01_f_readme"}},
+    "cafe": {"name": "cafe-pc", "fs": {"welcome.txt": "@m1_01_f_welcome"}}
+  },
+  "start": "home",
+  "puzzles": [],
+  "goal": {"read": "cafe:/welcome.txt"},
+  "hints": ["@m1_01_hint_1", "@m1_01_hint_2", "@m1_01_hint_3"],
+  "solution": ["scan", "connect cafe-pc", "open welcome.txt"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "m1_05", "chapter": 1, "title": "@m1_05_title",
+  "brief": ["@m1_05_brief_1", "@m1_05_brief_2"], "done": ["@m1_05_done_1"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {"manual.txt": "@m1_05_f_manual"}},
+    "old": {"name": "old-server", "lock": {"type": "puzzle", "puzzle": "p1"},
+            "fs": {"backup.txt": "@m1_05_f_backup"}}
+  },
+  "start": "home",
+  "puzzles": [
+    {"id": "p1", "type": "order",
+     "data": {"items": ["Start OS", "Power on", "Login", "Load BIOS"]},
+     "answer": [1, 3, 0, 2]}
+  ],
+  "goal": {"read": "old:/backup.txt"},
+  "hints": ["@m1_05_hint_1", "@m1_05_hint_2", "@m1_05_hint_3"],
+  "solution": ["open manual.txt", "scan", "connect old-server", {"puzzle": "p1"}, "open backup.txt"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "m1_03", "chapter": 1, "title": "@m1_03_title",
+  "brief": ["@m1_03_brief_1", "@m1_03_brief_2"], "done": ["@m1_03_done_1"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {"note.txt": "@m1_03_f_note"}},
+    "router": {"name": "router", "lock": {"type": "puzzle", "puzzle": "p1"},
+               "fs": {"admin.txt": "@m1_03_f_admin"}}
+  },
+  "start": "home",
+  "puzzles": [
+    {"id": "p1", "type": "match",
+     "data": {"left": ["PWR", "LAN1", "WAN", "USB"], "right": ["ISP", "mouse", "5V", "192.168.0.2"]},
+     "answer": [[0, 2], [1, 3], [2, 0], [3, 1]]}
+  ],
+  "goal": {"all": [{"puzzle": "p1"}, {"read": "router:/admin.txt"}]},
+  "hints": ["@m1_03_hint_1", "@m1_03_hint_2", "@m1_03_hint_3"],
+  "solution": ["open note.txt", "scan", "connect router", {"puzzle": "p1"}, "open admin.txt"]
+}

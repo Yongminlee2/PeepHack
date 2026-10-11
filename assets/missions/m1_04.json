@@ -1,0 +1,21 @@
+{
+  "id": "m1_04", "chapter": 1, "title": "@m1_04_title",
+  "brief": ["@m1_04_brief_1", "@m1_04_brief_2"], "done": ["@m1_04_done_1"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {"photo.txt": "@m1_04_f_photo"}},
+    "cloud": {"name": "cloud-drive", "lock": {"type": "puzzle", "puzzle": "p1"},
+              "fs": {"diary.txt": "@m1_04_f_diary"}}
+  },
+  "start": "home",
+  "puzzles": [
+    {"id": "p1", "type": "password",
+     "data": {"clues": ["@m1_04_p1_c1", "@m1_04_p1_c2"],
+              "fragments": ["momo", "2019", "lulu", "2020", "42"]},
+     "answer": "momo2019"}
+  ],
+  "goal": {"read": "cloud:/diary.txt"},
+  "hints": ["@m1_04_hint_1", "@m1_04_hint_2", "@m1_04_hint_3"],
+  "solution": ["open photo.txt", "scan", "connect cloud-drive", {"puzzle": "p1"}, "open diary.txt"]
+}

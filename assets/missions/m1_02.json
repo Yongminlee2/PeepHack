@@ -1,0 +1,18 @@
+{
+  "id": "m1_02", "chapter": 1, "title": "@m1_02_title",
+  "brief": ["@m1_02_brief_1", "@m1_02_brief_2"], "done": ["@m1_02_done_1"],
+  "input": "chips",
+  "commands": ["scan", "connect", "open", "decode"],
+  "hosts": {
+    "home": {"name": "my-laptop", "fs": {
+      "note.txt": "@m1_02_f_note",
+      "secret.txt": {"text": "rshqvhvdph", "encode": "caesar:3"}}},
+    "vault": {"name": "vault-box", "lock": {"type": "password", "answer": "opensesame"},
+              "fs": {"key.txt": "@m1_02_f_key"}}
+  },
+  "start": "home",
+  "puzzles": [],
+  "goal": {"read": "vault:/key.txt"},
+  "hints": ["@m1_02_hint_1", "@m1_02_hint_2", "@m1_02_hint_3"],
+  "solution": ["open note.txt", "decode secret.txt", "scan", "connect vault-box", "opensesame", "open key.txt"]
+}
