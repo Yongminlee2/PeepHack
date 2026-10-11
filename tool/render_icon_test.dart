@@ -1,4 +1,4 @@
-// 앱 아이콘 원본을 그림 코드(GhostAvatar)에서 PNG 로 뽑는다.
+// 앱 아이콘 원본을 어나니머스 문양(퍼블릭 도메인, 흰 원 원래 색)에서 PNG 로 뽑는다.
 //   flutter test tool/render_icon_test.dart   → store/icon/flat.png, fg.png (1024)
 // 그 다음 python tool/apply_icon.py
 import 'dart:io';
@@ -7,10 +7,12 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hack_quest/ui/fx/ghost_avatar.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Future<void> _render(WidgetTester t, Widget child, String path) async {
   final key = GlobalKey();
+  await t.pump();
   await t.pumpWidget(Directionality(
     textDirection: TextDirection.ltr,
     child: Center(child: RepaintBoundary(key: key, child: SizedBox(width: 1024, height: 1024, child: child))),
@@ -30,18 +32,28 @@ void main() {
     t.view.physicalSize = const Size(1200, 1200);
     t.view.devicePixelRatio = 1;
     addTearDown(t.view.reset);
+    final svg = (await t.runAsync(() => rootBundle.loadString('assets/images/anonymous_emblem.svg')))!;
+    Widget emblem(double size, {bool glow = true}) => Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: glow ? [BoxShadow(color: const Color(0x8800FF46), blurRadius: size * 0.12, spreadRadius: size * 0.02)] : null,
+          ),
+          child: SvgPicture.string(svg, width: size, height: size),
+        );
     // 통짜(구형 런처·스토어): 어두운 바탕 + 가는 격자 + 고스트
     await _render(
       t,
       Stack(fit: StackFit.expand, children: [
         const ColoredBox(color: Color(0xFF060A07)),
         CustomPaint(painter: _Grid()),
-        const Center(child: GhostAvatar(size: 820)),
+        Center(child: emblem(800)),
       ]),
       'store/icon/flat.png',
     );
     // 적응형 앞층: 투명 바탕, 가운데 66% 안전 영역 안에 고스트
-    await _render(t, const Center(child: GhostAvatar(size: 640)), 'store/icon/fg.png');
+    await _render(t, Center(child: emblem(620, glow: false)), 'store/icon/fg.png');
   });
 }
 
