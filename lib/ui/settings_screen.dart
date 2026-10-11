@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../engine/progress.dart';
+import '../music.dart';
 import '../strings.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -36,6 +37,12 @@ class _SettingsState extends State<SettingsScreen> {
           title: Text(S.t('settings_sound')),
           value: widget.progress.soundOn,
           onChanged: (v) async { await widget.progress.setSound(v); setState(() {}); },
+        ),
+        SwitchListTile(
+          key: const Key('set_music'),
+          title: Text(S.t('settings_music')),
+          value: widget.progress.musicOn,
+          onChanged: (v) async { await Music().setEnabled(v); setState(() {}); },
         ),
         SwitchListTile(
           key: const Key('set_vibration'),

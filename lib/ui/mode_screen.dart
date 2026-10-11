@@ -4,6 +4,7 @@ import '../catalog.dart';
 import '../engine/breach_gen.dart';
 import '../engine/case_file.dart';
 import '../engine/progress.dart';
+import '../music.dart';
 import '../strings.dart';
 import 'breach/breach_list_screen.dart';
 import 'cases/case_list_screen.dart';
@@ -64,7 +65,17 @@ class _ModeScreenState extends State<ModeScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(S.t('mode_title'))),
+        appBar: AppBar(title: Text(S.t('mode_title')), actions: [
+          IconButton(
+            key: const Key('music_toggle'),
+            tooltip: S.t('settings_music'),
+            icon: Icon(progress.musicOn ? Icons.music_note : Icons.music_off),
+            onPressed: () async {
+              await Music().setEnabled(!progress.musicOn);
+              setState(() {});
+            },
+          ),
+        ]),
         body: Stack(fit: StackFit.expand, children: [
           const MatrixRain(opacity: 0.2),
           const CrtOverlay(),

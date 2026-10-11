@@ -69,3 +69,4 @@ $env:TEMP = "C:\workAndroid\tmp-ascii"; $env:TMP = "C:\workAndroid\tmp-ascii"
 - 고스트 얼굴·앱 아이콘: 어나니머스 문양 — [Wikimedia Commons: Anonymous_Flag.svg](https://commons.wikimedia.org/wiki/File:Anonymous_Flag.svg), 퍼블릭 도메인. 깃발 바탕을 떼고 초록으로 다시 칠함(`assets/images/`).
 - 매트릭스 비·스캔라인·글리치 글자: 코드로 그림(`lib/ui/fx/`).
 - 효과음: `tool/gen_sfx.py` 로 합성.
+- 배경음악: `tool/gen_music.py` 로 합성한 곡(직접 만든 것, 저작권 문제 없음).

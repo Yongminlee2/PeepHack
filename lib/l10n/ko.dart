@@ -485,6 +485,7 @@ const Map<String, String> kKo = {
   'result_title': '임무 완료',
   'settings_follow_system': '기기 설정 따르기',
   'settings_language': '언어',
+  'settings_music': '배경음악',
   'settings_sound': '효과음',
   'settings_title': '설정',
   'settings_vibration': '진동',

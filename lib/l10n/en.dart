@@ -485,6 +485,7 @@ const Map<String, String> kEn = {
   'result_title': 'Mission complete',
   'settings_follow_system': 'Follow device setting',
   'settings_language': 'Language',
+  'settings_music': 'Music',
   'settings_sound': 'Sound effects',
   'settings_title': 'Settings',
   'settings_vibration': 'Vibration',

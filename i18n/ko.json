@@ -532,5 +532,6 @@
   "settings_vibration": "진동",
   "mode_progress": "{n}/{m}",
   "shell_boot_1": "보안 터널 연결 중… 완료",
-  "shell_boot_2": "접속 흔적 지우개 대기… 완료"
+  "shell_boot_2": "접속 흔적 지우개 대기… 완료",
+  "settings_music": "배경음악"
 }

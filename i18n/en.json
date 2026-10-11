@@ -532,5 +532,6 @@
   "settings_vibration": "Vibration",
   "mode_progress": "{n}/{m}",
   "shell_boot_1": "Opening secure tunnel… done",
-  "shell_boot_2": "Trace wiper standing by… done"
+  "shell_boot_2": "Trace wiper standing by… done",
+  "settings_music": "Music"
 }
