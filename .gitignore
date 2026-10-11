@@ -5,3 +5,7 @@ build/
 local.properties
 keystore.properties
 *.jks
+.devtmp/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
