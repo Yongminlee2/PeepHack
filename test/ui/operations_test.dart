@@ -184,4 +184,27 @@ void main() {
     await settle(t);
     expect(p.isDone('m9_01'), isTrue);
   });
+  testWidgets('키보드가 열리면 지도를 접고 칩을 한 줄로 줄여 터미널 자리를 남긴다', (t) async {
+    t.view.physicalSize = const Size(1080, 2340);
+    t.view.devicePixelRatio = 2.625;
+    addTearDown(t.view.reset);
+    final m = Mission.fromJson({
+      'id': 'm9_02', 'chapter': 3, 'title': '@t', 'brief': ['@b'], 'done': ['@d'], 'input': 'keyboard',
+      'commands': ['scan', 'connect', 'ssh', 'open', 'decode', 'ls', 'cd', 'cat', 'fix', 'run'],
+      'hosts': {
+        'home': {'name': 'my-laptop', 'fs': {'a.txt': 'A'}},
+        'b': {'name': 'beta-01', 'fs': {}}, 'c': {'name': 'gamma-01', 'fs': {}}, 'd': {'name': 'delta-final', 'fs': {}},
+      },
+      'puzzles': [], 'goal': {'read': 'home:/a.txt'}, 'hints': ['@h1', '@h2', '@h3'], 'solution': ['cat a.txt'],
+    });
+    await open(t, m);
+    expect(find.byKey(const Key('node_b')), findsOneWidget);
+    t.view.viewInsets = const FakeViewPadding(bottom: 1000); // 키보드
+    await t.pump();
+    expect(find.byKey(const Key('node_b')), findsNothing);
+    final cmds = t.getRect(find.byKey(const Key('chip_scan')));
+    final last = t.getRect(find.byKey(const Key('chip_run')));
+    expect(last.top, cmds.top); // 명령 칩은 한 줄
+    expect(t.takeException(), isNull); // 넘침 없음
+  });
 }

@@ -11,8 +11,10 @@ class InputBar extends StatefulWidget {
   final Suggestions suggestions;
   final bool editable;
   final bool password;
+  /// 키보드가 떠 있다 — 칩을 한 줄로. (Scaffold 안에선 키보드 높이가 0으로 보여서 바깥에서 알려 준다)
+  final bool compact;
   final void Function(String line) onRun;
-  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun});
+  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun, this.compact = false});
   @override
   State<InputBar> createState() => _InputBarState();
 }
@@ -72,32 +74,37 @@ class _InputBarState extends State<InputBar> {
     widget.onRun(line);
   }
 
-  // 줄을 바꿔 전부 보이게 한다. 옆으로 밀어야 나오는 칩은 실기기에서 아무도 못 찾았다.
-  // 너무 많으면(키보드 챕터) 세 줄 높이에서 위아래로 민다.
-  Widget _chips(List<String> items, {required bool compact}) => ConstrainedBox(
-        // 키보드가 떠 있으면 한 줄만(터미널 자리를 남긴다)
-        constraints: BoxConstraints(maxHeight: compact ? 40 : 132),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Wrap(spacing: 6, runSpacing: 2, children: [
-              for (final t in items)
-                ActionChip(
-                  key: Key('chip_$t'),
-                  label: Text(t),
-                  visualDensity: VisualDensity.compact,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onPressed: () => _append(t),
-                ),
-            ]),
-          ),
-        ),
+  Widget _chip(String t) => ActionChip(
+        key: Key('chip_$t'),
+        label: Text(t),
+        visualDensity: VisualDensity.compact,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        onPressed: () => _append(t),
       );
+
+  // 평소: 줄을 바꿔 전부 보이게 한다. 옆으로 밀어야 나오는 칩은 실기기에서 아무도 못 찾았다.
+  // 너무 많으면(키보드 챕터) 세 줄 높이에서 위아래로 민다.
+  // 키보드가 떠 있으면: 한 줄로 옆으로 민다(어차피 손으로 치는 중이고, 터미널 자리를 남긴다).
+  Widget _chips(List<String> items, {required bool compact}) => compact
+      ? SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(children: [for (final t in items) Padding(padding: const EdgeInsets.only(right: 6), child: _chip(t))]),
+        )
+      : ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 132),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: SizedBox(
+              width: double.infinity,
+              child: Wrap(spacing: 6, runSpacing: 2, children: [for (final t in items) _chip(t)]),
+            ),
+          ),
+        );
 
   @override
   Widget build(BuildContext context) {
-    final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final keyboardOpen = widget.compact;
     return Container(
         color: hqPanel,
         padding: const EdgeInsets.fromLTRB(0, 6, 0, 8),
@@ -152,3 +159,4 @@ class _InputBarState extends State<InputBar> {
     );
   }
 }
+

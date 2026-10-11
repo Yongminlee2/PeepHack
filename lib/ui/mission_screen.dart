@@ -253,6 +253,8 @@ class _MissionState extends State<MissionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 이 화면의 Scaffold 바깥 문맥이라 키보드 높이가 그대로 보인다
+    final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
     final m = widget.mission;
     final Widget window = switch (win) {
       _Win.terminal => Stack(fit: StackFit.expand, children: [
@@ -294,7 +296,8 @@ class _MissionState extends State<MissionScreen> {
         Column(children: [
           if (trace.enabled) _traceBar(),
           // 지도는 터미널에서만. 퍼즐·크랙·파일 창에는 자리를 돌려준다(작은 화면에서 퍼즐 칸이 잘렸다).
-          if (win == _Win.terminal) NetworkMap(mission: m, shell: shell, onTap: _tapHost),
+          // 키보드가 떠 있을 때도 접는다(지도·칩이 터미널을 다 덮고 입력줄이 넘쳤다)
+          if (win == _Win.terminal && !keyboardOpen) NetworkMap(mission: m, shell: shell, onTap: _tapHost),
           Expanded(child: window),
           // 퍼즐·크랙 창에선 명령줄을 숨긴다(쓸 일이 없고, 판이 넓어진다). 파일 창에선 다음 명령을 바로 칠 수 있게 둔다.
           if (win != _Win.puzzle && win != _Win.crack)
@@ -302,6 +305,7 @@ class _MissionState extends State<MissionScreen> {
               suggestions: shell.suggestions(),
               editable: m.input == 'keyboard',
               password: shell.awaitingPassword,
+              compact: keyboardOpen,
               onRun: _onRun,
             ),
         ]),
@@ -353,6 +357,11 @@ class _MissionState extends State<MissionScreen> {
         child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(24),
+        // 글 뒤에 막힌 판을 깐다(반투명 바탕만으론 뒤 터미널 글자가 비쳐 겹쳐 읽혔다)
+        child: Container(
+        key: const Key('caught_box'),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(color: const Color(0xFF0B0F0C), border: Border.all(color: hqRed, width: 1.5)),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Center(child: GlitchText(S.t('trace_caught'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: hqRed))),
           const SizedBox(height: 12),
@@ -365,6 +374,7 @@ class _MissionState extends State<MissionScreen> {
           ),
           TextButton(onPressed: () => Navigator.pop(context), child: Text(S.t('btn_back_inbox'))),
         ]),
+        ),
         ),
       );
 }
