@@ -125,4 +125,80 @@ void main() {
     expect(kCommandChapter['|'], 3);
     expect(kCommandChapter['run'], 4);
   });
+  Mission mk34() => Mission.fromJson({
+    'id': 'm9_02', 'chapter': 9, 'input': 'keyboard',
+    'commands': ['ls', 'cd', 'cat', 'find', 'ssh', 'head', 'tail', '|', 'grep', 'history',
+                 'git', 'env', 'crontab', 'fix', 'run', 'connect'],
+    'hosts': {
+      'home': {'name': 'my-laptop', 'fs': {
+        '.bash_history': 'ssh dev@api-box\ncat notes.txt',
+        'notes.txt': 'l1\nl2\nl3\nl4',
+        'src/': {'deep/': {'app.py': 'x = 1\nif x <= 1:\n  print(x)'}}}},
+      'api': {'name': 'api-box', 'user': 'dev',
+        'git': [{'hash': 'a1b2', 'message': 'tweak limit', 'diff': '-limit = 10\n+limit = 1'}],
+        'env': {'MODE': 'prod', 'LIMIT': '1'}, 'cron': ['0 3 * * * /opt/backup.sh'],
+        'fs': {'server.py': 'limit = 1\nfor i in range(limit):\n  work(i)'}},
+    },
+    'puzzles': [
+      {'id': 'c1', 'type': 'codefix', 'file': 'api:/server.py',
+       'data': {'lang': 'python', 'lines': ['limit = 1', 'for i in range(limit):', '  work(i)'],
+                'bugs': [{'line': 0, 'choices': ['1', '10', '100'], 'answer': '10'}],
+                'failOutput': 'Traceback: limit too small', 'okOutput': 'served 10 requests'},
+       'answer': 'bugs'},
+    ],
+    'goal': {'run': 'api:/server.py'},
+    'solution': ['ssh dev@api-box', 'fix server.py', {'puzzle': 'c1'}, 'run server.py'],
+  });
+
+  test('find·head·tail·pipe·history', () {
+    final sh = Shell(mk34());
+    expect(sh.run('find app').text, '/src/deep/app.py');
+    expect(sh.run('find zzz').key, 'shell_empty');
+    expect(sh.run('head -n 2 notes.txt').text, 'l1\nl2');
+    expect(sh.run('tail -n 1 notes.txt').text, 'l4');
+    expect(sh.run('head notes.txt').text, 'l1\nl2\nl3\nl4');
+    expect(sh.run('cat notes.txt | grep l3').text, 'l3');
+    expect(sh.run('cat notes.txt | grep zz').key, 'shell_empty');
+    expect(sh.run('cat notes.txt | wc').key, 'shell_err_usage');
+    expect(sh.run('history').text, 'ssh dev@api-box\ncat notes.txt');
+  });
+  test('ssh 는 계정이 맞아야', () {
+    final sh = Shell(mk34());
+    expect(sh.run('ssh root@api-box').key, 'shell_err_ssh_denied');
+    expect(sh.run('ssh dev@zzz').key, 'shell_err_no_host');
+    expect(sh.run('ssh dev').key, 'shell_err_usage');
+    expect(sh.run('ssh dev@api-box').key, 'shell_connected');
+    expect(sh.hostKey, 'api');
+  });
+  test('git·env·crontab', () {
+    final sh = Shell(mk34());
+    sh.run('ssh dev@api-box');
+    expect(sh.run('git log').text, 'a1b2  tweak limit');
+    expect(sh.run('git diff a1b2').text, '-limit = 10\n+limit = 1');
+    expect(sh.run('git diff zz').key, 'shell_err_no_commit');
+    expect(sh.run('git').key, 'shell_err_usage');
+    expect(sh.run('env').text, 'MODE=prod\nLIMIT=1');
+    expect(sh.run('crontab -l').text, '0 3 * * * /opt/backup.sh');
+    expect(sh.run('crontab').key, 'shell_err_usage');
+  });
+  test('fix·run·codefix', () {
+    final sh = Shell(mk34());
+    sh.run('ssh dev@api-box');
+    expect(sh.run('run server.py').text, 'Traceback: limit too small');
+    expect(sh.goalDone, isFalse);
+    expect(sh.run('fix notes.txt').key, 'shell_err_nothing_to_fix');
+    expect(sh.run('cat server.py').fileText, isNotNull); // codefix 는 cat 을 막지 않는다
+    expect(sh.run('fix server.py').openPuzzle, 'c1');
+    expect(sh.submitPuzzle('c1', {0: '1'}).key, 'puzzle_wrong');
+    expect(sh.submitPuzzle('c1', {0: '10'}).key, 'puzzle_solved');
+    expect(sh.run('run server.py').text, 'served 10 requests');
+    expect(sh.goalDone, isTrue);
+    expect(sh.run('run notes.txt').key, 'shell_err_nothing_to_run');
+  });
+  test('키보드 임무의 칩에는 ssh 계정·커밋 해시가 들어간다', () {
+    final sh = Shell(mk34());
+    expect(sh.suggestions().args, contains('dev@api-box'));
+    sh.run('ssh dev@api-box');
+    expect(sh.suggestions().args, containsAll(['log', 'diff', 'a1b2', '-l', '-n']));
+  });
 }

@@ -103,13 +103,121 @@ class Shell {
       case 'cd': return _cd(a.isEmpty ? '/' : a[0]);
       case 'pwd': return ShellResult(text: cwd);
       case 'grep': return a.length < 2 ? _usage('grep <word> <file>') : _grep(a[0], a[1]);
-      default: return _notYet(cmd, a);
+      case 'find': return a.isEmpty ? _usage('find <name>') : _find(a[0]);
+      case 'ssh': return _ssh(a);
+      case 'head':
+      case 'tail': return _headTail(cmd, a);
+      case 'history': return _history();
+      case 'git': return _git(a);
+      case 'env': return _env();
+      case 'crontab': return a.contains('-l') ? _cron() : _usage('crontab -l');
+      case 'fix': return a.isEmpty ? _usage('fix <file>') : _fix(a[0]);
+      case 'run': return a.isEmpty ? _usage('run <file>') : _runFile(a[0]);
+      default: return _err('shell_err_unknown', {'cmd': cmd});
     }
   }
 
-  // Task 6 에서 채운다.
-  ShellResult _notYet(String cmd, List<String> a) => _err('shell_err_unknown', {'cmd': cmd});
-  ShellResult _piped(String left, String right) => _err('shell_err_unknown', {'cmd': '|'});
+  /// `왼쪽 | grep 낱말` 만 지원한다. 왼쪽은 파일 창을 열지 않고 글만 쓴다.
+  ShellResult _piped(String left, String right) {
+    if (!mission.commands.contains('|')) return _err('shell_err_locked_cmd', {'cmd': '|'});
+    final r = right.split(RegExp(r'\s+'));
+    if (r.length != 2 || r[0] != 'grep') return _usage('... | grep <word>');
+    final l = _run(left);
+    if (l.isError || l.key == 'shell_password_prompt' || l.openPuzzle != null) return l;
+    final src = l.fileText ?? l.text;
+    final lines = src.split('\n').where((x) => x.contains(r[1])).toList();
+    return lines.isEmpty ? const ShellResult(key: 'shell_empty') : ShellResult(text: lines.join('\n'));
+  }
+
+  ShellResult _find(String name) {
+    final out = <String>[];
+    void walk(FsDir d, String prefix) {
+      d.children.forEach((n, node) {
+        final p = prefix == '/' ? '/$n' : '$prefix/$n';
+        if (n.contains(name)) out.add(p);
+        if (node is FsDir) walk(node, p);
+      });
+    }
+    walk(host.fs, '/');
+    out.sort();
+    return out.isEmpty ? const ShellResult(key: 'shell_empty') : ShellResult(text: out.join('\n'));
+  }
+
+  ShellResult _ssh(List<String> a) {
+    if (a.isEmpty || !a[0].contains('@')) return _usage('ssh <user>@<host>');
+    final at = a[0].indexOf('@');
+    final user = a[0].substring(0, at);
+    final name = a[0].substring(at + 1);
+    final h = mission.hostByName(name);
+    if (h == null) return _err('shell_err_no_host', {'host': name});
+    if (h.user != null && h.user != user) return _err('shell_err_ssh_denied', {'user': user});
+    return _connect(name);
+  }
+
+  ShellResult _headTail(String cmd, List<String> a) {
+    var n = 10;
+    final rest = <String>[];
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] == '-n' && i + 1 < a.length) {
+        n = int.tryParse(a[++i]) ?? 10;
+      } else {
+        rest.add(a[i]);
+      }
+    }
+    if (rest.isEmpty) return _usage('$cmd -n <k> <file>');
+    final r = _open(rest[0]);
+    if (r.fileText == null) return r;
+    final lines = r.fileText!.split('\n');
+    final pick = cmd == 'head' ? lines.take(n) : lines.skip(lines.length > n ? lines.length - n : 0);
+    return ShellResult(text: pick.join('\n'));
+  }
+
+  ShellResult _history() {
+    final f = lookup(host.fs, '/.bash_history');
+    if (f is! FsFile) return const ShellResult(key: 'shell_empty');
+    return ShellResult(text: f.text);
+  }
+
+  ShellResult _git(List<String> a) {
+    if (a.isEmpty) return _usage('git log | git diff <hash>');
+    if (a[0] == 'log') {
+      if (host.git.isEmpty) return const ShellResult(key: 'shell_empty');
+      return ShellResult(text: host.git.map((c) => '${c.hash}  ${c.message}').join('\n'));
+    }
+    if (a[0] == 'diff' && a.length >= 2) {
+      for (final c in host.git) {
+        if (c.hash == a[1]) return ShellResult(text: c.diff);
+      }
+      return _err('shell_err_no_commit', {'hash': a[1]});
+    }
+    return _usage('git log | git diff <hash>');
+  }
+
+  ShellResult _env() => host.env.isEmpty
+      ? const ShellResult(key: 'shell_empty')
+      : ShellResult(text: host.env.entries.map((e) => '${e.key}=${e.value}').join('\n'));
+
+  ShellResult _cron() =>
+      host.cron.isEmpty ? const ShellResult(key: 'shell_empty') : ShellResult(text: host.cron.join('\n'));
+
+  Puzzle? _codefixFor(String arg) {
+    final p = mission.puzzleForFile(hostKey, normalizePath(cwd, arg));
+    return p?.type == 'codefix' ? p : null;
+  }
+
+  ShellResult _fix(String arg) {
+    final p = _codefixFor(arg);
+    if (p == null) return _err('shell_err_nothing_to_fix', {'path': arg});
+    return ShellResult(openPuzzle: p.id);
+  }
+
+  ShellResult _runFile(String arg) {
+    final p = _codefixFor(arg);
+    if (p == null) return _err('shell_err_nothing_to_run', {'path': arg});
+    if (!_solved.contains(p.id)) return ShellResult(text: p.data['failOutput'] as String? ?? 'error');
+    _ran.add(joinHostPath(hostKey, normalizePath(cwd, arg)));
+    return ShellResult(text: p.data['okOutput'] as String? ?? 'OK', key: 'shell_run_ok');
+  }
 
   ShellResult _err(String key, [Map<String, Object> args = const {}]) => ShellResult(key: key, args: args);
   ShellResult _usage(String usage) => _err('shell_err_usage', {'usage': usage});
@@ -239,6 +347,11 @@ class Shell {
       ...mission.hosts.values.map((h) => h.name),
       ...mission.words,
       if (mission.commands.contains('ls')) '-a',
+      if (mission.commands.contains('ssh'))
+        ...mission.hosts.values.where((h) => h.user != null).map((h) => '${h.user}@${h.name}'),
+      if (mission.commands.contains('git')) ...['log', 'diff', ...host.git.map((c) => c.hash)],
+      if (mission.commands.contains('crontab')) '-l',
+      if (mission.commands.contains('head') || mission.commands.contains('tail')) '-n',
     ];
     return Suggestions(List.of(mission.commands), args);
   }
