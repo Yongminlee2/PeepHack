@@ -603,7 +603,7 @@ const Map<String, String> kEn = {
   'shell_welcome': 'Ready. Pick a command.',
   'shop_buy': 'Buy {n}',
   'shop_credits': 'Credits {n}',
-  'shop_howto': 'Earn credits by finishing missions or collecting stars in Breach.',
+  'shop_howto': 'Earn credits by finishing missions or collecting stars in Breach and Case files.',
   'shop_no_money': 'Not enough credits',
   'shop_owned': 'Owned',
   'shop_title': 'Gear',

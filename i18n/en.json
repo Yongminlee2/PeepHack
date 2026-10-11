@@ -57,7 +57,6 @@
   "settings_follow_system": "Follow device setting",
   "settings_sound": "Sound effects",
   "promo_title": "More games by the developer",
-  "promo_coming": "Coming soon",
   "mission_broken": "This mission can't be opened right now",
   "m1_01_title": "First Connection",
   "m1_01_brief_1": "Hi, rookie. I'm Ghost. Your first job is an easy one.",
@@ -375,7 +374,7 @@
   "shop_owned": "Owned",
   "shop_buy": "Buy {n}",
   "shop_no_money": "Not enough credits",
-  "shop_howto": "Earn credits by finishing missions or collecting stars in Breach.",
+  "shop_howto": "Earn credits by finishing missions or collecting stars in Breach and Case files.",
   "upg_buffer": "Buffer expansion",
   "upg_buffer_desc": "Crack boards get one more buffer slot",
   "upg_overclock": "Overclock",
@@ -622,5 +621,6 @@
   "c12_done_1": "You found me. I wanted someone to finish the checks I left undone when I quit. Glad it was you.",
   "c12_done_2": "— Ghost. Or rather, Lee Hayun",
   "breach_streak": "🔥 {n}-day streak",
-  "shell_err_hangul": "That was typed in Korean. Switch your keyboard to English"
+  "shell_err_hangul": "That was typed in Korean. Switch your keyboard to English",
+  "promo_coming": "Coming soon"
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../engine/progress.dart';
 import '../music.dart';
 import '../strings.dart';
+import 'theme.dart';
 
 class SettingsScreen extends StatefulWidget {
   final Progress progress;
@@ -50,7 +51,11 @@ class _SettingsState extends State<SettingsScreen> {
           value: widget.progress.vibrationOn,
           onChanged: (v) async { await widget.progress.setVibration(v); setState(() {}); },
         ),
-        ListTile(title: Text(S.t('settings_language'))),
+        // 고르는 줄과 헷갈리지 않게 작은 주황 제목으로
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
+          child: Text(S.t('settings_language'), style: const TextStyle(color: hqOrange, fontSize: 13, fontWeight: FontWeight.w700)),
+        ),
         for (final code in ['system', ...kLanguageOrder])
           ListTile(
             // 그 언어 글자로 적는다. 번역하지 않는다. (RadioListTile 은 3.3x 에서 deprecated 라 쓰지 않는다)

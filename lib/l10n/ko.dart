@@ -603,7 +603,7 @@ const Map<String, String> kKo = {
   'shell_welcome': '접속 준비 완료. 명령을 고르세요.',
   'shop_buy': '{n} 구입',
   'shop_credits': '크레딧 {n}',
-  'shop_howto': '임무를 깨거나 브리치에서 별을 모으면 크레딧을 받습니다.',
+  'shop_howto': '임무를 깨거나, 브리치·사건 파일에서 별을 모으면 크레딧을 받습니다.',
   'shop_no_money': '크레딧이 모자랍니다',
   'shop_owned': '보유',
   'shop_title': '장비',

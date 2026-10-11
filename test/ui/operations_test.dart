@@ -110,6 +110,9 @@ void main() {
     await t.pumpWidget(MaterialApp(home: ShopScreen(progress: p)));
     await settle(t);
     expect(find.text(S.tn('shop_credits', {'n': 350})), findsOneWidget);
+    // 살 수 있는 건 꽉 찬 단추, 모자란 건 흐린 테두리 단추
+    expect(t.widget(find.byKey(const Key('buy_buffer'))), isA<FilledButton>());
+    expect(t.widget(find.byKey(const Key('buy_jammer'))), isA<OutlinedButton>());
     await t.tap(find.byKey(const Key('buy_buffer')));
     await settle(t);
     expect(p.owned, {'buffer'});

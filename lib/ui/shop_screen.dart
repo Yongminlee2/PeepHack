@@ -60,9 +60,17 @@ class _ShopState extends State<ShopScreen> {
                     ),
                     if (p.owned.contains(u.id))
                       Text(S.t('shop_owned'), style: const TextStyle(color: hqGreen))
-                    else
+                    else if (p.credits >= u.price)
                       FilledButton(
                         key: Key('buy_${u.id}'),
+                        onPressed: () => _buy(u),
+                        child: Text(S.tn('shop_buy', {'n': u.price})),
+                      )
+                    else
+                      // 모자라면 흐리게(누르면 「크레딧이 모자랍니다」 — 얼마가 필요한지는 보인다)
+                      OutlinedButton(
+                        key: Key('buy_${u.id}'),
+                        style: OutlinedButton.styleFrom(foregroundColor: hqDim, side: const BorderSide(color: hqDim)),
                         onPressed: () => _buy(u),
                         child: Text(S.tn('shop_buy', {'n': u.price})),
                       ),
