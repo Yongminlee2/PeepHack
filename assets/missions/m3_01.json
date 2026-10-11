@@ -1,9 +1,1 @@
-{"id":"m3_01","chapter":3,"title":"@m3_01_title","brief":["@m3_01_brief_1","@m3_01_brief_2"],"done":["@m3_01_done_1"],
- "input":"keyboard","commands":["scan","connect","ls","cd","cat","find"],
- "hosts":{
-  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_01_f_readme"}},
-  "corp":{"name":"corp-fs","fs":{"projects/":{"alpha/":{"spec.md":"alpha spec v1"},"beta/":{"notes.md":"@m3_01_f_notes"}},"hr/":{"list.csv":"id,name\n1,Kim\n2,Lee"}}}},
- "start":"home","puzzles":[],
- "goal":{"read":"corp:/projects/beta/notes.md"},
- "hints":["@m3_01_hint_1","@m3_01_hint_2"],
- "solution":["scan","connect corp-fs","find notes","cat /projects/beta/notes.md"]}
+{"id": "m3_01", "chapter": 3, "title": "@m3_01_title", "brief": ["@m3_01_brief_1", "@m3_01_brief_2"], "done": ["@m3_01_done_1"], "input": "keyboard", "commands": ["scan", "connect", "ls", "cd", "cat", "find"], "hosts": {"home": {"name": "my-laptop", "fs": {"readme.txt": "@m3_01_f_readme"}}, "corp": {"name": "corp-fs", "fs": {"projects/": {"alpha/": {"spec.md": "alpha spec v1"}, "beta/": {"notes.md": "@m3_01_f_notes"}}, "hr/": {"list.csv": "id,name\n1,Kim\n2,Lee"}}}}, "start": "home", "puzzles": [], "goal": {"read": "corp:/projects/beta/notes.md"}, "hints": ["@m3_01_hint_1", "@m3_01_hint_2"], "solution": ["scan", "connect corp-fs", "find notes", "cat /projects/beta/notes.md"], "words": ["notes"]}

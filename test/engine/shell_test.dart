@@ -224,4 +224,14 @@ void main() {
     expect(sh.submitPuzzle('p1', [1, 0]).key, 'shell_connected');
     expect(sh.hostKey, 'vault');
   });
+  test('칩에 하위 폴더 경로(깊이 3)와 find 가 찾은 경로가 들어간다 — 키보드 없이 풀 수 있게', () {
+    final sh = Shell(mk34());
+    final args = sh.suggestions().args;
+    expect(args, contains('src/deep/app.py'));
+    expect(args, isNot(contains('.bash_history'))); // 숨김은 ls -a 전엔 안 보인다
+    sh.run('find app');
+    expect(sh.suggestions().args, contains('/src/deep/app.py'));
+    sh.run('ssh dev@api-box');
+    expect(sh.suggestions().args, isNot(contains('/src/deep/app.py'))); // 다른 서버의 경로는 빠진다
+  });
 }

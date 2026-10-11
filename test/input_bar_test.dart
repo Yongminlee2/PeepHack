@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hack_quest/engine/shell.dart';
+import 'package:hack_quest/strings.dart';
 import 'package:hack_quest/ui/input_bar.dart';
 
 Widget wrap(Widget w) => MaterialApp(home: Scaffold(body: w));
@@ -82,5 +83,17 @@ void main() {
     await t.pumpWidget(bar(true));
     await t.pump();
     expect(t.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus, isTrue);
+  });
+  testWidgets('명령 칩을 누르면 쉬운 말 설명이 뜨고, 도움말에는 쓸 수 있는 명령이 다 있다', (t) async {
+    await t.pumpWidget(wrap(InputBar(
+      suggestions: Suggestions(['ls', 'grep', '|'], ['a.txt']), editable: false, password: false, onRun: (_) {})));
+    await t.tap(find.byKey(const Key('chip_grep')));
+    await t.pump();
+    expect(find.text(S.t('cmd_grep')), findsOneWidget);
+    await t.tap(find.byKey(const Key('cmd_help')));
+    await t.pumpAndSettle();
+    for (final k in ['cmd_ls', 'cmd_grep', 'cmd_pipe']) {
+      expect(find.text(S.t(k)), findsWidgets, reason: k);
+    }
   });
 }

@@ -14,6 +14,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> settle(WidgetTester t) =>
     t.pumpAndSettle(const Duration(milliseconds: 100), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 10));
 
+/// 실제 폰 크기(갤럭시 A16 = 412×915dp)로 돌린다. 기본 800×600 은 가로로 넓고 낮아서 실기기와 다르다.
+void phone(WidgetTester t) {
+  t.view.physicalSize = const Size(412 * 2.625, 915 * 2.625);
+  t.view.devicePixelRatio = 2.625;
+  addTearDown(t.view.reset);
+}
+
 void main() {
   setUp(() async {
     // 앞 테스트의 가짜 시간 영역에서 만든 자산 캐시를 기다리면 영원히 안 끝난다.
@@ -94,6 +101,7 @@ void main() {
   for (var n = 1; n <= 6; n++) {
     final id = 'm1_0$n';
     testWidgets('$id 를 화면으로 끝까지', (t) async {
+      phone(t);
       final catalog = await Catalog.load();
       final progress = await Progress.load();
       final m = catalog.byId(id)!;

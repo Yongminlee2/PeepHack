@@ -42,6 +42,7 @@ class Shell {
   final Set<String> _ran = {};
   final Set<String> _revealed = {}; // ls -a 한 폴더 "host:/dir"
   final List<String> history = [];
+  final Set<String> _found = {}; // find 로 찾은 경로 "host:/path"
   String? _pendingHost; // 비밀번호 대기 중인 호스트 key
   String? _pendingFile; // 비밀번호 대기 중인 파일 절대 경로
   int _solutionIdx = 0;
@@ -142,6 +143,7 @@ class Shell {
     }
     walk(host.fs, '/');
     out.sort();
+    _found.addAll(out.map((p) => joinHostPath(hostKey, p))); // 찾은 경로는 칩으로(키보드 없이 cat 하게)
     return out.isEmpty ? const ShellResult(key: 'shell_empty') : ShellResult(text: out.join('\n'));
   }
 
@@ -365,8 +367,25 @@ class Shell {
   Suggestions suggestions() {
     final dir = lookup(host.fs, cwd) as FsDir;
     final showHidden = _revealed.contains(joinHostPath(hostKey, cwd));
+    // 하위 폴더 안의 파일 경로(깊이 3까지) — `cat logs/auth.log` 를 칩만으로 치게
+    final nested = <String>[];
+    void walk(FsDir d, String prefix, int depth) {
+      d.children.forEach((n, node) {
+        if (n.startsWith('.')) return;
+        final p = prefix.isEmpty ? n : '$prefix/$n';
+        if (node is FsDir && depth < 3) walk(node, p, depth + 1);
+        if (node is FsFile && prefix.isNotEmpty) nested.add(p);
+      });
+    }
+    walk(dir, '', 1);
+    final found = [
+      for (final f in _found)
+        if (f.startsWith('$hostKey:')) f.substring(hostKey.length + 1),
+    ];
     final args = <String>[
       ...dir.children.keys.where((n) => showHidden || !n.startsWith('.')),
+      ...nested,
+      ...found,
       '..',
       ...mission.hosts.values.map((h) => h.name),
       ...mission.words,

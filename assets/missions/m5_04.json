@@ -1,15 +1,1 @@
-{"id":"m5_04","chapter":5,"title":"@m5_04_title","brief":["@m5_04_brief_1","@m5_04_brief_2"],"done":["@m5_04_done_1"],
- "input":"keyboard","commands":["scan","connect","ls","cd","cat","env","find","fix","run"],
- "hosts":{
-  "home":{"name":"my-laptop","fs":{"readme.txt":"@m5_04_f_readme"}},
-  "web":{"name":"web-box","env":{"API_URL":"https://api.internal/v2","MODE":"prod"},
-    "fs":{"app/":{"client.py":"API_URL = 'https://api.internal/v1'\nresp = get(API_URL + '/status')\nassert resp == 200, resp\nprint('status ok')","util.py":"def get(url): ..."},"docs/":{"api.md":"v1 was retired last month"}}}},
- "start":"home",
- "puzzles":[{"id":"c1","type":"codefix","file":"web:/app/client.py",
-   "data":{"lang":"python","lines":["API_URL = 'https://api.internal/v1'","resp = get(API_URL + '/status')","assert resp == 200, resp","print('status ok')"],
-           "bugs":[{"line":0,"choices":["v1","v2","v3"],"answer":"v2"}],
-           "failOutput":"AssertionError: 410","okOutput":"status ok"},
-   "answer":"bugs"}],
- "goal":{"run":"web:/app/client.py"},
- "hints":["@m5_04_hint_1","@m5_04_hint_2"],
- "solution":["scan","connect web-box","env","find client","cd app","fix client.py",{"puzzle":"c1"},"run client.py"]}
+{"id": "m5_04", "chapter": 5, "title": "@m5_04_title", "brief": ["@m5_04_brief_1", "@m5_04_brief_2"], "done": ["@m5_04_done_1"], "input": "keyboard", "commands": ["scan", "connect", "ls", "cd", "cat", "env", "find", "fix", "run"], "hosts": {"home": {"name": "my-laptop", "fs": {"readme.txt": "@m5_04_f_readme"}}, "web": {"name": "web-box", "env": {"API_URL": "https://api.internal/v2", "MODE": "prod"}, "fs": {"app/": {"client.py": "API_URL = 'https://api.internal/v1'\nresp = get(API_URL + '/status')\nassert resp == 200, resp\nprint('status ok')", "util.py": "def get(url): ..."}, "docs/": {"api.md": "v1 was retired last month"}}}}, "start": "home", "puzzles": [{"id": "c1", "type": "codefix", "file": "web:/app/client.py", "data": {"lang": "python", "lines": ["API_URL = 'https://api.internal/v1'", "resp = get(API_URL + '/status')", "assert resp == 200, resp", "print('status ok')"], "bugs": [{"line": 0, "choices": ["v1", "v2", "v3"], "answer": "v2"}], "failOutput": "AssertionError: 410", "okOutput": "status ok"}, "answer": "bugs"}], "goal": {"run": "web:/app/client.py"}, "hints": ["@m5_04_hint_1", "@m5_04_hint_2"], "solution": ["scan", "connect web-box", "env", "find client", "cd app", "fix client.py", {"puzzle": "c1"}, "run client.py"], "words": ["client"]}

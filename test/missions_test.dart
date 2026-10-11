@@ -25,7 +25,7 @@ void main() {
         expect(m.id, name);
         missions.add(m);
       });
-      test('2. 정답 경로로 목표에 닿는다 / 3. 칩 임무는 칩만으로 친다', () {
+      test('2. 정답 경로로 목표에 닿는다 / 3. 칩만으로 친다', () {
         final sh = Shell(m);
         for (final step in m.solution) {
           if (step is PuzzleStep) {
@@ -36,12 +36,13 @@ void main() {
             continue;
           }
           final line = step as String;
-          if (m.input == 'chips' && !sh.awaitingPassword) {
+          // 모든 챕터를 키보드 없이 칩만으로 풀 수 있어야 한다(개발을 몰라도 되게). 비밀번호 줄만 예외.
+          if (!sh.awaitingPassword) {
             final s = sh.suggestions();
             final tokens = line.split(' ');
             expect(s.commands, contains(tokens.first), reason: '칩에 없는 명령: $line');
             for (final t in tokens.skip(1)) {
-              expect(s.args, contains(t), reason: '칩에 없는 인자 "$t" in "$line"');
+              expect([...s.commands, ...s.args], contains(t), reason: '${m.id} 칩에 없는 인자 "$t" in "$line"');
             }
           }
           final r = sh.run(line);

@@ -37,8 +37,30 @@ class _InputBarState extends State<InputBar> {
     super.dispose();
   }
 
+  String? _explain; // 방금 고른 명령의 쉬운 말 설명
+
+  /// 명령 → 설명 열쇠('|' 는 cmd_pipe).
+  static String cmdKey(String c) => c == '|' ? 'cmd_pipe' : 'cmd_$c';
+
+  void _help() => showModalBottomSheet(
+        context: context,
+        builder: (_) => ListView(padding: const EdgeInsets.all(16), shrinkWrap: true, children: [
+          Text(S.t('cmd_help_title'), style: const TextStyle(color: hqOrange, fontSize: 16)),
+          const SizedBox(height: 8),
+          for (final c in widget.suggestions.commands)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                SizedBox(width: 80, child: Text(c, style: const TextStyle(fontFamily: 'monospace', color: hqGreen, fontWeight: FontWeight.w700))),
+                Expanded(child: Text(S.t(cmdKey(c)))),
+              ]),
+            ),
+        ]),
+      );
+
   void _append(String token) {
     Sfx().play('tap');
+    if (widget.suggestions.commands.contains(token)) _explain = S.t(cmdKey(token));
     setState(() => _ctl.text = '${_ctl.text}$token ');
   }
 
@@ -80,6 +102,15 @@ class _InputBarState extends State<InputBar> {
         color: hqPanel,
         padding: const EdgeInsets.fromLTRB(0, 6, 0, 8),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
+          if (!widget.password && _explain != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
+              child: Row(children: [
+                const Icon(Icons.info_outline, size: 14, color: hqOrange),
+                const SizedBox(width: 6),
+                Expanded(child: Text(_explain!, style: const TextStyle(color: hqOrange, fontSize: 12))),
+              ]),
+            ),
           if (!widget.password) ...[
             _chips(widget.suggestions.commands, compact: keyboardOpen),
             const SizedBox(height: 6),
@@ -112,6 +143,7 @@ class _InputBarState extends State<InputBar> {
                 onEditingComplete: widget.editable ? () {} : null,
               ),
             ),
+            IconButton(key: const Key('cmd_help'), icon: const Icon(Icons.help_outline), tooltip: S.t('cmd_help_title'), onPressed: _help),
             IconButton(key: const Key('clear_btn'), icon: const Icon(Icons.backspace_outlined), onPressed: () => setState(_ctl.clear)),
             FilledButton(key: const Key('run_btn'), onPressed: _run, child: Text(S.t('btn_run'))),
             const SizedBox(width: 8),

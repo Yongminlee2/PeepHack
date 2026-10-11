@@ -1,11 +1,1 @@
-{"id":"m5_05","chapter":5,"title":"@m5_05_title","brief":["@m5_05_brief_1","@m5_05_brief_2"],"done":["@m5_05_done_1"],
- "input":"keyboard","commands":["scan","connect","ls","cd","cat","find"],
- "hosts":{
-  "home":{"name":"my-laptop","fs":{"readme.txt":"@m5_05_f_readme"}},
-  "corp":{"name":"corp-fs","fs":{"archive/":{".backup-note.txt":"@m5_05_f_note","2023.txt":"old"},"public/":{"index.html":"<html>"}}},
-  "vault":{"name":"vault-02","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"secrets.txt":"@m5_05_f_secrets"}}},
- "start":"home",
- "puzzles":[{"id":"p1","type":"password","data":{"clues":["@m5_05_p1_c1","@m5_05_p1_c2"],"fragments":["nova","2023","pixel","2022","9"]},"answer":"nova2023"}],
- "goal":{"read":"vault:/secrets.txt"},
- "hints":["@m5_05_hint_1","@m5_05_hint_2"],
- "solution":["scan","connect corp-fs","find backup","cat /archive/.backup-note.txt","connect vault-02",{"puzzle":"p1"},"cat secrets.txt"]}
+{"id": "m5_05", "chapter": 5, "title": "@m5_05_title", "brief": ["@m5_05_brief_1", "@m5_05_brief_2"], "done": ["@m5_05_done_1"], "input": "keyboard", "commands": ["scan", "connect", "ls", "cd", "cat", "find"], "hosts": {"home": {"name": "my-laptop", "fs": {"readme.txt": "@m5_05_f_readme"}}, "corp": {"name": "corp-fs", "fs": {"archive/": {".backup-note.txt": "@m5_05_f_note", "2023.txt": "old"}, "public/": {"index.html": "<html>"}}}, "vault": {"name": "vault-02", "lock": {"type": "puzzle", "puzzle": "p1"}, "fs": {"secrets.txt": "@m5_05_f_secrets"}}}, "start": "home", "puzzles": [{"id": "p1", "type": "password", "data": {"clues": ["@m5_05_p1_c1", "@m5_05_p1_c2"], "fragments": ["nova", "2023", "pixel", "2022", "9"]}, "answer": "nova2023"}], "goal": {"read": "vault:/secrets.txt"}, "hints": ["@m5_05_hint_1", "@m5_05_hint_2"], "solution": ["scan", "connect corp-fs", "find backup", "cat /archive/.backup-note.txt", "connect vault-02", {"puzzle": "p1"}, "cat secrets.txt"], "words": ["backup"]}
