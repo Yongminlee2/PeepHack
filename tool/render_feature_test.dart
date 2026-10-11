@@ -20,8 +20,11 @@ void main() {
     t.view.devicePixelRatio = 1;
     addTearDown(t.view.reset);
     await t.runAsync(() async {
-      final font = FontLoader('HackMono')..addFont(rootBundle.load('assets/fonts/NanumGothicCoding.ttf'));
+      final font = FontLoader('HackMono')..addFont(rootBundle.load('assets/fonts/HackMono.ttf'));
       await font.load();
+      // HackMono 에는 한글이 없다 — 앱처럼 기본(맑은 고딕) 글꼴로 받친다
+      final ko = FontLoader('Ko')..addFont(Future.value(ByteData.sublistView(File('C:/Windows/Fonts/malgun.ttf').readAsBytesSync())));
+      await ko.load();
     });
     final svg = (await t.runAsync(() => rootBundle.loadString('assets/images/anonymous_emblem_green.svg')))!;
     for (final lang in ['ko', 'en']) {
@@ -53,7 +56,7 @@ class _Feature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mono = TextStyle(fontFamily: 'HackMono', decoration: TextDecoration.none);
+    const mono = TextStyle(fontFamily: 'HackMono', fontFamilyFallback: ['Ko'], decoration: TextDecoration.none);
     final modes = [s['mode_campaign'], s['mode_breach'], s['mode_cases']];
     return Stack(fit: StackFit.expand, children: [
       const ColoredBox(color: Color(0xFF050906)),
