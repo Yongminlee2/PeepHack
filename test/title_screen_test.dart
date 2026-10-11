@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('앱은 타이틀 화면으로 시작하고 「접속 시작」으로 메시지함에 간다', (t) async {
+  testWidgets('앱은 타이틀 화면으로 시작하고 「접속 시작」 → 모드 선택 → 작전으로 메시지함에 간다', (t) async {
     SharedPreferences.setMockInitialValues({});
     await AppLang().set('ko');
     final p = await Progress.load();
@@ -20,6 +20,8 @@ void main() {
     expect(find.byType(GhostAvatar), findsOneWidget);
     expect(find.text(S.t('title_tagline')), findsOneWidget);
     await t.tap(find.textContaining(S.t('btn_start')));
+    await t.pumpAndSettle();
+    await t.tap(find.text(S.t('mode_campaign')));
     await t.pumpAndSettle();
     expect(find.byType(InboxScreen), findsOneWidget);
   });
@@ -33,6 +35,8 @@ void main() {
     await t.pumpWidget(HackQuestApp(progress: p, catalog: c));
     await t.pumpAndSettle();
     await t.tap(find.textContaining(S.t('btn_start')));
+    await t.pumpAndSettle();
+    await t.tap(find.text(S.t('mode_campaign')));
     await t.pumpAndSettle();
     final nav = t.state<NavigatorState>(find.byType(Navigator).first);
     nav.push(MaterialPageRoute(builder: (_) => ResultScreen(

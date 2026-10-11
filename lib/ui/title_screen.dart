@@ -7,7 +7,7 @@ import 'fx/crt.dart';
 import 'fx/ghost_avatar.dart';
 import 'fx/glitch_text.dart';
 import 'fx/matrix_rain.dart';
-import 'inbox_screen.dart';
+import 'mode_screen.dart';
 import 'theme.dart';
 
 class TitleScreen extends StatelessWidget {
@@ -44,8 +44,7 @@ class TitleScreen extends StatelessWidget {
                       shape: const RoundedRectangleBorder(),
                     ),
                     onPressed: () => Navigator.push(context, MaterialPageRoute(
-                        settings: const RouteSettings(name: InboxScreen.routeName),
-                        builder: (_) => InboxScreen(progress: progress, catalog: catalog))),
+                        builder: (_) => ModeScreen(progress: progress, catalog: catalog))),
                     child: Text('> ${S.t('btn_start')}_', style: TextStyle(fontFamily: monoFor(S.t('btn_start')), fontSize: 18, letterSpacing: 1)),
                   ),
                 ),
