@@ -8,6 +8,7 @@ const Map<String, String> kKo = {
   'breach_howto': '맨 윗줄에서 시작해 세로줄과 가로줄을 번갈아 고르세요. 고른 코드가 버퍼에 쌓여 목표 순서를 만들면 성공입니다.',
   'breach_pack_n': '묶음 {n}',
   'breach_stage_n': '브리치 {n}',
+  'breach_streak': '🔥 {n}일 연속',
   'breach_success': '접속 성공',
   'breach_targets': '목표 순서',
   'breach_timeout': '시간 초과',

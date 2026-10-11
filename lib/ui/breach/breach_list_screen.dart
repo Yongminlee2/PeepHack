@@ -44,7 +44,13 @@ class _BreachListState extends State<BreachListScreen> {
                 child: Row(children: [
                   const Icon(Icons.today, color: hqOrange, size: 32),
                   const SizedBox(width: 12),
-                  Expanded(child: Text(S.t('breach_daily'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(S.t('breach_daily'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                      if (p.dailyStreak(today) > 0)
+                        Text(S.tn('breach_streak', {'n': p.dailyStreak(today)}), style: const TextStyle(color: hqOrange, fontSize: 13)),
+                    ]),
+                  ),
                   Text('★' * daily + '☆' * (3 - daily), style: const TextStyle(color: hqOrange, fontSize: 18)),
                 ]),
               ),

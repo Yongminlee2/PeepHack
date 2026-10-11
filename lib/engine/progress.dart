@@ -53,6 +53,18 @@ class Progress {
   int dailyStars(DateTime d) => _int('daily.${_day(d)}');
   Future<void> setDailyStars(DateTime d, int stars) => _best('daily.${_day(d)}', stars);
 
+  /// 오늘의 퍼즐 연속 기록. 오늘을 아직 안 풀었으면 어제부터 센다(하루 안에 풀면 이어진다).
+  int dailyStreak(DateTime today) {
+    var d = DateTime(today.year, today.month, today.day);
+    if (dailyStars(d) == 0) d = DateTime(d.year, d.month, d.day - 1);
+    var n = 0;
+    while (dailyStars(d) > 0) {
+      n++;
+      d = DateTime(d.year, d.month, d.day - 1); // 달·해가 바뀌어도 DateTime 이 맞춰 준다
+    }
+    return n;
+  }
+
   // 사건 파일: case.<id> 별
   int caseStars(String id) => _int('case.$id');
   Future<void> setCaseStars(String id, int stars) => _best('case.$id', stars);

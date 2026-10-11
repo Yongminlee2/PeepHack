@@ -8,6 +8,7 @@ const Map<String, String> kEn = {
   'breach_howto': 'Start on the top row, then alternate between column and row. The codes you pick fill the buffer; build the target sequences to win.',
   'breach_pack_n': 'Pack {n}',
   'breach_stage_n': 'Breach {n}',
+  'breach_streak': '🔥 {n}-day streak',
   'breach_success': 'Access granted',
   'breach_targets': 'Target sequences',
   'breach_timeout': 'Time up',

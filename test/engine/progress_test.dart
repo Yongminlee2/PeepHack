@@ -109,4 +109,20 @@ void main() {
     await p.setCaseStars('c09', 1);
     expect(p.isCaseUnlocked(10), isTrue);
   });
+  test('오늘의 퍼즐 연속 기록: 오늘(또는 어제)까지 끊김 없이 푼 날 수', () async {
+    final p = await Progress.load();
+    final today = DateTime(2026, 10, 12);
+    expect(p.dailyStreak(today), 0);
+    await p.setDailyStars(DateTime(2026, 10, 11), 2);
+    expect(p.dailyStreak(today), 1); // 오늘 아직 안 풀어도 어제까지 이어진 건 살아 있다
+    await p.setDailyStars(DateTime(2026, 10, 10), 1);
+    await p.setDailyStars(DateTime(2026, 10, 8), 3); // 9일이 빠져 끊김
+    expect(p.dailyStreak(today), 2);
+    await p.setDailyStars(today, 3);
+    expect(p.dailyStreak(today), 3);
+    expect(p.dailyStreak(DateTime(2026, 10, 14)), 0); // 13일을 놓치면 끊긴다
+    await p.setDailyStars(DateTime(2026, 9, 30), 1); // 달이 바뀌어도 이어 센다
+    await p.setDailyStars(DateTime(2026, 10, 1), 1);
+    expect(p.dailyStreak(DateTime(2026, 10, 1)), 2);
+  });
 }

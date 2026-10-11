@@ -106,4 +106,12 @@ void main() {
     expect(find.text(S.tn('mode_progress', {'n': 2, 'm': 60})), findsOneWidget); // 브리치 2/60
     expect(find.text(S.tn('mode_progress', {'n': 1, 'm': kCaseCount})), findsOneWidget); // 사건 1/12
   });
+  testWidgets('브리치 목록의 오늘의 퍼즐 칸에 연속 기록이 보인다', (t) async {
+    final now = DateTime.now();
+    await p.setDailyStars(now.subtract(const Duration(days: 1)), 1);
+    await p.setDailyStars(now, 2);
+    await t.pumpWidget(MaterialApp(home: BreachListScreen(progress: p)));
+    await settle(t);
+    expect(find.text(S.tn('breach_streak', {'n': 2})), findsOneWidget);
+  });
 }
