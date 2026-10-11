@@ -17,6 +17,7 @@ double traceSpeed(Set<String> owned) => owned.contains('jammer') ? 0.7 : 1.0;
 
 int missionReward({required bool firstClear, required int starsGained}) => (firstClear ? 100 : 0) + 50 * starsGained;
 int breachReward({required int starsGained}) => 10 * starsGained;
+int caseReward({required int starsGained}) => 30 * starsGained;
 
 /// 포트 크랙에 쓰는 브리치 판. 챕터별 표 + 장비(버퍼 +1, 시간 +10초). 같은 임무·서버·포트·시도면 같은 판.
 BreachPuzzle crackPuzzle({

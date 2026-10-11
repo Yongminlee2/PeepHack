@@ -92,4 +92,15 @@ void main() {
     expect(p.credits, 0);
     expect(p.owned, isEmpty);
   });
+  test('사건 별: 좋은 값만, 앞 사건을 풀어야 다음이 열린다, 초기화로 지운다', () async {
+    final p = await Progress.load();
+    expect(p.isCaseUnlocked(1), isTrue);
+    expect(p.isCaseUnlocked(2), isFalse);
+    await p.setCaseStars('c01', 2);
+    await p.setCaseStars('c01', 1);
+    expect(p.caseStars('c01'), 2);
+    expect(p.isCaseUnlocked(2), isTrue);
+    await p.reset();
+    expect(p.caseStars('c01'), 0);
+  });
 }

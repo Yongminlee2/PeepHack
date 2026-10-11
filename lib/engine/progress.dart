@@ -47,6 +47,11 @@ class Progress {
   int dailyStars(DateTime d) => _int('daily.${_day(d)}');
   Future<void> setDailyStars(DateTime d, int stars) => _best('daily.${_day(d)}', stars);
 
+  // 사건 파일: case.<id> 별
+  int caseStars(String id) => _int('case.$id');
+  Future<void> setCaseStars(String id, int stars) => _best('case.$id', stars);
+  bool isCaseUnlocked(int n) => n <= 1 || caseStars('c0${n - 1}') > 0;
+
   // 크레딧·장비
   int get credits => _int('credits');
   Future<void> addCredits(int n) => _p.setInt('credits', credits + n);
@@ -73,7 +78,7 @@ class Progress {
   Future<void> reset() async {
     for (final k in _p.getKeys().toList()) {
       if (k.startsWith('done.') || k.startsWith('stars.') || k.startsWith('hints.') ||
-          k.startsWith('breach.') || k.startsWith('daily.') || k == 'credits' || k == 'owned') {
+          k.startsWith('breach.') || k.startsWith('daily.') || k.startsWith('case.') || k == 'credits' || k == 'owned') {
         await _p.remove(k);
       }
     }

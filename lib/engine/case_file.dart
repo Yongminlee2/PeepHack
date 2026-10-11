@@ -73,5 +73,6 @@ class CaseGame {
 }
 
 /// 잠긴 자료를 여는 단어 추리. 같은 사건·자료면 같은 퍼즐.
-WordPuzzle caseLockPuzzle(String caseId, String docName, int length) =>
-    generateWordPuzzle(length: length, count: 8, seed: stableHash('case/$caseId/$docName'));
+/// 실패하면 [attempt] 를 올려 다른 퍼즐을 낸다(같은 퍼즐이면 답을 외워 버린다).
+WordPuzzle caseLockPuzzle(String caseId, String docName, int length, [int attempt = 0]) =>
+    generateWordPuzzle(length: length, count: 8, seed: stableHash('case/$caseId/$docName/$attempt'));

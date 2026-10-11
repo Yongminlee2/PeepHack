@@ -7,6 +7,7 @@ import 'package:hack_quest/main.dart';
 import 'package:hack_quest/strings.dart';
 import 'package:hack_quest/ui/breach/breach_list_screen.dart';
 import 'package:hack_quest/ui/breach/breach_play_screen.dart';
+import 'package:hack_quest/ui/cases/case_list_screen.dart';
 import 'package:hack_quest/ui/inbox_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,16 +22,17 @@ void main() {
     p = await Progress.load();
   });
 
-  testWidgets('타이틀 → 모드 선택: 작전·브리치는 열리고 사건 파일은 준비 중', (t) async {
+  testWidgets('타이틀 → 모드 선택: 작전·브리치·사건 파일이 다 열린다', (t) async {
     await t.pumpWidget(HackQuestApp(progress: p, catalog: Catalog.fromTexts({})));
     await settle(t);
     await t.tap(find.textContaining(S.t('btn_start')));
     await settle(t);
     expect(find.text(S.t('mode_campaign')), findsOneWidget);
-    expect(find.text(S.t('mode_soon')), findsOneWidget);
     await t.tap(find.text(S.t('mode_cases')));
     await settle(t);
-    expect(find.text(S.t('mode_cases')), findsOneWidget); // 그대로(안 열림)
+    expect(find.byType(CaseListScreen), findsOneWidget);
+    await t.pageBack();
+    await settle(t);
     await t.tap(find.text(S.t('mode_campaign')));
     await settle(t);
     expect(find.byType(InboxScreen), findsOneWidget);

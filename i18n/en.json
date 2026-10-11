@@ -347,7 +347,6 @@
   "mode_breach_desc": "Code-grid puzzles. A new one every day",
   "mode_cases": "Case files",
   "mode_cases_desc": "Gather clues and find the culprit",
-  "mode_soon": "Coming soon",
   "breach_daily": "Today's puzzle",
   "breach_daily_title": "Today's puzzle {date}",
   "breach_stage_n": "Breach {n}",
@@ -465,5 +464,13 @@
   "c06_brief_1": "Ghost went silent. The last message was a single line: \"Find me.\"",
   "c06_brief_2": "Use everything you have to find out who Ghost is.",
   "c06_done_1": "You found me. I wanted someone to finish the checks I left undone when I quit. Glad it was you.",
-  "c06_done_2": "— Ghost. Or rather, Lee Hayun"
+  "c06_done_2": "— Ghost. Or rather, Lee Hayun",
+  "case_docs": "Evidence",
+  "case_conclude": "Draw a conclusion",
+  "case_question_n": "Question {i}/{n}",
+  "case_back_docs": "Back to evidence",
+  "case_solved": "Case closed",
+  "case_locked": "Locked",
+  "case_lock_failed": "Unlock failed. Try again for a new puzzle.",
+  "case_n": "Case {n}"
 }

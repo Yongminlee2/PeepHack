@@ -4,6 +4,7 @@ import '../catalog.dart';
 import '../engine/progress.dart';
 import '../strings.dart';
 import 'breach/breach_list_screen.dart';
+import 'cases/case_list_screen.dart';
 import 'fx/crt.dart';
 import 'fx/matrix_rain.dart';
 import 'inbox_screen.dart';
@@ -67,7 +68,12 @@ class ModeScreen extends StatelessWidget {
               desc: S.t('mode_breach_desc'),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BreachListScreen(progress: progress))),
             ),
-            _card(icon: Icons.folder_open, title: S.t('mode_cases'), desc: S.t('mode_cases_desc'), badge: S.t('mode_soon')),
+            _card(
+              icon: Icons.folder_open,
+              title: S.t('mode_cases'),
+              desc: S.t('mode_cases_desc'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CaseListScreen(progress: progress))),
+            ),
           ]),
         ]),
       );

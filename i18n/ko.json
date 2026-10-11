@@ -347,7 +347,6 @@
   "mode_breach_desc": "코드 격자를 뚫는 퍼즐. 매일 새 퍼즐",
   "mode_cases": "사건 파일",
   "mode_cases_desc": "단서를 모아 범인을 찾는다",
-  "mode_soon": "준비 중",
   "breach_daily": "오늘의 퍼즐",
   "breach_daily_title": "오늘의 퍼즐 {date}",
   "breach_stage_n": "브리치 {n}",
@@ -465,5 +464,13 @@
   "c06_brief_1": "고스트가 연락을 끊었다. 마지막 메시지는 「나를 찾아봐」 한 줄.",
   "c06_brief_2": "지금까지의 자료로 고스트가 누구인지 밝혀라.",
   "c06_done_1": "찾았네. 퇴사 전에 못다 한 점검을 누군가에게 맡기고 싶었어. 그게 너라서 다행이다.",
-  "c06_done_2": "— 고스트, 아니 이하윤"
+  "c06_done_2": "— 고스트, 아니 이하윤",
+  "case_docs": "자료",
+  "case_conclude": "결론 내리기",
+  "case_question_n": "질문 {i}/{n}",
+  "case_back_docs": "자료 다시 보기",
+  "case_solved": "사건 해결",
+  "case_locked": "잠김",
+  "case_lock_failed": "잠금 해제 실패. 다시 시도하면 새 퍼즐이 나옵니다.",
+  "case_n": "사건 {n}"
 }
