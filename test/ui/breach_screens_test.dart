@@ -9,6 +9,7 @@ import 'package:hack_quest/ui/breach/breach_list_screen.dart';
 import 'package:hack_quest/ui/breach/breach_play_screen.dart';
 import 'package:hack_quest/ui/cases/case_list_screen.dart';
 import 'package:hack_quest/ui/inbox_screen.dart';
+import 'package:hack_quest/ui/mode_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> settle(WidgetTester t) =>
@@ -88,5 +89,20 @@ void main() {
     await t.tap(find.byKey(const Key('daily')));
     await settle(t);
     expect(find.byType(BreachPlayScreen), findsOneWidget);
+  });
+  testWidgets('모드 선택에 크레딧과 모드별 진행도가 보인다', (t) async {
+    await p.addCredits(120);
+    await p.setBreachStars(1, 3);
+    await p.setBreachStars(2, 1);
+    await p.setCaseStars('c01', 2);
+    const m1 = '{"id":"m1_01","chapter":1,"title":"@t","brief":["@b"],"done":["@d"],"commands":["scan"],'
+        '"hosts":{"home":{"name":"h","fs":{}}},"goal":{"connect":"home"},"hints":[],"solution":[]}';
+    await p.complete('m1_01', 0);
+    await t.pumpWidget(MaterialApp(home: ModeScreen(progress: p, catalog: Catalog.fromTexts({'m1_01': m1}))));
+    await settle(t);
+    expect(find.text(S.tn('shop_credits', {'n': 120})), findsOneWidget);
+    expect(find.text(S.tn('mode_progress', {'n': 1, 'm': 1})), findsOneWidget); // 작전 1/1
+    expect(find.text(S.tn('mode_progress', {'n': 2, 'm': 60})), findsOneWidget); // 브리치 2/60
+    expect(find.text(S.tn('mode_progress', {'n': 1, 'm': 6})), findsOneWidget); // 사건 1/6
   });
 }

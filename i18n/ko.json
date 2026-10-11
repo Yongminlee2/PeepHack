@@ -529,5 +529,8 @@
   "m5_06_label_3": "둘 더 큰 값",
   "crack_rule_breach": "규칙: 맨 윗줄에서 하나 → 그 세로줄에서 하나 → 그 가로줄에서 하나… 번갈아 골라, 고른 코드로 목표 순서를 만드세요.",
   "crack_rule_word": "규칙: 단어를 눌러 비밀번호를 맞히세요. 틀리면 「같은 자리에 맞은 글자 수」를 알려 줍니다. 주황 괄호는 보너스.",
-  "settings_vibration": "진동"
+  "settings_vibration": "진동",
+  "mode_progress": "{n}/{m}",
+  "shell_boot_1": "보안 터널 연결 중… 완료",
+  "shell_boot_2": "접속 흔적 지우개 대기… 완료"
 }

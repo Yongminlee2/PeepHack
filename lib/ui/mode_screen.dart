@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../catalog.dart';
+import '../engine/breach_gen.dart';
+import '../engine/case_file.dart';
 import '../engine/progress.dart';
 import '../strings.dart';
 import 'breach/breach_list_screen.dart';
@@ -10,11 +12,24 @@ import 'fx/matrix_rain.dart';
 import 'inbox_screen.dart';
 import 'theme.dart';
 
-/// 모드 선택: 작전(이야기) / 브리치(퍼즐) / 사건 파일(준비 중).
-class ModeScreen extends StatelessWidget {
+/// 모드 선택: 작전(이야기) / 브리치(퍼즐) / 사건 파일(추리). 카드마다 진행도, 위에 크레딧.
+class ModeScreen extends StatefulWidget {
   final Progress progress;
   final Catalog catalog;
   const ModeScreen({super.key, required this.progress, required this.catalog});
+
+  @override
+  State<ModeScreen> createState() => _ModeScreenState();
+}
+
+class _ModeScreenState extends State<ModeScreen> {
+  Progress get progress => widget.progress;
+  Catalog get catalog => widget.catalog;
+
+  Future<void> _go(Widget screen, {RouteSettings? settings}) async {
+    await Navigator.push(context, MaterialPageRoute(settings: settings, builder: (_) => screen));
+    setState(() {}); // 돌아오면 진행도·크레딧 갱신
+  }
 
   Widget _card({required IconData icon, required String title, required String desc, VoidCallback? onTap, String? badge}) => Padding(
         padding: const EdgeInsets.only(bottom: 14),
@@ -54,25 +69,42 @@ class ModeScreen extends StatelessWidget {
           const MatrixRain(opacity: 0.2),
           const CrtOverlay(),
           ListView(padding: const EdgeInsets.all(16), children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 14),
+              child: Row(children: [
+                const Icon(Icons.memory, color: hqOrange, size: 18),
+                const SizedBox(width: 6),
+                Text(S.tn('shop_credits', {'n': progress.credits}),
+                    style: const TextStyle(color: hqOrange, fontFamily: 'monospace', fontSize: 15)),
+              ]),
+            ),
             _card(
               icon: Icons.lan,
               title: S.t('mode_campaign'),
               desc: S.t('mode_campaign_desc'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(
-                  settings: const RouteSettings(name: InboxScreen.routeName),
-                  builder: (_) => InboxScreen(progress: progress, catalog: catalog))),
+              badge: S.tn('mode_progress', {'n': catalog.orderedIds.where(progress.isDone).length, 'm': catalog.missions.length}),
+              onTap: () => _go(InboxScreen(progress: progress, catalog: catalog),
+                  settings: const RouteSettings(name: InboxScreen.routeName)),
             ),
             _card(
               icon: Icons.grid_4x4,
               title: S.t('mode_breach'),
               desc: S.t('mode_breach_desc'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => BreachListScreen(progress: progress))),
+              badge: S.tn('mode_progress', {
+                'n': [for (var n = 1; n <= kBreachStages; n++) n].where((n) => progress.breachStars(n) > 0).length,
+                'm': kBreachStages,
+              }),
+              onTap: () => _go(BreachListScreen(progress: progress)),
             ),
             _card(
               icon: Icons.folder_open,
               title: S.t('mode_cases'),
               desc: S.t('mode_cases_desc'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CaseListScreen(progress: progress))),
+              badge: S.tn('mode_progress', {
+                'n': [for (var n = 1; n <= kCaseCount; n++) n].where((n) => progress.caseStars('c0$n') > 0).length,
+                'm': kCaseCount,
+              }),
+              onTap: () => _go(CaseListScreen(progress: progress)),
             ),
           ]),
         ]),

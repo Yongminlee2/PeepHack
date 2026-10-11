@@ -53,7 +53,8 @@ class _MissionState extends State<MissionScreen> {
   @override
   void initState() {
     super.initState();
-    lines.add(TermLine(S.t('shell_welcome')));
+    // 접속 연출(한 글자씩 찍힌다)
+    lines.addAll([TermLine(S.t('shell_boot_1')), TermLine(S.t('shell_boot_2')), TermLine(S.t('shell_welcome'))]);
     // 추적: 시작 서버를 벗어나 있는 동안 1초마다 오른다(Hacknet 처럼)
     if (trace.enabled) {
       _traceTimer = Timer.periodic(const Duration(seconds: 1), (_) {

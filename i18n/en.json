@@ -529,5 +529,8 @@
   "m5_06_label_3": "two more",
   "crack_rule_breach": "Rule: pick one on the top row → one in its column → one in that row… alternate, and build the target sequences with the codes you pick.",
   "crack_rule_word": "Rule: tap words to guess the password. A wrong guess tells how many letters are right and in the right place. Orange brackets are bonuses.",
-  "settings_vibration": "Vibration"
+  "settings_vibration": "Vibration",
+  "mode_progress": "{n}/{m}",
+  "shell_boot_1": "Opening secure tunnel… done",
+  "shell_boot_2": "Trace wiper standing by… done"
 }
