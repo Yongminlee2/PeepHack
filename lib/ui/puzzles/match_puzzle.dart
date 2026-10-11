@@ -34,7 +34,10 @@ class _MatchState extends State<MatchPuzzle> {
     final ok = widget.onSubmit([for (final e in pairs.entries) [e.key, e.value]]);
     if (!ok) {
       showWrong(context);
-      setState(pairs.clear);
+      setState(() {
+        pairs.clear();
+        selectedLeft = null;
+      });
     }
   }
 

@@ -138,4 +138,19 @@ void main() {
     // 앞서 연 파일 내용도 터미널 기록에 남는다(창을 닫아도 다시 볼 수 있게)
     expect(find.textContaining(S.t('m1_02_f_note')), findsOneWidget);
   });
+  testWidgets('힌트 3개를 다 써도 남은 별은 1개로 보인다(최소 1별)', (t) async {
+    final catalog = await Catalog.load();
+    final progress = await Progress.load();
+    await t.pumpWidget(MaterialApp(home: MissionScreen(mission: catalog.byId('m1_01')!, progress: progress, catalog: catalog)));
+    await settle(t);
+    await t.tap(find.textContaining(S.t('btn_hint')));
+    await settle(t);
+    for (var i = 0; i < 3; i++) {
+      await t.tap(find.text(S.t('btn_hint_next')));
+      await settle(t);
+    }
+    expect(find.text(S.t('hint_none_left')), findsOneWidget);
+    expect(find.text(S.tn('hint_title', {'n': 1})), findsOneWidget);
+    expect(find.text('${S.t('btn_hint')} ★'), findsOneWidget);
+  });
 }

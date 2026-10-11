@@ -91,4 +91,22 @@ void main() {
     await t.tap(find.byKey(const Key('puzzle_submit'))); await t.pump();
     expect(got, [1, 0, 2]);
   });
+  testWidgets('match: 틀리면 선 연결과 왼쪽 선택이 모두 풀리고 화면이 흔들린다', (t) async {
+    await t.pumpWidget(wrap(
+      Puzzle(id: 'p', type: 'match', data: {'left': ['A', 'B'], 'right': ['1', '2']}, answer: [[0, 1], [1, 0]]),
+      (a) => false,
+    ));
+    await t.tap(find.byKey(const Key('left_0'))); await t.pump();
+    await t.tap(find.byKey(const Key('right_0'))); await t.pump();
+    await t.tap(find.byKey(const Key('left_1'))); await t.pump();
+    await t.tap(find.byKey(const Key('right_1'))); await t.pump();
+    await t.tap(find.byKey(const Key('left_0'))); await t.pump(); // 선택만 해 둔 상태로
+    await t.tap(find.byKey(const Key('puzzle_submit'))); await t.pump(); // 버튼은 짝이 다 있어야 켜진다
+    await t.pump(const Duration(milliseconds: 60));
+    final dx = t.widget<Transform>(find.byKey(const Key('shake'))).transform.getTranslation().x;
+    expect(dx, isNot(0)); // 흔들리는 중
+    await t.pumpAndSettle();
+    final m = t.widget<Material>(find.byKey(const Key('left_0')));
+    expect((m.shape as Border).top.width, 1); // 선택 표시(두꺼운 테두리)가 풀림
+  });
 }

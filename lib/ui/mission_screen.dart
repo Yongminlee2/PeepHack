@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../catalog.dart';
@@ -117,7 +119,7 @@ class _MissionState extends State<MissionScreen> {
       builder: (_) => StatefulBuilder(builder: (ctx, setSheet) => Padding(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(S.tn('hint_title', {'n': 3 - hintsUsed}), style: const TextStyle(color: hqOrange, fontSize: 16)),
+          Text(S.tn('hint_title', {'n': math.max(1, 3 - hintsUsed)}), style: const TextStyle(color: hqOrange, fontSize: 16)),
           const SizedBox(height: 8),
           for (var i = 0; i < hintsUsed; i++) Padding(padding: const EdgeInsets.only(bottom: 8), child: Text('${i + 1}. ${_hintText(i)}')),
           if (hintsUsed < 3)
@@ -162,7 +164,7 @@ class _MissionState extends State<MissionScreen> {
           TextButton.icon(
             onPressed: _openHints,
             icon: const Icon(Icons.lightbulb_outline, color: hqOrange),
-            label: Text('${S.t('btn_hint')} ${'★' * (3 - hintsUsed)}', style: const TextStyle(color: hqOrange)),
+            label: Text('${S.t('btn_hint')} ${'★' * math.max(1, 3 - hintsUsed)}', style: const TextStyle(color: hqOrange)),
           ),
         ],
       ),

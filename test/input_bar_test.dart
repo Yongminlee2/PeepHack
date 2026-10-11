@@ -75,4 +75,12 @@ void main() {
     expect(ran, ['scan']);
     expect(t.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus, isTrue);
   });
+  testWidgets('비밀번호를 물으면 입력칸이 바로 선택된다(키보드가 뜬다)', (t) async {
+    Widget bar(bool pw) => wrap(InputBar(
+      suggestions: Suggestions(['scan'], []), editable: false, password: pw, onRun: (_) {}));
+    await t.pumpWidget(bar(false));
+    await t.pumpWidget(bar(true));
+    await t.pump();
+    expect(t.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus, isTrue);
+  });
 }

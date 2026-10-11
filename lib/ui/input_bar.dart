@@ -26,6 +26,8 @@ class _InputBarState extends State<InputBar> {
     super.didUpdateWidget(old);
     // 칩 임무에서 비밀번호 입력이 끝나면 키보드를 내린다. 안 그러면 읽기 전용 칸에 키보드가 남는다.
     if (old.password && !widget.password && !widget.editable) _focus.unfocus();
+    // 비밀번호를 물으면 바로 칠 수 있게 키보드를 띄운다.
+    if (!old.password && widget.password) _focus.requestFocus();
   }
 
   @override
