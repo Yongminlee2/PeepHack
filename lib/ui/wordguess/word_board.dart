@@ -17,8 +17,20 @@ class WordBoard extends StatefulWidget {
 
 class _WordBoardState extends State<WordBoard> {
   late final WordGame game = WordGame(widget.puzzle);
-  final List<(String, bool)> notes = []; // 오른쪽 기록(글, 강조)
+  final List<(String, bool)> notes = []; // 덤프 아래 기록(글, 강조)
+  final _scroll = ScrollController();
   bool _ended = false;
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  // 새 기록이 보이게 맨 아래로
+  void _toEnd() => WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scroll.hasClients) _scroll.jumpTo(_scroll.position.maxScrollExtent);
+      });
 
   static const _mono = TextStyle(fontFamily: kMono, fontSize: 15, height: 1.35);
 
@@ -35,6 +47,7 @@ class _WordBoardState extends State<WordBoard> {
       }
     });
     Sfx().play(game.solved ? 'ok' : 'fail');
+    _toEnd();
     _end();
   }
 
@@ -43,6 +56,7 @@ class _WordBoardState extends State<WordBoard> {
     if (r == null) return;
     Sfx().play('tap');
     setState(() => notes.add((r == 'RESET' ? S.t('wg_reset') : S.t('wg_dud'), true)));
+    _toEnd();
   }
 
   void _end() {
@@ -95,34 +109,36 @@ class _WordBoardState extends State<WordBoard> {
             ),
         ]),
         const SizedBox(height: 8),
+        // 덤프는 폭과 높이(70%) 안에서 최대한 키우고(누르기 쉽게), 기록은 바로 아래에 터미널처럼 쌓는다
         Expanded(
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // 메모리 덤프
-            Expanded(
-              flex: 3,
-              child: ListView(children: [
-                for (var i = 0; i < p.lines.length; i++)
-                  // 좁은 폰에서 줄이 넘치지 않게 줄째로 줄인다
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Row(children: [
-                      Text('0x${(0xF4A0 + i * 16).toRadixString(16).toUpperCase()} ', style: _mono.copyWith(color: hqDim, fontSize: 12)),
-                      for (final t in p.lines[i]) _token(t),
-                    ]),
-                  ),
-              ]),
-            ),
-            const SizedBox(width: 8),
-            // 기록
-            Expanded(
-              flex: 2,
-              child: ListView(reverse: true, children: [
-                for (final (text, hi) in notes.reversed)
-                  Text(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 13, color: hi ? hqOrange : hqGreen)),
-              ]),
-            ),
-          ]),
+          child: LayoutBuilder(
+            builder: (context, box) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: box.maxHeight * 0.7),
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topLeft,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    for (var i = 0; i < p.lines.length; i++)
+                      Row(key: Key('dump_$i'), children: [
+                        Text('0x${(0xF4A0 + i * 16).toRadixString(16).toUpperCase()} ', style: _mono.copyWith(color: hqDim, fontSize: 12)),
+                        for (final t in p.lines[i]) _token(t),
+                      ]),
+                  ]),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: _scroll,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    for (final (text, hi) in notes)
+                      Text(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 15, color: hi ? hqOrange : hqGreen)),
+                  ]),
+                ),
+              ),
+            ]),
+          ),
         ),
       ]),
     );

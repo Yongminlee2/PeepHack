@@ -19,10 +19,12 @@ void main() {
     bool? result;
     await t.pumpWidget(wrap(p, (ok) => result = ok));
     final wrong = p.words.firstWhere((w) => w != p.answer);
+    await t.ensureVisible(find.byKey(Key('word_$wrong')));
     await t.tap(find.byKey(Key('word_$wrong')));
     await t.pump();
     expect(find.textContaining(S.tn('wg_likeness', {'n': likeness(wrong, p.answer)})), findsOneWidget);
     expect(result, isNull);
+    await t.ensureVisible(find.byKey(Key('word_${p.answer}')));
     await t.tap(find.byKey(Key('word_${p.answer}')));
     await t.pump();
     expect(result, isTrue);
@@ -49,5 +51,22 @@ void main() {
     final gone = p.words.where((w) => find.byKey(Key('word_$w')).evaluate().isEmpty).toList();
     expect(gone.length, 1);
     expect(gone.single, isNot(p.answer));
+  });
+  testWidgets('세로 폰: 덤프가 화면 폭을 채우고, 기록은 덤프 바로 아래에 뜬다', (t) async {
+    t.view.physicalSize = const Size(412, 915);
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.reset);
+    final p = generateWordPuzzle(length: 5, count: 8, seed: 3);
+    await t.pumpWidget(wrap(p, (_) {}));
+    final line = t.getRect(find.byKey(const Key('dump_0')));
+    expect(line.width, greaterThan(412 * 0.85));
+    final wrong = p.words.firstWhere((w) => w != p.answer);
+    await t.ensureVisible(find.byKey(Key('word_$wrong')));
+    await t.tap(find.byKey(Key('word_$wrong')));
+    await t.pump();
+    final last = t.getRect(find.byKey(Key('dump_${p.lines.length - 1}')));
+    final note = t.getRect(find.text('> $wrong'));
+    expect(note.top, greaterThanOrEqualTo(last.bottom));
+    expect(note.top - last.bottom, lessThan(80));
   });
 }
