@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'trace.dart';
+
 /// 임무 JSON 모델. Flutter 의존 없음. 형식은 설계 문서 3절.
 class Mission {
   final String id;
@@ -16,14 +18,21 @@ class Mission {
   final Goal goal;
   final List<String> hints;
   final List<Object> solution; // String | PuzzleStep
+  final int? _trace;
 
   Mission({
     required this.id, required this.chapter, required this.title,
     required this.brief, required this.done, required this.input,
     required this.commands, required this.words, required this.hosts,
     required this.start, required this.puzzles, required this.goal,
-    required this.hints, required this.solution,
-  });
+    required this.hints, required this.solution, int? trace,
+  }) : _trace = trace;
+
+  /// 추적 한도(초). 0 이면 추적 없음. JSON 에 없으면 챕터 기본값.
+  int get trace => _trace ?? defaultTrace(chapter);
+
+  /// 이 서버를 크랙할 때 뚫어야 하는 포트 수.
+  int portsFor(Host h) => h.ports ?? defaultPorts(chapter);
 
   static Mission parse(String jsonText) =>
       Mission.fromJson(jsonDecode(jsonText) as Map<String, dynamic>);
@@ -46,6 +55,7 @@ class Mission {
         ],
         goal: Goal.fromJson(j['goal'] as Map<String, dynamic>),
         hints: _strs(j['hints']),
+        trace: j['trace'] as int?,
         solution: [
           for (final s in j['solution'] as List)
             s is String ? s : PuzzleStep((s as Map)['puzzle'] as String)
@@ -75,6 +85,9 @@ class Mission {
   }
 }
 
+/// 빈 `{}` 처럼 형이 덜 정해진 맵도 받는다(손으로 만든 데이터·테스트).
+Map<String, dynamic> _map(Object? v) => v == null ? const {} : Map<String, dynamic>.from(v as Map);
+
 List<String> _strs(Object? v) => v == null ? const [] : List<String>.from(v as List);
 
 class PuzzleStep {
@@ -91,17 +104,21 @@ class Host {
   final List<Commit> git;
   final Map<String, String> env;
   final List<String> cron;
+  final int? ports;
+
+  /// 잠금이 있거나 계정(ssh)이 필요한 서버 — 지도에서 크랙할 수 있다.
+  bool get isProtected => lock != null || user != null;
 
   Host({
     required this.key, required this.name, this.lock, required this.fs,
-    this.user, this.git = const [], this.env = const {}, this.cron = const [],
+    this.user, this.git = const [], this.env = const {}, this.cron = const [], this.ports,
   });
 
   factory Host.fromJson(String key, Map<String, dynamic> j) => Host(
         key: key,
         name: j['name'] as String? ?? key,
         lock: j['lock'] == null ? null : Lock.fromJson(j['lock'] as Map<String, dynamic>),
-        fs: FsDir.fromJson((j['fs'] as Map<String, dynamic>?) ?? const {}),
+        fs: FsDir.fromJson(_map(j['fs'])),
         user: j['user'] as String?,
         git: [
           for (final c in (j['git'] as List?) ?? const [])
@@ -113,6 +130,7 @@ class Host {
         ],
         env: Map<String, String>.from((j['env'] as Map?) ?? const {}),
         cron: _strs(j['cron']),
+        ports: j['ports'] as int?,
       );
 }
 
@@ -147,7 +165,7 @@ class FsDir extends FsNode {
     j.forEach((name, v) {
       if (name.endsWith('/')) {
         out[name.substring(0, name.length - 1)] =
-            FsDir.fromJson((v as Map<String, dynamic>?) ?? const {});
+            FsDir.fromJson(_map(v));
       } else if (v is String) {
         out[name] = FsFile(text: v);
       } else {

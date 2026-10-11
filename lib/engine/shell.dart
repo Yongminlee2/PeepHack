@@ -150,7 +150,7 @@ class Shell {
     final h = mission.hostByName(name);
     if (h == null) return _err('shell_err_no_host', {'host': name});
     if (h.user != null && h.user != user) return _err('shell_err_ssh_denied', {'user': user});
-    return _connect(name);
+    return _connect(name, viaSsh: true);
   }
 
   ShellResult _headTail(String cmd, List<String> a) {
@@ -229,9 +229,11 @@ class Shell {
     return ShellResult(text: lines.join('\n'));
   }
 
-  ShellResult _connect(String name) {
+  ShellResult _connect(String name, {bool viaSsh = false}) {
     final h = mission.hostByName(name);
     if (h == null) return _err('shell_err_no_host', {'host': name});
+    // 계정이 필요한 서버는 ssh 로만(크랙으로 연 뒤엔 그냥 들어간다)
+    if (h.user != null && !viaSsh && !_unlockedHosts.contains(h.key)) return _err('shell_err_need_ssh', {'host': h.name});
     if (h.lock != null && !_unlockedHosts.contains(h.key)) {
       if (h.lock!.type == 'password') {
         _pendingHost = h.key;
@@ -319,6 +321,16 @@ class Shell {
     if (r.fileText == null) return r; // 오류·잠금·퍼즐 그대로
     final lines = r.fileText!.split('\n').where((l) => l.contains(word)).toList();
     return lines.isEmpty ? const ShellResult(key: 'shell_empty') : ShellResult(text: lines.join('\n'));
+  }
+
+  /// 포트 크랙 성공: 잠금을 풀고 그 서버로 들어간다. 잠금이 퍼즐이었으면 그 퍼즐도 푼 것으로 친다.
+  ShellResult crack(String hostKey) {
+    final h = mission.hosts[hostKey]!;
+    _unlockedHosts.add(h.key);
+    if (h.lock?.type == 'puzzle') _solved.add(h.lock!.puzzle!);
+    _pendingHost = null;
+    _switchHost(h.key);
+    return ShellResult(key: 'shell_cracked', args: {'host': h.name});
   }
 
   /// 퍼즐 창에서 「확인」. 맞으면 잠금 해제 → 호스트 접속 또는 파일 열기.
