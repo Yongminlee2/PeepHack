@@ -54,8 +54,8 @@ class _BreachPlayState extends State<BreachPlayScreen> {
         ),
         body: Stack(fit: StackFit.expand, children: [
           const MatrixRain(opacity: 0.08),
+          const CrtOverlay(), // 판 아래에 깐다 — 위에 덮으면 버퍼·목표 글자가 어두워진다(실기기)
           BreachBoard(key: ValueKey(attempt), puzzle: puzzle, onFinish: _finish),
-          const CrtOverlay(),
           if (result != null) _resultPanel(result!),
         ]),
       );

@@ -83,17 +83,22 @@ class _BreachBoardState extends State<BreachBoard> {
         // 버퍼
         Text(S.t('breach_buffer'), style: const TextStyle(color: hqDim, fontSize: 12)),
         const SizedBox(height: 4),
-        Wrap(spacing: 6, children: [
-          for (var i = 0; i < p.buffer; i++)
-            Container(
-              key: Key('buf_$i'),
-              width: 40,
-              height: 34,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(border: Border.all(color: i < k ? hqGreen : hqDim.withValues(alpha: 0.5))),
-              child: Text(i < k ? game.bufferCodes[i] : '', style: mono.copyWith(color: hqGreen)),
-            ),
-        ]),
+        // 버퍼 칸은 한 줄에 다 들어가게 폭을 나눈다(8칸이 360dp 폰에서 줄을 넘었다)
+        LayoutBuilder(builder: (_, box) {
+          final w = ((box.maxWidth - 6 * (p.buffer - 1)) / p.buffer).clamp(0.0, 40.0);
+          return Row(children: [
+            for (var i = 0; i < p.buffer; i++)
+              Container(
+                key: Key('buf_$i'),
+                width: w,
+                height: 34,
+                margin: EdgeInsets.only(right: i < p.buffer - 1 ? 6 : 0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(border: Border.all(color: i < k ? hqGreen : hqDim.withValues(alpha: 0.5))),
+                child: FittedBox(child: Text(i < k ? game.bufferCodes[i] : '', style: mono.copyWith(color: hqGreen))),
+              ),
+          ]);
+        }),
         const SizedBox(height: 12),
         // 목표 순서
         Text(S.t('breach_targets'), style: const TextStyle(color: hqDim, fontSize: 12)),

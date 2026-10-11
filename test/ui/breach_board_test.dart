@@ -50,4 +50,13 @@ void main() {
     expect(done, isNotNull);
     expect(done!.timedOut, isTrue);
   });
+  testWidgets('버퍼 8칸도 좁은 폰(360dp)에서 한 줄에 들어간다', (t) async {
+    t.view.physicalSize = const Size(360 * 3, 800 * 3);
+    t.view.devicePixelRatio = 3;
+    addTearDown(t.view.reset);
+    const p = BreachPuzzle(grid: [['1C', '55'], ['BD', 'E9']], buffer: 8, daemons: [['FF']]);
+    await t.pumpWidget(wrap(p, (_) {}));
+    final y0 = t.getTopLeft(find.byKey(const Key('buf_0'))).dy;
+    expect(t.getTopLeft(find.byKey(const Key('buf_7'))).dy, y0);
+  });
 }
