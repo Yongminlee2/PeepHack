@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hack_quest/catalog.dart';
 import 'package:hack_quest/engine/breach_gen.dart';
+import 'package:hack_quest/engine/case_file.dart';
 import 'package:hack_quest/engine/progress.dart';
 import 'package:hack_quest/main.dart';
 import 'package:hack_quest/strings.dart';
@@ -103,6 +104,6 @@ void main() {
     expect(find.text(S.tn('shop_credits', {'n': 120})), findsOneWidget);
     expect(find.text(S.tn('mode_progress', {'n': 1, 'm': 1})), findsOneWidget); // 작전 1/1
     expect(find.text(S.tn('mode_progress', {'n': 2, 'm': 60})), findsOneWidget); // 브리치 2/60
-    expect(find.text(S.tn('mode_progress', {'n': 1, 'm': 6})), findsOneWidget); // 사건 1/6
+    expect(find.text(S.tn('mode_progress', {'n': 1, 'm': kCaseCount})), findsOneWidget); // 사건 1/12
   });
 }

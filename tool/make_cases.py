@@ -141,6 +141,132 @@ case('c05',
 
 # ---------------------------------------------------------------- c06
 case('c06',
+     ('털린 SNS 계정', 'The Hijacked Account'),
+     [('친구 수아의 SNS 계정이 남의 손에 넘어가 「코인 투자」 광고가 올라오고 있다.',
+       "My friend Suah's social account was taken over and is posting crypto ads."),
+      ('어떻게 털렸는지, 지금 뭘 해야 하는지 알려 줘.', 'Find out how it happened and what she should do now.')],
+     [('가짜 고객센터 링크에 비밀번호를 넣은 게 시작이었다. 공식 복구 절차로 되찾고 2단계 인증을 켜게 했다.',
+       'It started with a password typed into a fake help-center link. She recovered it through the official process and turned on two-factor.')],
+     [
+         {'name': 'login_alerts.txt', 'text': '10-03 21:14 new login  Seoul, Galaxy S23 (suah phone)\n10-05 02:31 new login  Lagos, Windows PC\n10-05 02:33 password changed\n10-05 02:34 email changed to s.uah@mai1box.net'},
+         {'name': 'dm_capture.txt', 'text': t('c06_d_dm', '10-04 22:10 낯선 계정: 수아님 사진이 저작권 침해로 신고됐어요. 아래 링크에서 본인 확인을 안 하면 계정이 삭제됩니다 → insta-help-center.co', '10-04 22:10 Unknown account: your photo was reported for copyright. Verify yourself at the link below or your account will be deleted → insta-help-center.co')},
+         {'name': 'suah_message.txt', 'text': t('c06_d_suah', '수아: 그 링크에서 아이디랑 비밀번호를 넣었어… 진짜 고객센터인 줄 알았어.', 'Suah: I typed my ID and password on that link… I thought it was the real help center.')},
+         {'name': 'browser_history.txt', 'lock': {'length': 5}, 'text': '10-04 22:12 insta-help-center.co/login\n10-04 22:13 insta-help-center.co/verified'},
+     ],
+     [
+         q('c06', 1, ('계정은 어떻게 털렸나?', 'How was the account stolen?'),
+           [('비밀번호가 너무 쉬워서', 'The password was too easy'), ('가짜 고객센터 링크에 비밀번호를 넣어서', 'She typed it into a fake help-center link'), ('공용 와이파이 때문에', 'Because of public Wi-Fi')], 1),
+         q('c06', 2, ('범인이 접속한 곳은?', 'Where did the attacker log in from?'), [('서울', 'Seoul'), ('라고스(나이지리아)', 'Lagos (Nigeria)'), ('부산', 'Busan')], 1),
+         q('c06', 3, ('지금 가장 먼저 할 일은?', 'What should she do first?'),
+           [('비밀번호만 바꾼다', 'Just change the password'), ('공식 복구 절차로 계정·이메일을 되찾고 2단계 인증을 켠다', 'Recover the account and email through the official process and turn on two-factor'), ('계정을 새로 만든다', 'Make a new account')], 1),
+     ])
+
+# ---------------------------------------------------------------- c07
+case('c07',
+     ('택배 문자', 'The Delivery Text'),
+     [('엄마 휴대폰에 「택배 주소 확인」 문자가 와서 링크를 눌렀다. 그 뒤로 친구들에게 이상한 문자가 간다.',
+       "Mom tapped a link in a 'confirm your delivery address' text. Since then her friends have been getting strange texts."),
+      ('무슨 일이 벌어진 건지 밝혀 줘.', 'Figure out what happened.')],
+     [('가짜 택배 앱이 문자·연락처 권한으로 엄마 이름을 빌려 퍼지고 있었다. 앱을 지우고 지인들에게 알렸다.',
+       "A fake delivery app was spreading itself in Mom's name using its SMS and contacts permissions. We removed it and warned her friends.")],
+     [
+         {'name': 'sms.txt', 'text': '[CJ Logistics] Delivery on hold: address unknown. Confirm here: http://cj-de1ivery.top/a7'},
+         {'name': 'installed_apps.txt', 'text': '10-06 14:02 installed  delivery_check.apk (unknown source)\n10-06 14:03 permission granted: SMS, Contacts'},
+         {'name': 'mom_chat.txt', 'text': t('c07_d_mom', '엄마: 링크를 누르니까 앱을 깔라고 해서 깔았지. 그 뒤로 친구들한테 이상한 문자가 갔대.', 'Mom: the link told me to install an app, so I did. Since then my friends say they got weird texts.')},
+         {'name': 'friend_sms.txt', 'lock': {'length': 5}, 'text': t('c07_d_friend', '엄마 번호로 친구에게 온 문자: 택배 주소 확인 부탁해요 http://cj-de1ivery.top/a7', "Text a friend got from Mom's number: please confirm your delivery address http://cj-de1ivery.top/a7")},
+     ],
+     [
+         q('c07', 1, ('진짜 택배사 문자가 아니라는 근거는?', 'What shows it is not a real courier text?'),
+           [('주소에 l 대신 숫자 1, 이상한 .top 주소', 'A digit 1 instead of an l, and an odd .top address'), ('문자가 너무 짧다', 'The text is too short'), ('저녁에 왔다', 'It came in the evening')], 0),
+         q('c07', 2, ('친구들에게 문자가 간 이유는?', 'Why did her friends get texts?'),
+           [('설치한 가짜 앱이 문자·연락처 권한으로 대신 보냈다', 'The fake app used its SMS and contacts permissions to send them'), ('엄마가 실수로 보냈다', 'Mom sent them by mistake'), ('통신사 오류', 'A carrier glitch')], 0),
+     ])
+
+# ---------------------------------------------------------------- c08
+case('c08',
+     ('카페 무료 와이파이', 'The Free Cafe Wi-Fi'),
+     [('카페에서 와이파이가 두 개 잡힌다: CAFE_LATTE 와 CAFE_LATTE_FREE. 한쪽에 접속한 손님들의 계정이 털렸다.',
+       'Two Wi-Fi networks show up in the cafe: CAFE_LATTE and CAFE_LATTE_FREE. Customers on one of them lost their accounts.'),
+      ('가짜를 찾고 누가 깔았는지 알아내 줘.', 'Find the fake and who set it up.')],
+     [('창가 손님의 노트북이 진짜와 비슷한 이름의 무료 와이파이를 띄워 로그인을 가로채고 있었다.',
+       "The laptop at the window seat was broadcasting a free network with a look-alike name and capturing logins.")],
+     [
+         {'name': 'wifi_scan.txt', 'text': 'SSID: CAFE_LATTE        security: WPA2   source: router at the counter\nSSID: CAFE_LATTE_FREE   security: OPEN   strongest near: window seat'},
+         {'name': 'owner_note.txt', 'text': t('c08_d_owner', '사장님: 우리 가게 와이파이는 하나뿐이에요. 비밀번호는 영수증에 적혀 있어요.', 'Owner: we only have one Wi-Fi network. The password is printed on the receipt.')},
+         {'name': 'seat_note.txt', 'text': t('c08_d_seat', '직원 메모: 창가 자리 손님이 노트북을 켜 둔 채 3시간째 앉아 있다. 노트북에 작은 안테나가 달려 있었다.', 'Staff note: the customer at the window seat has had a laptop open for three hours. It had a small antenna attached.')},
+         {'name': 'login_page.txt', 'lock': {'length': 6}, 'text': "CAFE_LATTE_FREE login page: 'Sign in with your Google account to use free Wi-Fi'\nform posts to http://10.0.0.1/collect"},
+     ],
+     [
+         q('c08', 1, ('가짜 와이파이는?', 'Which network is fake?'), ['CAFE_LATTE', 'CAFE_LATTE_FREE'], 1),
+         q('c08', 2, ('깔아 둔 사람으로 보이는 쪽은?', 'Who most likely set it up?'),
+           [('사장님', 'The owner'), ('창가 자리 노트북 손님', 'The laptop customer at the window'), ('직원', 'A staff member')], 1),
+         q('c08', 3, ('이런 일을 피하려면?', 'How do you avoid this?'),
+           [('비밀번호 없는 무료 와이파이에서 계정에 로그인하지 않고, 가게에 진짜 이름을 물어본다', 'Do not log in to accounts on open free Wi-Fi, and ask the shop for the real network name'),
+            ('신호가 가장 센 것을 고른다', 'Pick the strongest signal'), ('무료면 다 괜찮다', 'Free is always fine')], 0),
+     ])
+
+# ---------------------------------------------------------------- c09
+case('c09',
+     ('중고거래 안전결제', 'The Second-hand Sale'),
+     [('중고 게임기를 팔던 지훈이 구매자가 보낸 「안전결제」 링크에 계좌를 넣을 뻔했다.',
+       "Jihoon, selling a used game console, almost entered his bank details into a 'safe payment' link from the buyer."),
+      ('수상한 점을 짚어 줘.', 'Point out what is wrong.')],
+     [('앱 밖 링크로 결제하자는 순간부터 사기였다. 지훈은 앱 안 버튼으로만 거래했다.',
+       'It was a scam the moment they asked to pay through a link outside the app. Jihoon stuck to the in-app button.')],
+     [
+         {'name': 'chat.txt', 'text': t('c09_d_chat', '구매자: 안전결제로 할게요, 링크 보내 드릴게요 / 지훈: 앱 안에서 하면 안 돼요? / 구매자: 수수료 아끼려고요 ㅎㅎ 이 링크가 공식이에요', "Buyer: let's use safe pay, I'll send a link / Jihoon: can't we do it in the app? / Buyer: saves the fee lol, this link is official")},
+         {'name': 'link.txt', 'text': 'https://safe-pay-market.shop/order/8812'},
+         {'name': 'app_notice.txt', 'text': t('c09_d_notice', '앱 공지: 저희는 앱 밖 링크로 결제를 받지 않습니다. 앱 안 「안전결제」 버튼만 쓰세요.', "App notice: we never take payment through links outside the app. Use only the in-app 'Safe pay' button.")},
+         {'name': 'buyer_reports.txt', 'lock': {'length': 5}, 'text': t('c09_d_reports', '이 구매자 닉네임 신고 7건: 「앱 밖 링크로 결제하게 하고 연락이 끊겼다」', "7 reports on this buyer's nickname: 'made me pay through an outside link, then vanished'")},
+     ],
+     [
+         q('c09', 1, ('가장 수상한 점은?', 'What is the biggest red flag?'),
+           [('앱 밖 링크로 결제하자고 한다', 'They want to pay through a link outside the app'), ('가격을 깎자고 한다', 'They want a discount'), ('답장이 빠르다', 'They reply fast')], 0),
+         q('c09', 2, ('진짜 안전결제인지 확인하는 법은?', 'How do you know it is real safe pay?'),
+           [('앱 공지대로 앱 안 버튼만 쓴다', 'Use only the in-app button, as the notice says'), ('주소에 safe 가 들어 있으면 안전하다', "It is safe if the address contains 'safe'"), ('구매자가 공식이라고 했으니 믿는다', 'Trust the buyer who said it is official')], 0),
+     ])
+
+# ---------------------------------------------------------------- c10
+case('c10',
+     ('단체방에서 샌 사진', 'The Leaked Group-chat Photo'),
+     [('동아리 단체방(12명)에만 올린 사진이 학교 커뮤니티에 올라왔다.', 'A photo posted only in the club group chat (12 people) showed up on the school forum.'),
+      ('누가 퍼뜨렸는지 찾아 줘.', 'Find out who spread it.')],
+     [('편집 앱 워터마크가 그대로 남아 있었다. 지우는 사과하고 글을 지웠다.', 'The editing app watermark gave it away. Jiwoo apologized and took the post down.')],
+     [
+         {'name': 'photo_meta.txt', 'text': "posted image: IMG_2231_edit.jpg\nedited with: SnapCut v2 (watermark: 'made by jw_cut')"},
+         {'name': 'members.txt', 'text': 'minji   nickname: minjj\njiwoo   nickname: jw_cut\nhaneul  nickname: sky_h\n(+9 more)'},
+         {'name': 'group_rules.txt', 'text': t('c10_d_rules', '단체방 공지: 여기 올린 사진은 밖에 올리지 않기.', 'Group rule: photos posted here stay here.')},
+         {'name': 'dm.txt', 'lock': {'length': 6}, 'text': t('c10_d_dm', '지우 → 다른 친구: 이거 너무 웃겨서 커뮤에 올렸어 ㅋㅋ 아무도 모르겠지', 'Jiwoo → another friend: this was too funny so I posted it on the forum lol, nobody will know')},
+     ],
+     [
+         q('c10', 1, ('사진을 퍼뜨린 사람은?', 'Who spread the photo?'), ['minji', 'jiwoo', 'haneul'], 1),
+         q('c10', 2, ('결정적인 단서는?', 'What is the key clue?'),
+           [('편집 앱 워터마크(jw_cut)가 지우의 닉네임과 같다', "The editing watermark (jw_cut) matches Jiwoo's nickname"), ('사진이 웃기다', 'The photo is funny'), ('올린 시간', 'The posting time')], 0),
+     ])
+
+# ---------------------------------------------------------------- c11
+case('c11',
+     ('혼자 열린 도어락', 'The Door That Opened Itself'),
+     [('원룸 스마트 도어락이 새벽 2시에 열렸다는 기록이 있다. 집주인은 아무도 안 왔다고 한다.',
+       "The smart lock on a studio apartment logged an unlock at 2 a.m. The owner says nobody came."),
+      ('어떻게 열렸는지 찾아 줘.', 'Find out how it opened.')],
+     [('지우지 않은 임시 손님 권한이 다른 사람 폰까지 퍼져 있었다. 권한을 지우고 기한을 정하는 습관을 들였다.',
+       "A temporary guest access that was never removed had spread to someone else's phone. It is gone now, and guest access always gets an end date.")],
+     [
+         {'name': 'lock_log.txt', 'text': '02:03 unlock  method=app  user=guest_temp\n02:03 door opened\n02:05 door closed\n09:12 unlock  method=fingerprint  user=owner'},
+         {'name': 'app_users.txt', 'text': 'owner        (me)\nguest_temp   created 09-20 by owner   expires: never'},
+         {'name': 'memo.txt', 'text': t('c11_d_memo', '9월 20일에 집 고쳐 주는 기사님한테 임시 출입 권한을 줬었다. 지우는 걸 깜빡했다.', 'On Sep 20 I gave temporary access to the repair technician. I forgot to remove it.')},
+         {'name': 'technician_sms.txt', 'lock': {'length': 7}, 'text': t('c11_d_tech', '기사님 문자: 그 권한이 제 동료 폰에도 공유돼 있었어요. 죄송합니다, 바로 지울게요.', "Technician's text: that access was shared to my coworker's phone too. Sorry, removing it now.")},
+     ],
+     [
+         q('c11', 1, ('문은 어떻게 열렸나?', 'How did the door open?'),
+           [('지문이 복제됐다', 'The fingerprint was copied'), ('지우지 않은 임시 손님 권한(guest_temp)으로 앱에서 열었다', 'Someone used the never-removed guest access (guest_temp) in the app'), ('도어락 고장', 'The lock malfunctioned')], 1),
+         q('c11', 2, ('다시 안 생기게 하려면?', 'How do you stop it happening again?'),
+           [('임시 권한은 기한을 정하고 끝나면 지운다', 'Give temporary access an end date and remove it after'), ('도어락을 바꾼다', 'Replace the lock'), ('비밀번호를 길게 한다', 'Use a longer PIN')], 0),
+     ])
+
+# ---------------------------------------------------------------- c12
+case('c12',
      ('고스트의 정체', "Ghost's Identity"),
      [('고스트가 연락을 끊었다. 마지막 메시지는 「나를 찾아봐」 한 줄.', 'Ghost went silent. The last message was a single line: "Find me."'),
       ('지금까지의 자료로 고스트가 누구인지 밝혀라.', "Use everything you have to find out who Ghost is.")],
@@ -148,16 +274,16 @@ case('c06',
        'You found me. I wanted someone to finish the checks I left undone when I quit. Glad it was you.'),
       ('— 고스트, 아니 이하윤', '— Ghost. Or rather, Lee Hayun')],
      [
-         {'name': 'last_message.txt', 'text': t('c06_d_msg', '고스트: 처음 너한테 준 일 기억나? 카페 PC 의 환영 메모. 그걸 쓴 사람이 나야.', 'Ghost: remember the first job I gave you? The welcome note on the cafe PC. I wrote it.')},
+         {'name': 'last_message.txt', 'text': t('c12_d_msg', '고스트: 처음 너한테 준 일 기억나? 카페 PC 의 환영 메모. 그걸 쓴 사람이 나야.', 'Ghost: remember the first job I gave you? The welcome note on the cafe PC. I wrote it.')},
          {'name': 'welcome_meta.txt', 'text': 'file: cafe-pc:/welcome.txt\nauthor: lee.hayun\ncreated: 2026-09-01'},
          {'name': 'staff_list.csv', 'text': 'id,role,status\nlee.hayun,security engineer,left 2026-08\npark.seojun,finance,active\nmin.ho,sales,suspended'},
          {'name': 'handover.txt', 'lock': {'length': 7},
-          'text': t('c06_d_handover', '인수인계: 남은 점검은 내가 고른 신입에게 맡긴다. 의뢰는 「고스트」 라는 이름으로 보낸다. — 이하윤', 'Handover: the remaining checks go to a rookie I pick. I will send the jobs as "Ghost". — Lee Hayun')},
+          'text': t('c12_d_handover', '인수인계: 남은 점검은 내가 고른 신입에게 맡긴다. 의뢰는 「고스트」 라는 이름으로 보낸다. — 이하윤', 'Handover: the remaining checks go to a rookie I pick. I will send the jobs as "Ghost". — Lee Hayun')},
      ],
      [
-         q('c06', 1, ('고스트는 누구인가?', 'Who is Ghost?'),
+         q('c12', 1, ('고스트는 누구인가?', 'Who is Ghost?'),
            [('이하윤, 전 보안 엔지니어', 'Lee Hayun, former security engineer'), ('박서준, 재무팀', 'Park Seojun, finance'), ('카페 사장', 'The cafe owner')], 0),
-         q('c06', 2, ('고스트가 신입에게 일을 맡긴 이유는?', 'Why did Ghost hand jobs to a rookie?'),
+         q('c12', 2, ('고스트가 신입에게 일을 맡긴 이유는?', 'Why did Ghost hand jobs to a rookie?'),
            [('퇴사 전에 못다 한 점검을 맡기려고', 'To finish the checks left undone before quitting'), ('돈을 벌려고', 'To make money'), ('그냥 장난', 'Just for fun')], 0),
      ])
 
@@ -165,9 +291,11 @@ os.makedirs(os.path.join(ROOT, 'assets', 'cases'), exist_ok=True)
 for c in CASES:
     with open(os.path.join(ROOT, 'assets', 'cases', c['id'] + '.json'), 'w', encoding='utf-8', newline='\n') as f:
         json.dump(c, f, ensure_ascii=False, indent=1)
+import re
 for code, table in (('ko', KO), ('en', EN)):
     p = os.path.join(ROOT, 'i18n', code + '.json')
     d = json.load(open(p, encoding='utf-8'))
+    d = {k: v for k, v in d.items() if not re.match(r'^c\d\d_', k)}  # 사건 열쇠는 매번 새로(번호가 바뀌어도 옛 열쇠가 남지 않게)
     d.update(table)
     json.dump(d, open(p, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=2)
 print(len(CASES), 'cases,', len(KO), 'keys')

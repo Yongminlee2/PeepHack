@@ -1,0 +1,52 @@
+{
+ "id": "c10",
+ "title": "@c10_title",
+ "brief": [
+  "@c10_brief_1",
+  "@c10_brief_2"
+ ],
+ "done": [
+  "@c10_done_1"
+ ],
+ "docs": [
+  {
+   "name": "photo_meta.txt",
+   "text": "posted image: IMG_2231_edit.jpg\nedited with: SnapCut v2 (watermark: 'made by jw_cut')"
+  },
+  {
+   "name": "members.txt",
+   "text": "minji   nickname: minjj\njiwoo   nickname: jw_cut\nhaneul  nickname: sky_h\n(+9 more)"
+  },
+  {
+   "name": "group_rules.txt",
+   "text": "@c10_d_rules"
+  },
+  {
+   "name": "dm.txt",
+   "lock": {
+    "length": 6
+   },
+   "text": "@c10_d_dm"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c10_q1",
+   "options": [
+    "minji",
+    "jiwoo",
+    "haneul"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c10_q2",
+   "options": [
+    "@c10_q2_o1",
+    "@c10_q2_o2",
+    "@c10_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

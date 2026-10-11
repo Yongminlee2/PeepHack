@@ -103,4 +103,10 @@ void main() {
     await p.reset();
     expect(p.caseStars('c01'), 0);
   });
+  test('10번째 사건은 9번째(c09)를 풀어야 열린다', () async {
+    final p = await Progress.load();
+    expect(p.isCaseUnlocked(10), isFalse);
+    await p.setCaseStars('c09', 1);
+    expect(p.isCaseUnlocked(10), isTrue);
+  });
 }

@@ -30,7 +30,7 @@ class _CaseListState extends State<CaseListScreen> {
     final out = <CaseFile?>[];
     for (var i = 1; i <= kCaseCount; i++) {
       try {
-        out.add(CaseFile.parse(await rootBundle.loadString('assets/cases/c0$i.json')));
+        out.add(CaseFile.parse(await rootBundle.loadString('assets/cases/${caseId(i)}.json')));
       } catch (_) {
         out.add(null);
       }
@@ -68,7 +68,7 @@ class _CaseListState extends State<CaseListScreen> {
         child: ListTile(
           enabled: open,
           leading: Icon(open ? Icons.folder_open : Icons.lock, color: open ? hqGreen : hqDim),
-          title: Text(c == null ? 'c0$n' : '${S.tn('case_n', {'n': n})} · ${tr(c.title)}'),
+          title: Text(c == null ? caseId(n) : '${S.tn('case_n', {'n': n})} · ${tr(c.title)}'),
           trailing: Text('★' * stars, style: const TextStyle(color: hqOrange)),
           onTap: open
               ? () async {

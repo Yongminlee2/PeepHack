@@ -112,7 +112,7 @@ class _ModeScreenState extends State<ModeScreen> {
               title: S.t('mode_cases'),
               desc: S.t('mode_cases_desc'),
               badge: S.tn('mode_progress', {
-                'n': [for (var n = 1; n <= kCaseCount; n++) n].where((n) => progress.caseStars('c0$n') > 0).length,
+                'n': [for (var n = 1; n <= kCaseCount; n++) n].where((n) => progress.caseStars(caseId(n)) > 0).length,
                 'm': kCaseCount,
               }),
               onTap: () => _go(CaseListScreen(progress: progress)),

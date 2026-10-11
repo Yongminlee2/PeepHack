@@ -1,0 +1,52 @@
+{
+ "id": "c11",
+ "title": "@c11_title",
+ "brief": [
+  "@c11_brief_1",
+  "@c11_brief_2"
+ ],
+ "done": [
+  "@c11_done_1"
+ ],
+ "docs": [
+  {
+   "name": "lock_log.txt",
+   "text": "02:03 unlock  method=app  user=guest_temp\n02:03 door opened\n02:05 door closed\n09:12 unlock  method=fingerprint  user=owner"
+  },
+  {
+   "name": "app_users.txt",
+   "text": "owner        (me)\nguest_temp   created 09-20 by owner   expires: never"
+  },
+  {
+   "name": "memo.txt",
+   "text": "@c11_d_memo"
+  },
+  {
+   "name": "technician_sms.txt",
+   "lock": {
+    "length": 7
+   },
+   "text": "@c11_d_tech"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c11_q1",
+   "options": [
+    "@c11_q1_o1",
+    "@c11_q1_o2",
+    "@c11_q1_o3"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c11_q2",
+   "options": [
+    "@c11_q2_o1",
+    "@c11_q2_o2",
+    "@c11_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

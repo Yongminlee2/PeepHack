@@ -4,7 +4,10 @@ import 'hash.dart';
 import 'wordguess.dart';
 
 /// 사건 파일: 의뢰 + 자료(일부는 단어 추리로 잠김) + 결론 질문. Flutter 의존 없음.
-const kCaseCount = 6;
+const kCaseCount = 12;
+
+/// 사건 번호 → id (c01 … c12).
+String caseId(int n) => 'c${n.toString().padLeft(2, '0')}';
 
 class CaseDoc {
   final String name;

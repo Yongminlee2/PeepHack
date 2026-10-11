@@ -1,0 +1,52 @@
+{
+ "id": "c09",
+ "title": "@c09_title",
+ "brief": [
+  "@c09_brief_1",
+  "@c09_brief_2"
+ ],
+ "done": [
+  "@c09_done_1"
+ ],
+ "docs": [
+  {
+   "name": "chat.txt",
+   "text": "@c09_d_chat"
+  },
+  {
+   "name": "link.txt",
+   "text": "https://safe-pay-market.shop/order/8812"
+  },
+  {
+   "name": "app_notice.txt",
+   "text": "@c09_d_notice"
+  },
+  {
+   "name": "buyer_reports.txt",
+   "lock": {
+    "length": 5
+   },
+   "text": "@c09_d_reports"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c09_q1",
+   "options": [
+    "@c09_q1_o1",
+    "@c09_q1_o2",
+    "@c09_q1_o3"
+   ],
+   "answer": 0
+  },
+  {
+   "q": "@c09_q2",
+   "options": [
+    "@c09_q2_o1",
+    "@c09_q2_o2",
+    "@c09_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

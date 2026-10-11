@@ -44,11 +44,17 @@ void main() {
     expect(a, isA<WordPuzzle>());
   });
 
-  test('실제 사건 6개: 읽히고, 정답이 선택지 안, 잠금 길이 5~7, 열쇠가 ko·en 에 다 있다', () {
+  test('사건 id 는 두 자리', () {
+    expect(caseId(1), 'c01');
+    expect(caseId(12), 'c12');
+    expect(kCaseCount, 12);
+  });
+
+  test('실제 사건 전부: 읽히고, 정답이 선택지 안, 잠금 길이 5~7, 열쇠가 ko·en 에 다 있다', () {
     final ko = jsonDecode(File('i18n/ko.json').readAsStringSync()) as Map<String, dynamic>;
     final en = jsonDecode(File('i18n/en.json').readAsStringSync()) as Map<String, dynamic>;
     for (var i = 1; i <= kCaseCount; i++) {
-      final id = 'c0$i';
+      final id = caseId(i);
       final raw = File('assets/cases/$id.json').readAsStringSync();
       final c = CaseFile.parse(raw);
       expect(c.id, id);

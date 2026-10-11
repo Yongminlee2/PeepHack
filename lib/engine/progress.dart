@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'case_file.dart' show caseId;
+
 /// 임무 진행 저장. 열쇠: `done.<id>` `stars.<id>` `hints.<id>` `sound`
 class Progress {
   final SharedPreferences _p;
@@ -54,7 +56,7 @@ class Progress {
   // 사건 파일: case.<id> 별
   int caseStars(String id) => _int('case.$id');
   Future<void> setCaseStars(String id, int stars) => _best('case.$id', stars);
-  bool isCaseUnlocked(int n) => n <= 1 || caseStars('c0${n - 1}') > 0;
+  bool isCaseUnlocked(int n) => n <= 1 || caseStars(caseId(n - 1)) > 0;
 
   // 크레딧·장비
   int get credits => _int('credits');

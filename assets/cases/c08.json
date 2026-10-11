@@ -1,0 +1,60 @@
+{
+ "id": "c08",
+ "title": "@c08_title",
+ "brief": [
+  "@c08_brief_1",
+  "@c08_brief_2"
+ ],
+ "done": [
+  "@c08_done_1"
+ ],
+ "docs": [
+  {
+   "name": "wifi_scan.txt",
+   "text": "SSID: CAFE_LATTE        security: WPA2   source: router at the counter\nSSID: CAFE_LATTE_FREE   security: OPEN   strongest near: window seat"
+  },
+  {
+   "name": "owner_note.txt",
+   "text": "@c08_d_owner"
+  },
+  {
+   "name": "seat_note.txt",
+   "text": "@c08_d_seat"
+  },
+  {
+   "name": "login_page.txt",
+   "lock": {
+    "length": 6
+   },
+   "text": "CAFE_LATTE_FREE login page: 'Sign in with your Google account to use free Wi-Fi'\nform posts to http://10.0.0.1/collect"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c08_q1",
+   "options": [
+    "CAFE_LATTE",
+    "CAFE_LATTE_FREE"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c08_q2",
+   "options": [
+    "@c08_q2_o1",
+    "@c08_q2_o2",
+    "@c08_q2_o3"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c08_q3",
+   "options": [
+    "@c08_q3_o1",
+    "@c08_q3_o2",
+    "@c08_q3_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

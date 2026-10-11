@@ -1,0 +1,52 @@
+{
+ "id": "c07",
+ "title": "@c07_title",
+ "brief": [
+  "@c07_brief_1",
+  "@c07_brief_2"
+ ],
+ "done": [
+  "@c07_done_1"
+ ],
+ "docs": [
+  {
+   "name": "sms.txt",
+   "text": "[CJ Logistics] Delivery on hold: address unknown. Confirm here: http://cj-de1ivery.top/a7"
+  },
+  {
+   "name": "installed_apps.txt",
+   "text": "10-06 14:02 installed  delivery_check.apk (unknown source)\n10-06 14:03 permission granted: SMS, Contacts"
+  },
+  {
+   "name": "mom_chat.txt",
+   "text": "@c07_d_mom"
+  },
+  {
+   "name": "friend_sms.txt",
+   "lock": {
+    "length": 5
+   },
+   "text": "@c07_d_friend"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c07_q1",
+   "options": [
+    "@c07_q1_o1",
+    "@c07_q1_o2",
+    "@c07_q1_o3"
+   ],
+   "answer": 0
+  },
+  {
+   "q": "@c07_q2",
+   "options": [
+    "@c07_q2_o1",
+    "@c07_q2_o2",
+    "@c07_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}
