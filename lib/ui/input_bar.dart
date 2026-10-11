@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../engine/shell.dart';
+import '../sfx.dart';
 import '../strings.dart';
 import 'theme.dart';
 
@@ -34,12 +35,17 @@ class _InputBarState extends State<InputBar> {
     super.dispose();
   }
 
-  void _append(String token) => setState(() => _ctl.text = '${_ctl.text}$token ');
+  void _append(String token) {
+    Sfx().play('tap');
+    setState(() => _ctl.text = '${_ctl.text}$token ');
+  }
 
   void _run() {
     final line = _ctl.text.trim();
     _ctl.clear();
-    if (line.isNotEmpty) widget.onRun(line);
+    if (line.isEmpty) return;
+    Sfx().play('run');
+    widget.onRun(line);
   }
 
   // 줄을 바꿔 전부 보이게 한다. 옆으로 밀어야 나오는 칩은 실기기에서 아무도 못 찾았다.
@@ -92,6 +98,7 @@ class _InputBarState extends State<InputBar> {
                   prefixText: widget.password ? '' : '\$ ',
                   hintText: S.t(widget.password ? 'input_password_hint' : 'input_command_hint'),
                 ),
+                onChanged: (_) => Sfx().play('key'),
                 onSubmitted: (_) => _run(),
               ),
             ),

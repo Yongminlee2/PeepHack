@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'catalog.dart';
 import 'engine/progress.dart';
+import 'sfx.dart';
 import 'strings.dart';
 import 'ui/title_screen.dart';
 import 'ui/theme.dart';
@@ -11,6 +12,7 @@ Future<void> main() async {
   await AppLang().load();
   final progress = await Progress.load();
   final catalog = await Catalog.load();
+  await Sfx().load(progress);
   runApp(HackQuestApp(progress: progress, catalog: catalog));
 }
 

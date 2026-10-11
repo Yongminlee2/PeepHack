@@ -5,6 +5,7 @@ import '../engine/mission.dart';
 import '../engine/progress.dart';
 import '../engine/rewards.dart';
 import '../engine/shell.dart';
+import '../sfx.dart';
 import '../strings.dart';
 import 'file_view.dart';
 import 'fx/crt.dart';
@@ -73,13 +74,19 @@ class _MissionState extends State<MissionScreen> {
 
   void _onRun(String line) {
     lines.add(TermLine(shell.awaitingPassword ? '••••' : line, isCmd: true));
-    _show(shell.run(line));
+    final r = shell.run(line);
+    if (r.isError) Sfx().play('fail');
+    _show(r);
     _afterAction();
   }
 
   bool _onPuzzle(Object answer) {
     final r = shell.submitPuzzle(puzzleId, answer);
-    if (r.key == 'puzzle_wrong') return false;
+    if (r.key == 'puzzle_wrong') {
+      Sfx().play('fail');
+      return false;
+    }
+    Sfx().play('ok');
     win = _Win.terminal;
     _show(r);
     _afterAction();
@@ -89,6 +96,7 @@ class _MissionState extends State<MissionScreen> {
   Future<void> _finish() async {
     if (_finished) return; // 전환 중에 한 번 더 불려도 완료 화면은 하나
     _finished = true;
+    Sfx().play('ok');
     await widget.progress.complete(widget.mission.id, hintsUsed);
     if (!mounted) return;
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResultScreen(
