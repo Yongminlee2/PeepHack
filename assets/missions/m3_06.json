@@ -1,0 +1,15 @@
+{"id":"m3_06","chapter":3,"title":"@m3_06_title","brief":["@m3_06_brief_1","@m3_06_brief_2","@m3_06_brief_3"],"done":["@m3_06_done_1","@m3_06_done_2"],
+ "input":"keyboard","commands":["scan","connect","ssh","ls","cd","cat","grep","|","history","find"],"words":["ceo","hint"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_06_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{".bash_history":"ssh audit@hr-box\nexit","readme.txt":"corp file server"}},
+  "hr":{"name":"hr-box","user":"audit","fs":{"payroll/":{"notes.txt":"@m3_06_f_notes","orders.log":"order#10 user=kim item=americano\norder#11 user=lee item=latte\norder#12 user=ceo item=caramel-macchiato\norder#13 user=park item=mocha\norder#14 user=ceo item=caramel-macchiato"}}},
+  "vault":{"name":"vault-01","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"evidence.txt":"@m3_06_f_evidence","map.txt":"@m3_06_f_map"}},
+  "archive":{"name":"archive-02","lock":{"type":"puzzle","puzzle":"p2"},"fs":{"final.txt":"@m3_06_f_final"}}},
+ "start":"home",
+ "puzzles":[
+  {"id":"p1","type":"password","data":{"clues":["@m3_06_p1_c1","@m3_06_p1_c2"],"fragments":["caramel","macchiato","12","latte","7"]},"answer":"caramelmacchiato12"},
+  {"id":"p2","type":"match","data":{"left":["north","east","south","west"],"right":["sea","mountain","city","forest"]},"answer":[[0,1],[1,0],[2,2],[3,3]]}],
+ "goal":{"all":[{"read":"archive:/final.txt"},{"puzzle":"p1"},{"puzzle":"p2"}]},
+ "hints":["@m3_06_hint_1","@m3_06_hint_2"],
+ "solution":["scan","connect corp-fs","history","ssh audit@hr-box","cd payroll","cat notes.txt","cat orders.log | grep ceo","connect vault-01",{"puzzle":"p1"},"cat map.txt","connect archive-02",{"puzzle":"p2"},"cat final.txt"]}

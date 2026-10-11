@@ -1,0 +1,10 @@
+{"id":"m3_05","chapter":3,"title":"@m3_05_title","brief":["@m3_05_brief_1","@m3_05_brief_2"],"done":["@m3_05_done_1"],
+ "input":"keyboard","commands":["scan","connect","ssh","ls","cd","cat","history"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_05_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{".bash_history":"ls\ncat /etc/motd\nssh ops@backup-01\nscp secret.tar ops@backup-01:/tmp/","notes.txt":"nothing here"}},
+  "backup":{"name":"backup-01","user":"ops","fs":{"tmp/":{"secret.tar.txt":"@m3_05_f_secret"},"etc/":{"motd":"welcome"}}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"backup:/tmp/secret.tar.txt"},
+ "hints":["@m3_05_hint_1","@m3_05_hint_2"],
+ "solution":["scan","connect corp-fs","history","ssh ops@backup-01","cat /tmp/secret.tar.txt"]}

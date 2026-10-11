@@ -1,0 +1,10 @@
+{"id":"m3_04","chapter":3,"title":"@m3_04_title","brief":["@m3_04_brief_1","@m3_04_brief_2"],"done":["@m3_04_done_1"],
+ "input":"keyboard","commands":["scan","connect","ssh","ls","cat","find"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_04_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{"staff.txt":"db-server admin account: dba\nweb-server admin account: www\nmail-server admin account: postmaster"}},
+  "db":{"name":"db-server","user":"dba","fs":{"dump.txt":"@m3_04_f_dump"}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"db:/dump.txt"},
+ "hints":["@m3_04_hint_1","@m3_04_hint_2"],
+ "solution":["scan","connect corp-fs","cat staff.txt","ssh dba@db-server","cat dump.txt"]}

@@ -1,0 +1,10 @@
+{"id":"m3_03","chapter":3,"title":"@m3_03_title","brief":["@m3_03_brief_1","@m3_03_brief_2"],"done":["@m3_03_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cd","cat","grep","|","head","tail"],"words":["token","FAILED"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_03_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{"logs/":{"auth.log":"09:00 login ok user=kim\n09:02 FAILED login user=jkim from 203.0.113.7\n09:03 FAILED login user=jkim from 203.0.113.7\n09:05 password reset token=river77 for user=jkim\n09:06 login ok user=jkim\n09:10 login ok user=lee\n09:20 FAILED login user=park\n09:30 login ok user=park"}}},
+  "jkim":{"name":"jkim-laptop","lock":{"type":"password","answer":"river77"},"fs":{"findings.txt":"@m3_03_f_findings"}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"jkim:/findings.txt"},
+ "hints":["@m3_03_hint_1","@m3_03_hint_2"],
+ "solution":["scan","connect corp-fs","cat logs/auth.log | grep token","connect jkim-laptop","river77","cat findings.txt"]}

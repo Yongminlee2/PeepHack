@@ -1,0 +1,11 @@
+{"id":"m3_02","chapter":3,"title":"@m3_02_title","brief":["@m3_02_brief_1","@m3_02_brief_2"],"done":["@m3_02_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cd","cat","find"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m3_02_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{
+    "finance/":{"q1/":{"report.txt":"Q1 ok"},"q2/":{"report.txt":"Q2 ok"},"q3/":{"budget_final.txt":"@m3_02_f_budget","draft.txt":"old draft"}},
+    "legal/":{"nda.txt":"confidential"},"tmp/":{"x.txt":"x"}}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"corp:/finance/q3/budget_final.txt"},
+ "hints":["@m3_02_hint_1","@m3_02_hint_2"],
+ "solution":["scan","connect corp-fs","find budget","cat /finance/q3/budget_final.txt"]}
