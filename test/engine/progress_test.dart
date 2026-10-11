@@ -50,4 +50,30 @@ void main() {
   test('힌트 보상 경로는 지금은 항상 허용', () async {
     expect(await Rewards.unlockHint('m1_01'), isTrue);
   });
+  test('브리치 별: 좋은 값만 남고, 앞 스테이지를 통과해야 다음이 열린다', () async {
+    final p = await Progress.load();
+    expect(p.breachStars(1), 0);
+    expect(p.isBreachUnlocked(1), isTrue);
+    expect(p.isBreachUnlocked(2), isFalse);
+    await p.setBreachStars(1, 2);
+    await p.setBreachStars(1, 1);
+    expect(p.breachStars(1), 2);
+    expect(p.isBreachUnlocked(2), isTrue);
+    await p.setBreachStars(2, 0); // 실패는 열지 않는다
+    expect(p.isBreachUnlocked(3), isFalse);
+  });
+  test('매일 퍼즐 별은 날짜별로', () async {
+    final p = await Progress.load();
+    await p.setDailyStars(DateTime(2026, 10, 11), 3);
+    expect(p.dailyStars(DateTime(2026, 10, 11, 22)), 3);
+    expect(p.dailyStars(DateTime(2026, 10, 12)), 0);
+  });
+  test('초기화하면 브리치 기록도 지운다', () async {
+    final p = await Progress.load();
+    await p.setBreachStars(1, 3);
+    await p.setDailyStars(DateTime(2026, 10, 11), 3);
+    await p.reset();
+    expect(p.breachStars(1), 0);
+    expect(p.dailyStars(DateTime(2026, 10, 11)), 0);
+  });
 }

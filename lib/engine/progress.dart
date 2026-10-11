@@ -38,9 +38,23 @@ class Progress {
 
   Future<void> setSound(bool v) => _p.setBool('sound', v);
 
+  // 브리치 모드: breach.<번호>, daily.<yyyymmdd> 에 별(좋은 값만)
+  int breachStars(int n) => _int('breach.$n');
+  Future<void> setBreachStars(int n, int stars) => _best('breach.$n', stars);
+  bool isBreachUnlocked(int n) => n <= 1 || breachStars(n - 1) > 0;
+
+  static String _day(DateTime d) => '${d.year}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
+  int dailyStars(DateTime d) => _int('daily.${_day(d)}');
+  Future<void> setDailyStars(DateTime d, int stars) => _best('daily.${_day(d)}', stars);
+
+  Future<void> _best(String k, int v) async {
+    if (v > _int(k)) await _p.setInt(k, v);
+  }
+
   Future<void> reset() async {
     for (final k in _p.getKeys().toList()) {
-      if (k.startsWith('done.') || k.startsWith('stars.') || k.startsWith('hints.')) {
+      if (k.startsWith('done.') || k.startsWith('stars.') || k.startsWith('hints.') ||
+          k.startsWith('breach.') || k.startsWith('daily.')) {
         await _p.remove(k);
       }
     }
