@@ -41,4 +41,16 @@ void main() {
     expect(find.byKey(const Key('chip_find')), findsOneWidget);
     expect(t.widget<TextField>(find.byKey(const Key('input_field'))).readOnly, isFalse);
   });
+  testWidgets('칩 임무에서 비밀번호를 끝내면 입력칸 포커스(키보드)를 놓는다', (t) async {
+    Widget bar(bool pw) => wrap(InputBar(
+      suggestions: Suggestions(['scan'], []), editable: false, password: pw, onRun: (_) {}));
+    await t.pumpWidget(bar(true));
+    await t.tap(find.byKey(const Key('input_field')));
+    await t.pump();
+    bool focused() => t.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus;
+    expect(focused(), isTrue);
+    await t.pumpWidget(bar(false));
+    await t.pump();
+    expect(focused(), isFalse);
+  });
 }

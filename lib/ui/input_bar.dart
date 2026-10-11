@@ -18,6 +18,21 @@ class InputBar extends StatefulWidget {
 
 class _InputBarState extends State<InputBar> {
   final _ctl = TextEditingController();
+  final _focus = FocusNode();
+
+  @override
+  void didUpdateWidget(InputBar old) {
+    super.didUpdateWidget(old);
+    // 칩 임무에서 비밀번호 입력이 끝나면 키보드를 내린다. 안 그러면 읽기 전용 칸에 키보드가 남는다.
+    if (old.password && !widget.password && !widget.editable) _focus.unfocus();
+  }
+
+  @override
+  void dispose() {
+    _ctl.dispose();
+    _focus.dispose();
+    super.dispose();
+  }
 
   void _append(String token) => setState(() => _ctl.text = '${_ctl.text}$token ');
 
@@ -56,6 +71,7 @@ class _InputBarState extends State<InputBar> {
               child: TextField(
                 key: const Key('input_field'),
                 controller: _ctl,
+                focusNode: _focus,
                 readOnly: !(widget.editable || widget.password),
                 obscureText: widget.password,
                 autocorrect: false,
