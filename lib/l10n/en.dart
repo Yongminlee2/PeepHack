@@ -385,4 +385,11 @@ const Map<String, String> kEn = {
   'upg_jammer_desc': 'Trace rises 30% slower',
   'upg_overclock': 'Overclock',
   'upg_overclock_desc': '+10 seconds on crack timers',
+  'wg_attempts': 'Attempts left',
+  'wg_denied': 'Entry denied',
+  'wg_dud': 'Dud removed',
+  'wg_granted': 'Access granted',
+  'wg_likeness': 'Likeness {n}',
+  'wg_reset': 'Attempts restored',
+  'wg_title': 'Find the password. Tap a word to try it.',
 };

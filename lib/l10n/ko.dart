@@ -385,4 +385,11 @@ const Map<String, String> kKo = {
   'upg_jammer_desc': '추적이 30% 느리게 오른다',
   'upg_overclock': '오버클럭',
   'upg_overclock_desc': '크랙 제한 시간 +10초',
+  'wg_attempts': '남은 기회',
+  'wg_denied': '접속 거부',
+  'wg_dud': '틀린 후보 제거',
+  'wg_granted': '접속 허가',
+  'wg_likeness': '일치 {n}',
+  'wg_reset': '기회 회복',
+  'wg_title': '비밀번호를 찾으세요. 단어를 누르면 시도합니다.',
 };

@@ -383,5 +383,12 @@
   "upg_overclock_desc": "+10 seconds on crack timers",
   "upg_jammer": "Trace jammer",
   "upg_jammer_desc": "Trace rises 30% slower",
-  "result_credits": "+{n} credits"
+  "result_credits": "+{n} credits",
+  "wg_title": "Find the password. Tap a word to try it.",
+  "wg_attempts": "Attempts left",
+  "wg_denied": "Entry denied",
+  "wg_likeness": "Likeness {n}",
+  "wg_dud": "Dud removed",
+  "wg_reset": "Attempts restored",
+  "wg_granted": "Access granted"
 }
