@@ -65,4 +65,14 @@ void main() {
       expect(r.right, lessThanOrEqualTo(w), reason: '$k 가 화면 밖');
     }
   });
+  testWidgets('키보드 임무에서 엔터로 실행해도 키보드가 닫히지 않는다', (t) async {
+    final ran = <String>[];
+    await t.pumpWidget(wrap(InputBar(
+      suggestions: Suggestions(['scan'], []), editable: true, password: false, onRun: ran.add)));
+    await t.enterText(find.byKey(const Key('input_field')), 'scan');
+    await t.testTextInput.receiveAction(TextInputAction.done);
+    await t.pump();
+    expect(ran, ['scan']);
+    expect(t.widget<EditableText>(find.byType(EditableText)).focusNode.hasFocus, isTrue);
+  });
 }
