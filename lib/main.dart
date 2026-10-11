@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'catalog.dart';
@@ -12,8 +14,9 @@ Future<void> main() async {
   await AppLang().load();
   final progress = await Progress.load();
   final catalog = await Catalog.load();
-  await Sfx().load(progress);
   runApp(HackQuestApp(progress: progress, catalog: catalog));
+  // 소리는 첫 화면이 뜬 뒤에 불러온다. 플레이어 15개 준비가 첫 화면을 붙잡지 않게.
+  unawaited(Sfx().load(progress));
 }
 
 class HackQuestApp extends StatelessWidget {
