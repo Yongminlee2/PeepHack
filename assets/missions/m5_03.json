@@ -1,0 +1,12 @@
+{"id":"m5_03","chapter":5,"title":"@m5_03_title","brief":["@m5_03_brief_1","@m5_03_brief_2"],"done":["@m5_03_done_1"],
+ "input":"keyboard","commands":["scan","connect","ls","cat","git"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m5_03_f_readme"}},
+  "repo":{"name":"repo-box","git":[{"hash":"b7c8","message":"rotate wiring","diff":"-PWR->3V3, SIG->GPIO2, GND->GND, VCC->5V\n+PWR->5V, SIG->GPIO4, GND->GND, VCC->3V3"},{"hash":"a0a0","message":"initial","diff":"+wiring.txt"}],
+    "fs":{"wiring.txt":"PWR->3V3, SIG->GPIO2, GND->GND, VCC->5V (OUTDATED, see git)"}},
+  "iot":{"name":"iot-node","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"sensor.txt":"@m5_03_f_sensor"}}},
+ "start":"home",
+ "puzzles":[{"id":"p1","type":"match","data":{"left":["PWR","SIG","GND","VCC"],"right":["GPIO4","3V3","5V","GND"]},"answer":[[0,2],[1,0],[2,3],[3,1]]}],
+ "goal":{"all":[{"read":"iot:/sensor.txt"},{"puzzle":"p1"}]},
+ "hints":["@m5_03_hint_1","@m5_03_hint_2"],
+ "solution":["scan","connect repo-box","cat wiring.txt","git log","git diff b7c8","connect iot-node",{"puzzle":"p1"},"cat sensor.txt"]}

@@ -126,6 +126,7 @@ void main() {
     byChapter.forEach((c, ids) {
       expect(ids.toSet(), {for (var n = 1; n <= 6; n++) 'm${c}_0$n'}, reason: '챕터 $c');
     });
+    expect(missions.length, 30, reason: '챕터 5 × 임무 6');
   });
 }
 

@@ -1,0 +1,11 @@
+{"id":"m5_02","chapter":5,"title":"@m5_02_title","brief":["@m5_02_brief_1","@m5_02_brief_2"],"done":["@m5_02_done_1"],
+ "input":"keyboard","commands":["scan","connect","ssh","ls","cat","history"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m5_02_f_readme"}},
+  "corp":{"name":"corp-fs","fs":{".bash_history":"cat runbook.md\nssh deploy@build-01","runbook.md":"@m5_02_f_runbook"}},
+  "build":{"name":"build-01","user":"deploy","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"release.txt":"@m5_02_f_release"}}},
+ "start":"home",
+ "puzzles":[{"id":"p1","type":"order","data":{"items":["Push image","Run tests","Restart service","Build image"]},"answer":[1,3,0,2]}],
+ "goal":{"read":"build:/release.txt"},
+ "hints":["@m5_02_hint_1","@m5_02_hint_2"],
+ "solution":["scan","connect corp-fs","cat runbook.md","history","ssh deploy@build-01",{"puzzle":"p1"},"cat release.txt"]}
