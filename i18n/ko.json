@@ -337,5 +337,7 @@
   "m5_06_f_final": "최종 파일: 당신은 모든 임무를 완수했습니다.",
   "m5_06_p1_c1": "조각 네 개를 첫째부터 넷째까지 빈칸 없이 이어 붙인다.",
   "m5_06_hint_1": "beta-01 비밀번호는 alpha-01 의 key.txt 를 decode. gamma-01 은 ssh ghost@gamma-01.",
-  "m5_06_hint_2": "unlock.py 의 41 을 42 로 고치고 run. 비밀번호는 ghost 1999 river 42 를 이어서."
+  "m5_06_hint_2": "unlock.py 의 41 을 42 로 고치고 run. 비밀번호는 ghost 1999 river 42 를 이어서.",
+  "breach_buffer": "버퍼",
+  "breach_targets": "목표 순서"
 }

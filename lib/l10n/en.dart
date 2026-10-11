@@ -1,6 +1,8 @@
 // 자동 생성. 고치려면 i18n/en.json 을 고치고 gen.py 를 다시 돌린다.
 const Map<String, String> kEn = {
   'app_name': 'HackQuest',
+  'breach_buffer': 'Buffer',
+  'breach_targets': 'Target sequences',
   'brief_from': 'From: Ghost',
   'brief_goal': 'Goal',
   'btn_back_inbox': 'Back to inbox',

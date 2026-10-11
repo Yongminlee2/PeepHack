@@ -337,5 +337,7 @@
   "m5_06_f_final": "Final file: you have completed every mission.",
   "m5_06_p1_c1": "Join the four fragments, first to fourth, with no spaces.",
   "m5_06_hint_1": "beta-01's password: decode key.txt on alpha-01. For gamma-01: ssh ghost@gamma-01.",
-  "m5_06_hint_2": "Change 41 to 42 in unlock.py and run it. The password is ghost 1999 river 42 joined together."
+  "m5_06_hint_2": "Change 41 to 42 in unlock.py and run it. The password is ghost 1999 river 42 joined together.",
+  "breach_buffer": "Buffer",
+  "breach_targets": "Target sequences"
 }

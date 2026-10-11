@@ -1,6 +1,8 @@
 // 자동 생성. 고치려면 i18n/ko.json 을 고치고 gen.py 를 다시 돌린다.
 const Map<String, String> kKo = {
   'app_name': 'HackQuest',
+  'breach_buffer': '버퍼',
+  'breach_targets': '목표 순서',
   'brief_from': '보낸 사람: 고스트',
   'brief_goal': '목표',
   'btn_back_inbox': '메시지함으로',
