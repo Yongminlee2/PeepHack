@@ -115,7 +115,7 @@ void main() {
       }
       if (find.byKey(const Key('file_view')).evaluate().isNotEmpty) {
         expect(find.byType(MissionScreen), findsOneWidget, reason: '파일을 보기도 전에 완료로 넘어갔다');
-        await tapKey(t, 'file_close');
+        await tapKey(t, 'file_finish'); // 아래쪽 큰 「임무 완료」 버튼
       }
       expect(find.text(S.t('result_title')), findsOneWidget, reason: '완료 화면으로 안 넘어갔다');
       expect(progress.stars(id), 3);
@@ -129,6 +129,7 @@ void main() {
     await settle(t);
     await typeLine(t, 'open note.txt');
     expect(find.byKey(const Key('file_view')), findsOneWidget);
+    expect(find.byKey(const Key('file_finish')), findsNothing); // 목표 전엔 완료 버튼 없음
     expect(find.text(S.t('m1_02_f_note')), findsOneWidget); // 열쇠가 아니라 번역된 글
     expect(find.textContaining('@m1_02'), findsNothing);
     await typeLine(t, 'scan');

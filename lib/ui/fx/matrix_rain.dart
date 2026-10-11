@@ -56,7 +56,7 @@ class _MatrixRainState extends State<MatrixRain> with SingleTickerProviderStateM
           final cols = (box.maxWidth / widget.cell).ceil();
           final rows = (box.maxHeight / widget.cell).ceil();
           if (_field == null || _field!.columns != cols || _field!.rows != rows) {
-            _field = RainField(seed: 7, columns: cols, rows: rows);
+            _field = RainField(seed: DateTime.now().microsecond, columns: cols, rows: rows); // 화면마다 다른 무늬
           }
           return Opacity(
             opacity: widget.opacity,

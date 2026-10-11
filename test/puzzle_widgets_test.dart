@@ -75,4 +75,20 @@ void main() {
     await t.tap(find.byKey(const Key('puzzle_submit'))); await t.pump();
     expect(got, [1, 2, 0]);
   });
+  testWidgets('order: 손잡이는 길게 누르지 않아도 바로 끌린다', (t) async {
+    Object? got;
+    await t.pumpWidget(wrap(
+      Puzzle(id: 'p', type: 'order', data: {'items': ['x', 'y', 'z']}, answer: [1, 0, 2]),
+      (a) { got = a; return true; },
+    ));
+    final g = await t.startGesture(t.getCenter(find.byKey(const Key('handle_1'))));
+    for (var i = 0; i < 10; i++) {
+      await g.moveBy(const Offset(0, -8));
+      await t.pump(const Duration(milliseconds: 16));
+    }
+    await g.up();
+    await t.pumpAndSettle();
+    await t.tap(find.byKey(const Key('puzzle_submit'))); await t.pump();
+    expect(got, [1, 0, 2]);
+  });
 }

@@ -30,9 +30,32 @@ class _OrderState extends State<OrderPuzzle> {
             padding: const EdgeInsets.all(12),
             // onReorderItem 은 빠진 칸만큼 to 를 이미 보정해 준다.
             onReorderItem: (from, to) => setState(() => order.insert(to, order.removeAt(from))),
+            // 항목 전체는 길게 눌러 끌고, 왼쪽 손잡이는 바로 끈다(실기기에서 길게 누르기가 자주 빗나갔다).
+            buildDefaultDragHandles: false,
             children: [
-              for (final i in order)
-                ListTile(key: ValueKey(i), tileColor: hqPanel, leading: const Icon(Icons.drag_handle), title: Text(tr(items[i]))),
+              for (var k = 0; k < order.length; k++)
+                ReorderableDelayedDragStartListener(
+                  key: ValueKey(order[k]),
+                  index: k,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Material(
+                      color: hqPanel,
+                      shape: Border.all(color: hqDim),
+                      child: ListTile(
+                        leading: ReorderableDragStartListener(
+                          index: k,
+                          child: Padding(
+                            key: Key('handle_${order[k]}'),
+                            padding: const EdgeInsets.all(8),
+                            child: const Icon(Icons.drag_indicator, color: hqGreen),
+                          ),
+                        ),
+                        title: Text(tr(items[order[k]]), style: TextStyle(fontFamily: monoFor(tr(items[order[k]])))),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

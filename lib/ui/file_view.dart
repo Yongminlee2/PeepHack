@@ -28,6 +28,17 @@ class FileView extends StatelessWidget {
               child: SelectableText(text, style: TextStyle(fontSize: 15, height: 1.5, fontFamily: monoFor(text))),
             ),
           ),
+          // 목표를 이뤘으면 아래에 큰 버튼. 위쪽 작은 글자만으로는 실기기에서 눈에 안 띄었다.
+          if (closeLabel != null)
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: FilledButton(
+                key: const Key('file_finish'),
+                style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16)),
+                onPressed: onClose,
+                child: Text('$closeLabel ▶', style: const TextStyle(fontSize: 17)),
+              ),
+            ),
         ],
       );
 }
