@@ -117,5 +117,7 @@
   "m1_06_f_prize": "The gift: a map to the tree Grandma planted in your name.",
   "m1_06_hint_1": "Read note.txt and decode hint.txt. That's the mail-box password.",
   "m1_06_hint_2": "letter.txt on mail-box has the color pairs and the safe's opening order.",
-  "m1_06_hint_3": "red→A, blue→C, green→B. Then Turn key → Open lid → Take prize."
+  "m1_06_hint_3": "red→A, blue→C, green→B. Then Turn key → Open lid → Take prize.",
+  "title_tagline": "Every server has a back door",
+  "btn_start": "Jack in"
 }

@@ -15,6 +15,7 @@ const Map<String, String> kKo = {
   'btn_reset': '진행 초기화',
   'btn_run': '실행',
   'btn_settings': '설정',
+  'btn_start': '접속 시작',
   'confirm_reset': '정말 처음부터 다시 할까요?',
   'hint_next_cmd': '다음 명령: {cmd}',
   'hint_none_left': '힌트를 다 썼습니다',
@@ -119,4 +120,5 @@ const Map<String, String> kKo = {
   'shell_run_ok': '실행 성공',
   'shell_unlocked': '잠금이 풀렸습니다',
   'shell_welcome': '접속 준비 완료. 명령을 고르세요.',
+  'title_tagline': '모든 서버에는 뒷문이 있다',
 };

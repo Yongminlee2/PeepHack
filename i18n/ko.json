@@ -117,5 +117,7 @@
   "m1_06_f_prize": "선물: 할머니가 손자 이름으로 심은 나무의 위치 지도.",
   "m1_06_hint_1": "note.txt 를 읽고 hint.txt 를 decode 하세요. 그게 mail-box 비밀번호입니다.",
   "m1_06_hint_2": "mail-box 의 letter.txt 에 색 자물쇠 짝과 금고 여는 순서가 있습니다.",
-  "m1_06_hint_3": "red→A, blue→C, green→B. 그 다음 Turn key → Open lid → Take prize."
+  "m1_06_hint_3": "red→A, blue→C, green→B. 그 다음 Turn key → Open lid → Take prize.",
+  "title_tagline": "모든 서버에는 뒷문이 있다",
+  "btn_start": "접속 시작"
 }

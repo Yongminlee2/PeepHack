@@ -7,6 +7,8 @@ import '../engine/rewards.dart';
 import '../engine/shell.dart';
 import '../strings.dart';
 import 'file_view.dart';
+import 'fx/crt.dart';
+import 'fx/matrix_rain.dart';
 import 'input_bar.dart';
 import 'puzzles/puzzle_view.dart';
 import 'result_screen.dart';
@@ -130,7 +132,11 @@ class _MissionState extends State<MissionScreen> {
   Widget build(BuildContext context) {
     final m = widget.mission;
     final Widget window = switch (win) {
-      _Win.terminal => TerminalView(lines: lines),
+      _Win.terminal => Stack(fit: StackFit.expand, children: [
+          const MatrixRain(opacity: 0.07),
+          TerminalView(lines: lines),
+          const CrtOverlay(),
+        ]),
       _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: _closeFile,
           closeLabel: shell.goalDone ? S.t('result_title') : null),
       _Win.puzzle => PuzzleView(

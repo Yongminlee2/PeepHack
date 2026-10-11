@@ -15,6 +15,7 @@ const Map<String, String> kEn = {
   'btn_reset': 'Reset progress',
   'btn_run': 'Run',
   'btn_settings': 'Settings',
+  'btn_start': 'Jack in',
   'confirm_reset': 'Start over from the beginning?',
   'hint_next_cmd': 'Next command: {cmd}',
   'hint_none_left': 'No hints left',
@@ -119,4 +120,5 @@ const Map<String, String> kEn = {
   'shell_run_ok': 'Run succeeded',
   'shell_unlocked': 'Unlocked',
   'shell_welcome': 'Ready. Pick a command.',
+  'title_tagline': 'Every server has a back door',
 };
