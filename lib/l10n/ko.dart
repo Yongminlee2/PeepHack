@@ -582,6 +582,7 @@ const Map<String, String> kKo = {
   'shell_connected': '{host} 에 접속했습니다',
   'shell_cracked': '{host} 의 포트를 모두 뚫고 들어갔습니다',
   'shell_empty': '(비어 있음)',
+  'shell_err_hangul': '한글로 입력됐어요. 키보드의 한/영 키로 영어 자판으로 바꿔 주세요',
   'shell_err_is_dir': '폴더입니다: {path}',
   'shell_err_locked_cmd': '이 임무에서는 쓸 수 없는 명령입니다: {cmd}',
   'shell_err_need_ssh': '{host} 는 계정이 필요합니다: ssh 계정@{host}',

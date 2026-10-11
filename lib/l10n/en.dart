@@ -582,6 +582,7 @@ const Map<String, String> kEn = {
   'shell_connected': 'Connected to {host}',
   'shell_cracked': 'Cracked every port on {host} and got in',
   'shell_empty': '(empty)',
+  'shell_err_hangul': 'That was typed in Korean. Switch your keyboard to English',
   'shell_err_is_dir': 'Is a folder: {path}',
   'shell_err_locked_cmd': 'This command is not available in this mission: {cmd}',
   'shell_err_need_ssh': '{host} needs an account: ssh account@{host}',

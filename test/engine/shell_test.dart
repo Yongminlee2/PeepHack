@@ -242,4 +242,12 @@ void main() {
     expect(sh.awaitingPassword, isFalse);
     expect(sh.run('ls').text, contains('v.txt')); // 예전엔 여기서 죽었다
   });
+  test('한글 자판으로 친 입력은 한/영을 바꾸라고 알려 주고, 비밀번호 대기는 그대로', () {
+    final sh = Shell(mk());
+    expect(sh.run('ㅣㄴ').key, 'shell_err_hangul'); // ls 를 한글 자판으로
+    sh.run('connect shop-server');
+    expect(sh.run('ㄱㅛ1').key, 'shell_err_hangul'); // ry1
+    expect(sh.awaitingPassword, isTrue);
+    expect(sh.run('ry1').key, 'shell_connected');
+  });
 }

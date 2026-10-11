@@ -39,7 +39,7 @@ void main() {
   }
 
   bool passwordMode(WidgetTester t) =>
-      t.widget<TextField>(find.byKey(const Key('input_field'))).obscureText;
+      t.widget<TextField>(find.byKey(const Key('input_field'))).decoration?.hintText == S.t('input_password_hint');
 
   Future<void> typeLine(WidgetTester t, String line) async {
     if (passwordMode(t)) {

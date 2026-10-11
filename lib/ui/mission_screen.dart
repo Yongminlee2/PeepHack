@@ -296,12 +296,14 @@ class _MissionState extends State<MissionScreen> {
           // 지도는 터미널에서만. 퍼즐·크랙·파일 창에는 자리를 돌려준다(작은 화면에서 퍼즐 칸이 잘렸다).
           if (win == _Win.terminal) NetworkMap(mission: m, shell: shell, onTap: _tapHost),
           Expanded(child: window),
-          InputBar(
-            suggestions: shell.suggestions(),
-            editable: m.input == 'keyboard',
-            password: shell.awaitingPassword,
-            onRun: _onRun,
-          ),
+          // 퍼즐·크랙 창에선 명령줄을 숨긴다(쓸 일이 없고, 판이 넓어진다). 파일 창에선 다음 명령을 바로 칠 수 있게 둔다.
+          if (win != _Win.puzzle && win != _Win.crack)
+            InputBar(
+              suggestions: shell.suggestions(),
+              editable: m.input == 'keyboard',
+              password: shell.awaitingPassword,
+              onRun: _onRun,
+            ),
         ]),
         // 추적 70% 이상: 화면 가장자리 붉은빛
         if (trace.level >= 0.7 && !caught)

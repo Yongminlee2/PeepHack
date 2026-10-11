@@ -61,6 +61,7 @@ void main() {
     await t.tap(find.text(S.tn('map_crack', {'n': 1})));
     await settle(t);
     expect(find.text(S.t('crack_rule_breach')), findsOneWidget); // 처음 보는 판의 규칙 한 줄
+    expect(find.byKey(const Key('input_field')), findsNothing); // 퍼즐 창에선 명령줄을 숨겨 판을 넓게
     final puzzle = crackPuzzle(missionId: m.id, host: 'srv', port: 0, attempt: 0, chapter: 1, owned: const {});
     for (final (r, c) in puzzle.solution) {
       if (find.byKey(Key('cell_${r}_$c')).evaluate().isEmpty) break;

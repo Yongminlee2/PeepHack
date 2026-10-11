@@ -32,7 +32,8 @@ void main() {
     expect(find.byKey(const Key('chip_scan')), findsNothing);
     final f = t.widget<TextField>(find.byKey(const Key('input_field')));
     expect(f.readOnly, isFalse);
-    expect(f.obscureText, isTrue);
+    expect(f.obscureText, isFalse); // 게임 속 비밀번호라 보이게(한글 자판·오타를 눈으로 잡는다)
+    expect(f.keyboardType, TextInputType.visiblePassword);
   });
   testWidgets('키보드 임무는 입력칸이 열려 있고 칩도 있다', (t) async {
     await t.pumpWidget(wrap(InputBar(

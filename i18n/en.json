@@ -621,5 +621,6 @@
   "c12_brief_2": "Use everything you have to find out who Ghost is.",
   "c12_done_1": "You found me. I wanted someone to finish the checks I left undone when I quit. Glad it was you.",
   "c12_done_2": "— Ghost. Or rather, Lee Hayun",
-  "breach_streak": "🔥 {n}-day streak"
+  "breach_streak": "🔥 {n}-day streak",
+  "shell_err_hangul": "That was typed in Korean. Switch your keyboard to English"
 }

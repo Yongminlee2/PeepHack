@@ -77,6 +77,8 @@ class Shell {
     if (same) _solutionIdx++;
   }
 
+  static final _hangul = RegExp(r'[ᄀ-ᇿ㄰-㆏가-힯]');
+
   ShellResult run(String rawLine) {
     final line = rawLine.trim();
     final r = _run(line);
@@ -85,6 +87,8 @@ class Shell {
   }
 
   ShellResult _run(String line) {
+    // 명령·비밀번호에 한글은 없다 — 한글 자판인 채로 쳤다. 비밀번호 대기는 풀지 않고 다시 치게 한다.
+    if (_hangul.hasMatch(line)) return _err('shell_err_hangul');
     if (_pendingHost != null || _pendingFile != null) return _password(line);
     if (line.isEmpty) return const ShellResult();
     history.add(line);

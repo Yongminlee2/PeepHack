@@ -125,9 +125,9 @@ class _InputBarState extends State<InputBar> {
                 controller: _ctl,
                 focusNode: _focus,
                 readOnly: !(widget.editable || widget.password),
-                obscureText: widget.password,
-                // 명령은 영어로 친다. visiblePassword 는 대부분의 키보드에서 영문 자판으로 뜬다.
-                keyboardType: widget.password ? TextInputType.text : TextInputType.visiblePassword,
+                // 비밀번호도 가리지 않는다(게임 속 비밀번호라 숨길 것이 없고, 한글 자판·오타를 눈으로 잡게).
+                // 명령·비밀번호 모두 영어 — visiblePassword 는 대부분의 키보드에서 영문 자판으로 뜬다.
+                keyboardType: TextInputType.visiblePassword,
                 autocorrect: false,
                 enableSuggestions: false,
                 style: const TextStyle(color: hqGreen, fontFamily: kMono),
