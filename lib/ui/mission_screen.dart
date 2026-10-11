@@ -131,7 +131,7 @@ class _MissionState extends State<MissionScreen> {
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text('${shell.host.name}:${shell.cwd}', style: const TextStyle(fontSize: 14)),
+        title: Text('${shell.host.name}:${shell.cwd}', style: const TextStyle(fontSize: 14, fontFamily: 'monospace')),
         leading: IconButton(icon: const Icon(Icons.close), tooltip: S.t('btn_exit'), onPressed: () => Navigator.pop(context)),
         actions: [
           TextButton.icon(

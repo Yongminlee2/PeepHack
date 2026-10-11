@@ -11,7 +11,7 @@
 
 ## Global Constraints
 
-- 프로젝트 폴더 `C:\workAndroid\HackQuest`, applicationId `com.yongmin.hackquest`, Dart 패키지 이름 `hack_quest`.
+- 프로젝트 폴더 `C:\workAndroid\HackQuest`, applicationId·namespace `com.peep.hack` (2026-10-11 사용자 지정), Dart 패키지 이름 `hack_quest`.
 - `lib/engine/` 에 `package:flutter` import 금지 (테스트·도구가 `dart run` 으로 돈다).
 - 화면 문장은 전부 `S.t('열쇠')`. 코드에 한국어·영어 문장을 직접 쓰지 않는다. 숫자 자리는 `{n}` 같은 이름 자리 (`S.tn`).
 - 번역하지 않는 것: 명령 이름, 파일·호스트 이름, 로그·코드 본문, 비밀번호(영문·숫자만).

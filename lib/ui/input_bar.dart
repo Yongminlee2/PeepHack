@@ -76,7 +76,7 @@ class _InputBarState extends State<InputBar> {
                 obscureText: widget.password,
                 autocorrect: false,
                 enableSuggestions: false,
-                style: const TextStyle(color: hqGreen),
+                style: const TextStyle(color: hqGreen, fontFamily: 'monospace'),
                 decoration: InputDecoration(
                   isDense: true,
                   prefixText: widget.password ? '' : '\$ ',

@@ -37,7 +37,7 @@ class _TerminalViewState extends State<TerminalView> {
           final l = widget.lines[i];
           return Text(
             l.isCmd ? '\$ ${l.text}' : l.text,
-            style: TextStyle(color: l.isError ? hqRed : (l.isCmd ? hqOrange : hqGreen), fontSize: 14),
+            style: TextStyle(color: l.isError ? hqRed : (l.isCmd ? hqOrange : hqGreen), fontSize: 14, fontFamily: monoFor(l.text)),
           );
         },
       );
