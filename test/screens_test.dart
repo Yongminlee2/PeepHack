@@ -44,9 +44,12 @@ void main() {
     expect(AppLang().value, 'ko');
     expect(find.text('설정'), findsOneWidget);
     expect((await SharedPreferences.getInstance()).getString('app_language'), 'ko');
-    await t.tap(find.byType(Switch));
+    await t.tap(find.byKey(const Key('set_sound')));
     await t.pumpAndSettle();
     expect(p.soundOn, isFalse);
+    await t.tap(find.byKey(const Key('set_vibration')));
+    await t.pumpAndSettle();
+    expect(p.vibrationOn, isFalse);
   });
 
   testWidgets('설정: 초기화는 확인을 받고 진행만 지운다', (t) async {

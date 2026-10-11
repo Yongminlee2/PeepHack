@@ -28,4 +28,16 @@ void main() {
     Sfx().play('ok');
     expect(Sfx().log, isEmpty);
   });
+  test('진동: 성공·실패·누르기마다 세기가 다르고, 설정에서 끄면 진동만 멈춘다', () async {
+    Sfx().haptics.clear();
+    Sfx().play('tap');
+    Sfx().play('ok');
+    Sfx().play('fail');
+    expect(Sfx().haptics, ['light', 'medium', 'heavy']);
+    await Sfx().progress!.setVibration(false);
+    Sfx().haptics.clear();
+    Sfx().play('fail');
+    expect(Sfx().haptics, isEmpty);
+    expect(Sfx().log.last, 'fail'); // 소리는 그대로
+  });
 }

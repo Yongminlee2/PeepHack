@@ -13,6 +13,8 @@ class Progress {
   int stars(String id) => _int('stars.$id');
   int hintsUsed(String id) => _int('hints.$id');
   bool get soundOn => _p.containsKey('sound') ? _bool('sound') : true;
+  bool get vibrationOn => _p.containsKey('vibration') ? _bool('vibration') : true;
+  bool get musicOn => _p.containsKey('music') ? _bool('music') : true;
 
   // 형이 다르면(깨진 세이브) 기본값. SharedPreferences 는 형이 다르면 던진다.
   bool _bool(String k) {
@@ -37,6 +39,8 @@ class Progress {
   }
 
   Future<void> setSound(bool v) => _p.setBool('sound', v);
+  Future<void> setVibration(bool v) => _p.setBool('vibration', v);
+  Future<void> setMusic(bool v) => _p.setBool('music', v);
 
   // 브리치 모드: breach.<번호>, daily.<yyyymmdd> 에 별(좋은 값만)
   int breachStars(int n) => _int('breach.$n');

@@ -486,6 +486,7 @@ const Map<String, String> kKo = {
   'settings_language': '언어',
   'settings_sound': '효과음',
   'settings_title': '설정',
+  'settings_vibration': '진동',
   'shell_connected': '{host} 에 접속했습니다',
   'shell_cracked': '{host} 의 포트를 모두 뚫고 들어갔습니다',
   'shell_empty': '(비어 있음)',

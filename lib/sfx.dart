@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'engine/progress.dart';
 import 'sfx_low_latency.dart'; // common/flutter/sfx_low_latency.dart 복사
@@ -9,13 +12,20 @@ class Sfx {
   factory Sfx() => _i;
   Sfx._();
 
-  static const names = ['key', 'tap', 'run', 'ok', 'fail'];
+  static const names = ['key', 'tap', 'run', 'ok', 'fail', 'alarm'];
   final Map<String, LowLatencySfx> _s = {};
   Progress? progress;
 
   /// 테스트용: 울린 소리 이름(소리가 켜져 있을 때만 쌓인다).
   @visibleForTesting
   final List<String> log = [];
+
+  /// 테스트용: 울린 진동 세기(light / medium / heavy).
+  @visibleForTesting
+  final List<String> haptics = [];
+
+  // 소리마다 진동 세기. 키 입력·실행은 진동 없이(너무 잦다).
+  static const _haptic = {'tap': 'light', 'ok': 'medium', 'fail': 'heavy', 'alarm': 'heavy'};
 
   /// 실패해도 앱은 뜬다(소리 없이). 위젯 테스트에는 오디오 플러그인이 없다.
   Future<void> load(Progress p) async {
@@ -30,8 +40,20 @@ class Sfx {
   }
 
   void play(String name) {
+    _vibrate(_haptic[name]);
     if (progress?.soundOn == false) return;
     if (kDebugMode) log.add(name);
     _s[name]?.start();
+  }
+
+  void _vibrate(String? kind) {
+    if (kind == null || progress?.vibrationOn == false) return;
+    if (kDebugMode) haptics.add(kind);
+    final Future<void> f = switch (kind) {
+      'light' => HapticFeedback.selectionClick(),
+      'medium' => HapticFeedback.mediumImpact(),
+      _ => HapticFeedback.heavyImpact(),
+    };
+    unawaited(f.catchError((_) {})); // 진동이 없는 기기·테스트에서도 조용히
   }
 }

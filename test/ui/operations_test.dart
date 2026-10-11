@@ -4,6 +4,7 @@ import 'package:hack_quest/catalog.dart';
 import 'package:hack_quest/engine/mission.dart';
 import 'package:hack_quest/engine/progress.dart';
 import 'package:hack_quest/engine/shop.dart';
+import 'package:hack_quest/sfx.dart';
 import 'package:hack_quest/strings.dart';
 import 'package:hack_quest/ui/mission_screen.dart';
 import 'package:hack_quest/ui/shop_screen.dart';
@@ -33,6 +34,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     await AppLang().set('ko');
     p = await Progress.load();
+    Sfx().progress = p;
   });
 
   Future<void> open(WidgetTester t, Mission m) async {
@@ -144,5 +146,19 @@ void main() {
     await t.tap(find.byKey(Key('word_${w.answer}')));
     await settle(t);
     expect(appBarTitle(t), 'srv:/');
+  });
+  testWidgets('추적 70% 를 넘으면 경보음과 붉은 가장자리', (t) async {
+    Sfx().log.clear();
+    await open(t, mk(trace: 10));
+    await t.tap(find.byKey(const Key('node_pub')));
+    await t.pump();
+    await t.pump(const Duration(seconds: 6));
+    expect(find.byKey(const Key('trace_alarm')), findsNothing);
+    expect(Sfx().log, isNot(contains('alarm')));
+    await t.pump(const Duration(seconds: 2));
+    expect(find.byKey(const Key('trace_alarm')), findsOneWidget);
+    expect(Sfx().log.where((s) => s == 'alarm').length, 1); // 한 번만
+    await t.pump(const Duration(seconds: 1));
+    expect(Sfx().log.where((s) => s == 'alarm').length, 1);
   });
 }

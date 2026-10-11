@@ -486,6 +486,7 @@ const Map<String, String> kEn = {
   'settings_language': 'Language',
   'settings_sound': 'Sound effects',
   'settings_title': 'Settings',
+  'settings_vibration': 'Vibration',
   'shell_connected': 'Connected to {host}',
   'shell_cracked': 'Cracked every port on {host} and got in',
   'shell_empty': '(empty)',

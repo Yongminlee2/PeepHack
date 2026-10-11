@@ -47,6 +47,7 @@ class _MissionState extends State<MissionScreen> {
   late final Trace trace = Trace(widget.mission.trace);
   Timer? _traceTimer;
   bool caught = false;
+  bool _alarmed = false;
   String crackHost = '';
 
   @override
@@ -58,6 +59,7 @@ class _MissionState extends State<MissionScreen> {
       _traceTimer = Timer.periodic(const Duration(seconds: 1), (_) {
         if (_finished || caught) return;
         trace.tick(1, exposed: shell.hostKey != widget.mission.start, speed: traceSpeed(widget.progress.owned));
+        _checkAlarm();
         _checkCaught();
         setState(() {});
       });
@@ -68,6 +70,12 @@ class _MissionState extends State<MissionScreen> {
   void dispose() {
     _traceTimer?.cancel();
     super.dispose();
+  }
+
+  void _checkAlarm() {
+    if (_alarmed || trace.level < 0.7) return;
+    _alarmed = true;
+    Sfx().play('alarm');
   }
 
   void _checkCaught() {
@@ -136,6 +144,7 @@ class _MissionState extends State<MissionScreen> {
 
   void _crackFailed() {
     trace.penalty();
+    _checkAlarm();
     _checkCaught();
     setState(() {});
   }
@@ -292,6 +301,18 @@ class _MissionState extends State<MissionScreen> {
             onRun: _onRun,
           ),
         ]),
+        // 추적 70% 이상: 화면 가장자리 붉은빛
+        if (trace.level >= 0.7 && !caught)
+          const Positioned.fill(
+            child: IgnorePointer(
+              key: Key('trace_alarm'),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(radius: 1.0, colors: [Color(0x00FF2E2E), Color(0x00FF2E2E), Color(0x66FF2E2E)], stops: [0, 0.65, 1]),
+                ),
+              ),
+            ),
+          ),
         if (caught) _caughtPanel(),
       ]),
     );

@@ -32,9 +32,16 @@ class _SettingsState extends State<SettingsScreen> {
       appBar: AppBar(title: Text(S.t('settings_title'))),
       body: ListView(children: [
         SwitchListTile(
+          key: const Key('set_sound'),
           title: Text(S.t('settings_sound')),
           value: widget.progress.soundOn,
           onChanged: (v) async { await widget.progress.setSound(v); setState(() {}); },
+        ),
+        SwitchListTile(
+          key: const Key('set_vibration'),
+          title: Text(S.t('settings_vibration')),
+          value: widget.progress.vibrationOn,
+          onChanged: (v) async { await widget.progress.setVibration(v); setState(() {}); },
         ),
         ListTile(title: Text(S.t('settings_language'))),
         for (final code in ['system', ...kLanguageOrder])

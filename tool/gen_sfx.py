@@ -64,5 +64,7 @@ write_wav("tap", tone(1200, 35, 0.22, "square"))
 write_wav("run", tone(500, 90, 0.25, "square", sweep_to=1100))
 # 성공: 세 음 아르페지오(터미널 「접속 허가」)
 write_wav("ok", concat(tone(660, 70, 0.3, "square"), tone(880, 70, 0.3, "square"), tone(1320, 140, 0.3, "square")))
+# 경보: 두 음을 오가는 사이렌(추적 70%)
+write_wav("alarm", concat(*[tone(f, 120, 0.28, "square") for f in (880, 660, 880, 660)]))
 # 실패: 낮게 떨어지는 버즈
 write_wav("fail", mix(tone(220, 180, 0.3, "square", sweep_to=110), noise(120, 0.15, 0.5)))
