@@ -1,0 +1,9 @@
+{"id":"m2_01","chapter":2,"title":"@m2_01_title","brief":["@m2_01_brief_1","@m2_01_brief_2"],"done":["@m2_01_done_1"],
+ "input":"chips","commands":["scan","connect","ls","cat"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_01_f_readme"}},
+  "shop":{"name":"shop-server","fs":{"menu.txt":"@m2_01_f_menu","prices.txt":"Americano 3000\nLatte 4000\nMocha 4500"}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"shop:/menu.txt"},
+ "hints":["@m2_01_hint_1","@m2_01_hint_2","@m2_01_hint_3"],
+ "solution":["scan","connect shop-server","ls","cat menu.txt"]}

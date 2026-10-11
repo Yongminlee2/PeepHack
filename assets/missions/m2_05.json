@@ -1,0 +1,11 @@
+{"id":"m2_05","chapter":2,"title":"@m2_05_title","brief":["@m2_05_brief_1","@m2_05_brief_2"],"done":["@m2_05_done_1"],
+ "input":"chips","commands":["scan","connect","ls","cd","cat"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_05_f_readme"}},
+  "shop":{"name":"shop-server","fs":{"staff/":{"notes.txt":"@m2_05_f_notes","shift.txt":"Mon: Kim"},"old/":{"junk.txt":"nothing here"}}},
+  "nas":{"name":"backup-nas","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"photos.txt":"@m2_05_f_photos"}}},
+ "start":"home",
+ "puzzles":[{"id":"p1","type":"password","data":{"clues":["@m2_05_p1_c1","@m2_05_p1_c2"],"fragments":["bori","2021","choco","2020","7"]},"answer":"bori2021"}],
+ "goal":{"read":"nas:/photos.txt"},
+ "hints":["@m2_05_hint_1","@m2_05_hint_2","@m2_05_hint_3"],
+ "solution":["scan","connect shop-server","cd staff","cat notes.txt","connect backup-nas",{"puzzle":"p1"},"cat photos.txt"]}

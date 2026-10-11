@@ -1,0 +1,10 @@
+{"id":"m2_03","chapter":2,"title":"@m2_03_title","brief":["@m2_03_brief_1","@m2_03_brief_2"],"done":["@m2_03_done_1"],
+ "input":"chips","commands":["scan","connect","ls","cd","cat","grep"],"words":["ERROR","admin"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_03_f_readme"}},
+  "shop":{"name":"shop-server","fs":{"var/":{"log/":{"app.log":"2024-05-01 10:00 INFO boot\n2024-05-01 10:05 INFO order #1\n2024-05-01 11:20 ERROR login failed user=admin pw=latte2024 (typed on wrong screen)\n2024-05-01 11:21 INFO login ok user=admin\n2024-05-01 12:00 INFO order #2\n2024-05-01 13:00 INFO order #3"}}}},
+  "pos":{"name":"pos-terminal","lock":{"type":"password","answer":"latte2024"},"fs":{"report.txt":"@m2_03_f_report"}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"pos:/report.txt"},
+ "hints":["@m2_03_hint_1","@m2_03_hint_2","@m2_03_hint_3"],
+ "solution":["scan","connect shop-server","cd var","cd log","grep ERROR app.log","connect pos-terminal","latte2024","cat report.txt"]}

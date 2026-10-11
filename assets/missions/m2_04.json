@@ -1,0 +1,9 @@
+{"id":"m2_04","chapter":2,"title":"@m2_04_title","brief":["@m2_04_brief_1","@m2_04_brief_2"],"done":["@m2_04_done_1"],
+ "input":"chips","commands":["scan","connect","ls","cat"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_04_f_readme"}},
+  "shop":{"name":"shop-server","fs":{"public.txt":"@m2_04_f_public",".secret.txt":"@m2_04_f_secret","menu.txt":"Americano 3000"}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"shop:/.secret.txt"},
+ "hints":["@m2_04_hint_1","@m2_04_hint_2","@m2_04_hint_3"],
+ "solution":["scan","connect shop-server","ls","ls -a","cat .secret.txt"]}

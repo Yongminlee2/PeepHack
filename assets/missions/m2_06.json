@@ -1,0 +1,12 @@
+{"id":"m2_06","chapter":2,"title":"@m2_06_title","brief":["@m2_06_brief_1","@m2_06_brief_2","@m2_06_brief_3"],"done":["@m2_06_done_1","@m2_06_done_2"],
+ "input":"chips","commands":["scan","connect","ls","cd","cat","grep","back"],"words":["owner","ERROR"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_06_f_readme"}},
+  "shop":{"name":"shop-server","fs":{"var/":{"log/":{"access.log":"GET / from 10.0.0.4\nGET /menu from 10.0.0.5\nPOST /login from 10.0.0.9 user=owner pw=mocha99\nGET /admin from 10.0.0.9 user=owner\nGET / from 10.0.0.6"}}}},
+  "office":{"name":"office-pc","lock":{"type":"password","answer":"mocha99"},"fs":{"desk/":{"keys.txt":"@m2_06_f_keys"},"photos/":{"cat.txt":"meow"}}},
+  "archive":{"name":"archive-box","lock":{"type":"puzzle","puzzle":"p1"},"fs":{"ledger.txt":"@m2_06_f_ledger"}}},
+ "start":"home",
+ "puzzles":[{"id":"p1","type":"match","data":{"left":["USB","HDMI","LAN","PWR"],"right":["monitor","12V","keyboard","switch"]},"answer":[[0,2],[1,0],[2,3],[3,1]]}],
+ "goal":{"all":[{"read":"archive:/ledger.txt"},{"puzzle":"p1"}]},
+ "hints":["@m2_06_hint_1","@m2_06_hint_2","@m2_06_hint_3"],
+ "solution":["scan","connect shop-server","cd var","cd log","grep owner access.log","connect office-pc","mocha99","cd desk","cat keys.txt","connect archive-box",{"puzzle":"p1"},"cat ledger.txt"]}

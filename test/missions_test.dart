@@ -85,6 +85,30 @@ void main() {
           expect(k.startsWith('${m.id}_'), isTrue, reason: '열쇠 접두어가 임무 id 와 다름: $k');
         }
       });
+      test('9. grep 정답 줄의 대상 파일은 번역되지 않은 원문이다', () {
+        for (final step in m.solution.whereType<String>()) {
+          final t = step.split(RegExp(r'\s+'));
+          final gi = t.indexOf('grep');
+          if (gi < 0) continue;
+          // "grep W F" 또는 "cat F | grep W"
+          final file = t.first == 'cat' ? t[1] : (t.length > gi + 2 ? t[gi + 2] : null);
+          if (file == null) continue;
+          // cd 로 들어간 뒤 상대 경로로 grep 하므로, 어느 폴더든 같은 이름의 파일을 전부 본다.
+          final base = file.split('/').last;
+          var found = 0;
+          void walk(FsDir d) => d.children.forEach((n, node) {
+                if (node is FsDir) walk(node);
+                if (node is FsFile && n == base) {
+                  found++;
+                  expect(node.text.startsWith('@'), isFalse, reason: '$step 의 대상이 번역 파일');
+                }
+              });
+          for (final h in m.hosts.values) {
+            walk(h.fs);
+          }
+          expect(found, greaterThan(0), reason: '$step 의 대상 파일을 못 찾음');
+        }
+      });
       test('7. 힌트 개수: 챕터1·2 는 3개, 챕터3+ 는 2개(셋째는 정답 줄)', () {
         expect(m.hints.length, m.chapter <= 2 ? 3 : 2);
         expect(m.title, startsWith('@'));

@@ -1,0 +1,11 @@
+{"id":"m2_02","chapter":2,"title":"@m2_02_title","brief":["@m2_02_brief_1","@m2_02_brief_2"],"done":["@m2_02_done_1"],
+ "input":"chips","commands":["scan","connect","ls","cd","pwd","cat"],
+ "hosts":{
+  "home":{"name":"my-laptop","fs":{"readme.txt":"@m2_02_f_readme"}},
+  "shop":{"name":"shop-server","fs":{
+    "var/":{"log/":{"app.log":"2024-05-01 boot ok\n2024-05-02 boot ok"}},
+    "home/":{"owner/":{"memo.txt":"@m2_02_f_memo"},"staff/":{"shift.txt":"Mon: Kim\nTue: Lee"}}}}},
+ "start":"home","puzzles":[],
+ "goal":{"read":"shop:/home/owner/memo.txt"},
+ "hints":["@m2_02_hint_1","@m2_02_hint_2","@m2_02_hint_3"],
+ "solution":["scan","connect shop-server","ls","cd home","ls","cd owner","cat memo.txt"]}
