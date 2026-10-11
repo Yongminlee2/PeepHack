@@ -49,7 +49,17 @@ class _CodefixState extends State<CodefixPuzzle> {
   Widget build(BuildContext context) {
     final ls = lines;
     final bug = selected == null ? null : _bugAt(selected!);
+    final situation = widget.puzzle.data['situation'] as String?;
     return Column(children: [
+      // 개발을 몰라도 무엇이 문제인지 알 수 있게 상황을 쉬운 말로
+      if (situation != null)
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(color: Color(0xFF1E1A10), border: Border(left: BorderSide(color: hqOrange, width: 3))),
+          child: Text(tr(situation), style: const TextStyle(fontSize: 14, height: 1.4)),
+        ),
       Expanded(child: ListView(padding: const EdgeInsets.all(8), children: [
         for (var i = 0; i < ls.length; i++)
           InkWell(
@@ -69,11 +79,15 @@ class _CodefixState extends State<CodefixPuzzle> {
       if (bug != null)
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Wrap(spacing: 8, children: [
-            for (final c in List<String>.from(bug['choices'] as List))
+          child: Wrap(spacing: 8, runSpacing: 6, children: [
+            for (final (k, c) in List<String>.from(bug['choices'] as List).indexed)
               ChoiceChip(
                 key: Key('choice_$c'),
-                label: Text(c),
+                // 선택지마다 쉬운 뜻(있으면): `>=  같거나 크면`
+                label: Builder(builder: (_) {
+                  final text = bug['labels'] == null ? c : '$c  ${tr((bug['labels'] as List)[k] as String)}';
+                  return Text(text, style: TextStyle(fontFamily: monoFor(text)));
+                }),
                 selected: picks[selected] == c,
                 onSelected: (_) => setState(() => picks[selected!] = c),
               ),

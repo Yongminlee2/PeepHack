@@ -1,18 +1,1 @@
-{"id":"m4_06","chapter":4,"title":"@m4_06_title","brief":["@m4_06_brief_1","@m4_06_brief_2","@m4_06_brief_3"],"done":["@m4_06_done_1","@m4_06_done_2"],
- "input":"keyboard","commands":["scan","connect","ls","cd","cat","grep","|","git","env","fix","run"],"words":["ERROR"],
- "hosts":{
-  "home":{"name":"my-laptop","fs":{"readme.txt":"@m4_06_f_readme"}},
-  "prod":{"name":"prod-box",
-    "git":[{"hash":"e5f6","message":"remove empty-list check","diff":"-    if not xs:\n-        return 0"},{"hash":"d4c3","message":"add avg","diff":"+def avg(xs):"}],
-    "env":{"MODE":"prod"},
-    "fs":{"var/":{"log/":{"app.log":"10:00 INFO start\n10:01 INFO request /stats\n10:01 ERROR ZeroDivisionError in app/stats.py line 3\n10:02 INFO request /\n10:03 ERROR ZeroDivisionError in app/stats.py line 3"}},
-          "app/":{"stats.py":"def avg(xs):\n    total = sum(xs)\n    return total / len(xs)\n\nprint(avg([]))","main.py":"from stats import avg"}}}},
- "start":"home",
- "puzzles":[{"id":"c1","type":"codefix","file":"prod:/app/stats.py",
-   "data":{"lang":"python","lines":["def avg(xs):","    total = sum(xs)","    return total / len(xs)","","print(avg([]))"],
-           "bugs":[{"line":2,"choices":["total / len(xs)","total / max(len(xs), 1)","total * len(xs)"],"answer":"total / max(len(xs), 1)"}],
-           "failOutput":"ZeroDivisionError: division by zero","okOutput":"0.0"},
-   "answer":"bugs"}],
- "goal":{"run":"prod:/app/stats.py"},
- "hints":["@m4_06_hint_1","@m4_06_hint_2"],
- "solution":["scan","connect prod-box","cat var/log/app.log | grep ERROR","git log","git diff e5f6","cd app","fix stats.py",{"puzzle":"c1"},"run stats.py"]}
+{"id": "m4_06", "chapter": 4, "title": "@m4_06_title", "brief": ["@m4_06_brief_1", "@m4_06_brief_2", "@m4_06_brief_3"], "done": ["@m4_06_done_1", "@m4_06_done_2"], "input": "keyboard", "commands": ["scan", "connect", "ls", "cd", "cat", "grep", "|", "git", "env", "fix", "run"], "words": ["ERROR"], "hosts": {"home": {"name": "my-laptop", "fs": {"readme.txt": "@m4_06_f_readme"}}, "prod": {"name": "prod-box", "git": [{"hash": "e5f6", "message": "remove empty-list check", "diff": "-    if not xs:\n-        return 0"}, {"hash": "d4c3", "message": "add avg", "diff": "+def avg(xs):"}], "env": {"MODE": "prod"}, "fs": {"var/": {"log/": {"app.log": "10:00 INFO start\n10:01 INFO request /stats\n10:01 ERROR ZeroDivisionError in app/stats.py line 3\n10:02 INFO request /\n10:03 ERROR ZeroDivisionError in app/stats.py line 3"}}, "app/": {"stats.py": "def avg(xs):\n    total = sum(xs)\n    return total / len(xs)\n\nprint(avg([]))", "main.py": "from stats import avg"}}}}, "start": "home", "puzzles": [{"id": "c1", "type": "codefix", "file": "prod:/app/stats.py", "data": {"lang": "python", "lines": ["def avg(xs):", "    total = sum(xs)", "    return total / len(xs)", "", "print(avg([]))"], "bugs": [{"line": 2, "choices": ["total / len(xs)", "total / max(len(xs), 1)", "total * len(xs)"], "answer": "total / max(len(xs), 1)", "labels": ["@m4_06_label_1", "@m4_06_label_2", "@m4_06_label_3"]}], "failOutput": "ZeroDivisionError: division by zero", "okOutput": "0.0", "situation": "@m4_06_situation"}, "answer": "bugs"}], "goal": {"run": "prod:/app/stats.py"}, "hints": ["@m4_06_hint_1", "@m4_06_hint_2"], "solution": ["scan", "connect prod-box", "cat var/log/app.log | grep ERROR", "git log", "git diff e5f6", "cd app", "fix stats.py", {"puzzle": "c1"}, "run stats.py"]}

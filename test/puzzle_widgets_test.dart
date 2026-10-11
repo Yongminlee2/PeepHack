@@ -109,4 +109,17 @@ void main() {
     final m = t.widget<Material>(find.byKey(const Key('left_0')));
     expect((m.shape as Border).top.width, 1); // 선택 표시(두꺼운 테두리)가 풀림
   });
+  testWidgets('codefix: 상황 한 줄과 선택지의 쉬운 뜻이 보인다', (t) async {
+    await t.pumpWidget(wrap(
+      Puzzle(id: 'p', type: 'codefix', data: {
+        'lang': 'python', 'lines': ['a = 1', 'if a <= 1:'], 'situation': 'SITUATION',
+        'bugs': [{'line': 1, 'choices': ['<', '<='], 'labels': ['LESS', 'LESS_EQ'], 'answer': '<'}],
+      }, answer: 'bugs'),
+      (a) => true,
+    ));
+    expect(find.text('SITUATION'), findsOneWidget);
+    await t.tap(find.byKey(const Key('line_1')));
+    await t.pump();
+    expect(find.textContaining('LESS_EQ'), findsOneWidget);
+  });
 }

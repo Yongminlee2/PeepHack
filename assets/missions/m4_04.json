@@ -1,15 +1,1 @@
-{"id":"m4_04","chapter":4,"title":"@m4_04_title","brief":["@m4_04_brief_1","@m4_04_brief_2"],"done":["@m4_04_done_1"],
- "input":"keyboard","commands":["scan","connect","ls","cat","env","fix","run"],
- "hosts":{
-  "home":{"name":"my-laptop","fs":{"readme.txt":"@m4_04_f_readme"}},
-  "web":{"name":"web-box","env":{"DB_HOST":"db.internal","DB_PORT":"5432","MODE":"prod"},
-    "fs":{"config.py":"DB_HOST = 'db.internal'\nDB_PORT = 5342\nconnect(DB_HOST, DB_PORT)"}}},
- "start":"home",
- "puzzles":[{"id":"c1","type":"codefix","file":"web:/config.py",
-   "data":{"lang":"python","lines":["DB_HOST = 'db.internal'","DB_PORT = 5342","connect(DB_HOST, DB_PORT)"],
-           "bugs":[{"line":1,"choices":["5342","5432","3306"],"answer":"5432"}],
-           "failOutput":"ConnectionRefused: db.internal:5342","okOutput":"db connected"},
-   "answer":"bugs"}],
- "goal":{"run":"web:/config.py"},
- "hints":["@m4_04_hint_1","@m4_04_hint_2"],
- "solution":["scan","connect web-box","run config.py","env","fix config.py",{"puzzle":"c1"},"run config.py"]}
+{"id": "m4_04", "chapter": 4, "title": "@m4_04_title", "brief": ["@m4_04_brief_1", "@m4_04_brief_2"], "done": ["@m4_04_done_1"], "input": "keyboard", "commands": ["scan", "connect", "ls", "cat", "env", "fix", "run"], "hosts": {"home": {"name": "my-laptop", "fs": {"readme.txt": "@m4_04_f_readme"}}, "web": {"name": "web-box", "env": {"DB_HOST": "db.internal", "DB_PORT": "5432", "MODE": "prod"}, "fs": {"config.py": "DB_HOST = 'db.internal'\nDB_PORT = 5342\nconnect(DB_HOST, DB_PORT)"}}}, "start": "home", "puzzles": [{"id": "c1", "type": "codefix", "file": "web:/config.py", "data": {"lang": "python", "lines": ["DB_HOST = 'db.internal'", "DB_PORT = 5342", "connect(DB_HOST, DB_PORT)"], "bugs": [{"line": 1, "choices": ["5342", "5432", "3306"], "answer": "5432", "labels": ["@m4_04_label_1", "@m4_04_label_2", "@m4_04_label_3"]}], "failOutput": "ConnectionRefused: db.internal:5342", "okOutput": "db connected", "situation": "@m4_04_situation"}, "answer": "bugs"}], "goal": {"run": "web:/config.py"}, "hints": ["@m4_04_hint_1", "@m4_04_hint_2"], "solution": ["scan", "connect web-box", "run config.py", "env", "fix config.py", {"puzzle": "c1"}, "run config.py"]}
