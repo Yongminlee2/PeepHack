@@ -33,7 +33,7 @@ const Map<String, String> kEn = {
   'c01_brief_2': 'Coupons are only visible on the admin page. Find out who took it.',
   'c01_d_dm': 'Minho → friend: the company VPN still works so I pulled the coupon list. Keep it quiet?',
   'c01_d_post': 'Anonymous: sharing the staff coupon SAVE90 tonight lol (posted 22:03)',
-  'c01_done_1': 'Minho got in through the company VPN from home on his day off. Somebody needs to clean up those accounts.',
+  'c01_done_1': 'Minho got in through the company VPN from home on his day off. The hole was an admin page open even on days off.',
   'c01_q1': 'Which account exported the coupon list?',
   'c01_q2': 'Why is that account suspicious?',
   'c01_q2_o1': 'It was his day off, yet he used the admin page',
