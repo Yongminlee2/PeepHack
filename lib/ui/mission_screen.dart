@@ -42,14 +42,17 @@ class _MissionState extends State<MissionScreen> {
 
   void _show(ShellResult r) {
     if (r.key != null) lines.add(TermLine(S.tn(r.key!, r.args), isError: r.isError));
-    if (r.text.isNotEmpty && r.openFile == null) lines.add(TermLine(r.text));
+    // 파일 내용도 터미널 기록에 남긴다. 창을 닫은 뒤에도 비밀번호 같은 걸 다시 볼 수 있게.
+    if (r.text.isNotEmpty) lines.add(TermLine(tr(r.text)));
     if (r.openFile != null) {
       filePath = r.openFile!;
-      fileText = r.fileText ?? '';
+      fileText = tr(r.fileText ?? '');
       win = _Win.file;
     } else if (r.openPuzzle != null) {
       puzzleId = r.openPuzzle!;
       win = _Win.puzzle;
+    } else {
+      win = _Win.terminal; // 결과가 창 뒤에 숨지 않게
     }
   }
 
@@ -118,7 +121,7 @@ class _MissionState extends State<MissionScreen> {
     final m = widget.mission;
     final Widget window = switch (win) {
       _Win.terminal => TerminalView(lines: lines),
-      _Win.file => FileView(path: filePath, text: fileText, onClose: () => setState(() => win = _Win.terminal)),
+      _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: () => setState(() => win = _Win.terminal)),
       _Win.puzzle => PuzzleView(
           key: ValueKey(puzzleId),
           puzzle: m.puzzleById(puzzleId)!,

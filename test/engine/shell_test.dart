@@ -33,7 +33,8 @@ void main() {
     expect(sh.awaitingPassword, isTrue);
     r = sh.run('wrong');
     expect(r.key, 'shell_err_wrong_password');
-    expect(sh.awaitingPassword, isTrue);
+    expect(sh.awaitingPassword, isFalse); // 틀리면 대기에서 빠져나온다(다시 connect 하면 된다)
+    expect(sh.run('connect shop-server').key, 'shell_password_prompt');
     r = sh.run('ry1');
     expect(r.key, 'shell_connected');
     expect(sh.hostKey, 'shop');
@@ -200,5 +201,27 @@ void main() {
     expect(sh.suggestions().args, contains('dev@api-box'));
     sh.run('ssh dev@api-box');
     expect(sh.suggestions().args, containsAll(['log', 'diff', 'a1b2', '-l', '-n']));
+  });
+  test('비밀번호를 틀린 뒤 다른 명령이 비밀번호로 먹히지 않는다', () {
+    final sh = Shell(mk());
+    sh.run('connect shop-server');
+    sh.run('nope');
+    expect(sh.run('scan').text, contains('shop-server'));
+    sh.run('connect shop-server'); sh.run('ry1');
+    sh.run('cat safe.txt');
+    expect(sh.run('nope').key, 'shell_err_wrong_password');
+    expect(sh.run('ls').text, contains('flag.txt'));
+  });
+  test('닫아 버린 호스트 퍼즐이 나중 파일 퍼즐 결과를 가로채지 않는다', () {
+    final sh = Shell(mk());
+    expect(sh.run('connect vault').openPuzzle, 'p1'); // 창만 열고 안 푼다
+    sh.run('connect shop-server'); sh.run('ry1');
+    expect(sh.run('cat box.txt').openPuzzle, 'p2');
+    final r = sh.submitPuzzle('p2', 'Bx');
+    expect(sh.hostKey, 'shop');
+    expect(r.fileText, 'B');
+    expect(sh.run('connect vault').openPuzzle, 'p1'); // vault 는 여전히 잠겨 있다
+    expect(sh.submitPuzzle('p1', [1, 0]).key, 'shell_connected');
+    expect(sh.hostKey, 'vault');
   });
 }

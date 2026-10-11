@@ -112,4 +112,20 @@ void main() {
       expect(progress.stars(id), 3);
     });
   }
+  testWidgets('파일 창이 열린 채로 친 명령의 결과가 보인다', (t) async {
+    final catalog = await Catalog.load();
+    final progress = await Progress.load();
+    final m = catalog.byId('m1_02')!;
+    await t.pumpWidget(MaterialApp(home: MissionScreen(mission: m, progress: progress, catalog: catalog)));
+    await settle(t);
+    await typeLine(t, 'open note.txt');
+    expect(find.byKey(const Key('file_view')), findsOneWidget);
+    expect(find.text(S.t('m1_02_f_note')), findsOneWidget); // 열쇠가 아니라 번역된 글
+    expect(find.textContaining('@m1_02'), findsNothing);
+    await typeLine(t, 'scan');
+    expect(find.byKey(const Key('file_view')), findsNothing);
+    expect(find.textContaining('vault-box  LOCKED'), findsOneWidget);
+    // 앞서 연 파일 내용도 터미널 기록에 남는다(창을 닫아도 다시 볼 수 있게)
+    expect(find.textContaining(S.t('m1_02_f_note')), findsOneWidget);
+  });
 }

@@ -44,7 +44,6 @@ class Shell {
   final List<String> history = [];
   String? _pendingHost; // 비밀번호 대기 중인 호스트 key
   String? _pendingFile; // 비밀번호 대기 중인 파일 절대 경로
-  String? _puzzleHost; // 퍼즐 창이 뜬 원인이 호스트 잠금이면 그 key
   int _solutionIdx = 0;
 
   Shell(this.mission) {
@@ -238,7 +237,6 @@ class Shell {
         _pendingHost = h.key;
         return const ShellResult(key: 'shell_password_prompt');
       }
-      _puzzleHost = h.key;
       return ShellResult(openPuzzle: h.lock!.puzzle);
     }
     return _switchHost(h.key);
@@ -252,16 +250,24 @@ class Shell {
   }
 
   ShellResult _password(String line) {
+    // 틀리면 대기를 푼다. 안 그러면 다음 명령까지 비밀번호로 먹혀서 빠져나갈 길이 없다.
+    // 횟수 제한은 없다 — 다시 connect/cat 하면 또 묻는다.
     if (_pendingHost != null) {
       final h = mission.hosts[_pendingHost]!;
-      if (line != h.lock!.answer) return _err('shell_err_wrong_password');
+      if (line != h.lock!.answer) {
+        _pendingHost = null;
+        return _err('shell_err_wrong_password');
+      }
       _unlockedHosts.add(h.key);
       _pendingHost = null;
       return _switchHost(h.key);
     }
     final path = _pendingFile!;
     final f = lookup(host.fs, path) as FsFile;
-    if (line != f.lock!.answer) return _err('shell_err_wrong_password');
+    if (line != f.lock!.answer) {
+      _pendingFile = null;
+      return _err('shell_err_wrong_password');
+    }
     _unlockedFiles.add(joinHostPath(hostKey, path));
     _pendingFile = null;
     return _open(path);
@@ -324,10 +330,11 @@ class Shell {
     for (final h in mission.hosts.values) {
       if (h.lock?.puzzle == id) _unlockedHosts.add(h.key);
     }
-    if (_puzzleHost != null) {
-      final k = _puzzleHost!;
-      _puzzleHost = null;
-      return _switchHost(k);
+    // 호스트 잠금 퍼즐이면 그 호스트로 들어간다. (창을 닫았다 다시 연 경우도 같은 길)
+    if (p.file == null) {
+      for (final h in mission.hosts.values) {
+        if (h.lock?.puzzle == id) return _switchHost(h.key);
+      }
     }
     if (p.file != null && p.type != 'codefix') {
       final i = p.file!.indexOf(':');
