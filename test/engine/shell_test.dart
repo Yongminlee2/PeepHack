@@ -234,4 +234,12 @@ void main() {
     sh.run('ssh dev@api-box');
     expect(sh.suggestions().args, isNot(contains('/src/deep/app.py'))); // 다른 서버의 경로는 빠진다
   });
+  test('파일 비밀번호를 묻는 중에 다른 서버를 크랙하면 묻기는 취소된다', () {
+    final sh = Shell(mk());
+    sh.run('connect shop-server'); sh.run('ry1');
+    expect(sh.run('cat safe.txt').key, 'shell_password_prompt');
+    sh.crack('vault');
+    expect(sh.awaitingPassword, isFalse);
+    expect(sh.run('ls').text, contains('v.txt')); // 예전엔 여기서 죽었다
+  });
 }

@@ -161,4 +161,26 @@ void main() {
     await t.pump(const Duration(seconds: 1));
     expect(Sfx().log.where((s) => s == 'alarm').length, 1);
   });
+  testWidgets('목표 파일을 읽는 동안에는 추적이 멈춘다', (t) async {
+    await open(t, mk(trace: 8));
+    for (final line in ['connect srv', 'zz', 'open flag.txt']) {
+      final tf = find.byKey(const Key('input_field'));
+      if (line == 'zz') {
+        await t.enterText(tf, line);
+      } else {
+        for (final tok in line.split(' ')) {
+          await t.tap(find.byKey(Key('chip_$tok')));
+          await t.pump();
+        }
+      }
+      await t.tap(find.byKey(const Key('run_btn')));
+      await t.pump();
+    }
+    await t.pump(const Duration(seconds: 12)); // 천천히 읽는다
+    await t.pump();
+    expect(find.text(S.t('trace_caught')), findsNothing);
+    await t.tap(find.byKey(const Key('file_finish')));
+    await settle(t);
+    expect(p.isDone('m9_01'), isTrue);
+  });
 }

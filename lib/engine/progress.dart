@@ -84,8 +84,8 @@ class Progress {
   /// 모자라거나 이미 있으면 false.
   Future<bool> buy(String id, int price) async {
     if (owned.contains(id) || credits < price) return false;
-    await _p.setInt('credits', credits - price);
-    await _p.setStringList('owned', [...owned, id]);
+    // 둘 다 기다리기 전에 쓴다(캐시는 바로 바뀐다) — 두 번 눌러도 두 번째는 owned 를 본다
+    await Future.wait([_p.setStringList('owned', [...owned, id]), _p.setInt('credits', credits - price)]);
     return true;
   }
 

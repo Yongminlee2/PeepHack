@@ -88,7 +88,7 @@ class _MissionState extends State<MissionScreen> {
 
   // 지도에서 서버를 눌렀다
   void _tapHost(String key) {
-    if (caught || key == shell.hostKey) return;
+    if (caught || shell.awaitingPassword || key == shell.hostKey) return;
     final m = widget.mission;
     final h = m.hosts[key]!;
     if (!h.isProtected || shell.isUnlocked(key)) {
@@ -100,7 +100,7 @@ class _MissionState extends State<MissionScreen> {
       builder: (ctx) => Padding(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(h.name, style: const TextStyle(fontFamily: 'monospace', fontSize: 18, color: hqOrange)),
+          Text(h.name, style: const TextStyle(fontFamily: kMono, fontSize: 18, color: hqOrange)),
           const SizedBox(height: 4),
           Text(S.t('map_choose'), style: const TextStyle(color: hqDim)),
           const SizedBox(height: 12),
@@ -170,6 +170,7 @@ class _MissionState extends State<MissionScreen> {
 
   void _afterAction() {
     setState(() {});
+    if (shell.goalDone) _traceTimer?.cancel(); // 목표를 이뤘으면 읽는 동안 추적은 멈춘다
     // 목표 파일을 막 열었으면 내용을 먼저 읽게 둔다. 창을 닫을 때 완료로 넘어간다.
     if (shell.goalDone && win != _Win.file) _finish();
   }
@@ -279,7 +280,7 @@ class _MissionState extends State<MissionScreen> {
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text('${shell.host.name}:${shell.cwd}', style: const TextStyle(fontSize: 14, fontFamily: 'monospace')),
+        title: Text('${shell.host.name}:${shell.cwd}', style: const TextStyle(fontSize: 14, fontFamily: kMono)),
         leading: IconButton(icon: const Icon(Icons.close), tooltip: S.t('btn_exit'), onPressed: () => Navigator.pop(context)),
         actions: [
           TextButton.icon(
@@ -328,7 +329,7 @@ class _MissionState extends State<MissionScreen> {
       child: Row(children: [
         Icon(Icons.radar, size: 16, color: color),
         const SizedBox(width: 6),
-        Text(S.tn('trace_label', {'n': pct}), style: TextStyle(color: color, fontSize: 12, fontFamily: 'monospace')),
+        Text(S.tn('trace_label', {'n': pct}), style: TextStyle(color: color, fontSize: 12, fontFamily: kMono)),
         const SizedBox(width: 8),
         Expanded(
           child: LinearProgressIndicator(

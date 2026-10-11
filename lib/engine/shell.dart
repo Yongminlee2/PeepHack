@@ -252,6 +252,8 @@ class Shell {
   }
 
   ShellResult _switchHost(String key) {
+    _pendingHost = null; // 서버를 옮기면 묻던 비밀번호는 취소
+    _pendingFile = null;
     hostKey = key;
     cwd = '/';
     _connected.add(key);

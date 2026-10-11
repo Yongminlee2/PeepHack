@@ -58,16 +58,17 @@ class _CaseScreenState extends State<CaseScreen> {
       return;
     }
     Sfx().play('ok');
-    setState(wrongPicks.clear);
-    if (game.finished) {
-      final p = widget.progress;
-      final before = p.caseStars(c.id);
-      await p.setCaseStars(c.id, game.stars);
-      final gained = game.stars > before ? game.stars - before : 0;
-      final credits = caseReward(starsGained: gained);
-      await p.addCredits(credits);
-      if (mounted) setState(() => earned = credits);
-    }
+    if (!game.finished) return setState(wrongPicks.clear);
+    // 결과를 먼저 보이고 저장은 그 뒤에(저장이 느려도 빈 질문 화면이 그려지지 않게)
+    final p = widget.progress;
+    final before = p.caseStars(c.id);
+    final credits = caseReward(starsGained: game.stars > before ? game.stars - before : 0);
+    setState(() {
+      wrongPicks.clear();
+      earned = credits;
+    });
+    await p.setCaseStars(c.id, game.stars);
+    await p.addCredits(credits);
   }
 
   @override
@@ -109,7 +110,7 @@ class _CaseScreenState extends State<CaseScreen> {
                   d.lockLength != null && !unlocked.contains(d.name) ? Icons.lock : Icons.description,
                   color: d.lockLength != null && !unlocked.contains(d.name) ? hqOrange : hqGreen,
                 ),
-                title: Text(d.name, style: const TextStyle(fontFamily: 'monospace')),
+                title: Text(d.name, style: const TextStyle(fontFamily: kMono)),
                 onTap: () => _openDoc(d),
               ),
             ),
@@ -157,7 +158,7 @@ class _CaseScreenState extends State<CaseScreen> {
         const SizedBox(height: 12),
         Text('★' * game.stars + '☆' * (3 - game.stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
         if (earned! > 0)
-          Text(S.tn('result_credits', {'n': earned!}), textAlign: TextAlign.center, style: const TextStyle(color: hqOrange, fontFamily: 'monospace')),
+          Text(S.tn('result_credits', {'n': earned!}), textAlign: TextAlign.center, style: const TextStyle(color: hqOrange, fontFamily: kMono)),
         const SizedBox(height: 20),
         for (final d in c.done) Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(tr(d), style: const TextStyle(fontSize: 16, height: 1.45))),
         const SizedBox(height: 20),
@@ -172,7 +173,7 @@ class _DocPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = tr(doc.text);
     return Scaffold(
-      appBar: AppBar(title: Text(doc.name, style: const TextStyle(fontFamily: 'monospace', fontSize: 16))),
+      appBar: AppBar(title: Text(doc.name, style: const TextStyle(fontFamily: kMono, fontSize: 16))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: SelectableText(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 15, height: 1.6)),

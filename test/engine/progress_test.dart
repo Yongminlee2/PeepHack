@@ -125,4 +125,11 @@ void main() {
     await p.setDailyStars(DateTime(2026, 10, 1), 1);
     expect(p.dailyStreak(DateTime(2026, 10, 1)), 2);
   });
+  test('빠르게 두 번 눌러도 한 번만 산다', () async {
+    final p = await Progress.load();
+    await p.addCredits(700);
+    final r = await Future.wait([p.buy('buffer', 300), p.buy('buffer', 300)]);
+    expect(r.where((x) => x), hasLength(1));
+    expect(p.credits, 400);
+  });
 }
