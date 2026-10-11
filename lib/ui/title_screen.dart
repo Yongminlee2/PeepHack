@@ -29,7 +29,7 @@ class TitleScreen extends StatelessWidget {
                 const GhostAvatar(size: 200),
                 const SizedBox(height: 28),
                 const GlitchText('HACKQUEST', animate: true, style: TextStyle(
-                  fontFamily: 'monospace', fontSize: 40, fontWeight: FontWeight.w900, letterSpacing: 6, color: hqGreen)),
+                  fontFamily: kMono, fontSize: 40, fontWeight: FontWeight.w900, letterSpacing: 6, color: hqGreen)),
                 const SizedBox(height: 12),
                 Text(S.t('title_tagline'), textAlign: TextAlign.center, style: const TextStyle(color: hqGreen, fontSize: 15, shadows: [Shadow(blurRadius: 8), Shadow(blurRadius: 16)])),
                 const Spacer(flex: 3),

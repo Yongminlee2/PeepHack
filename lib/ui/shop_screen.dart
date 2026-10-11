@@ -37,7 +37,7 @@ class _ShopState extends State<ShopScreen> {
         const CrtOverlay(),
         ListView(padding: const EdgeInsets.all(16), children: [
           Text(S.tn('shop_credits', {'n': p.credits}),
-              style: const TextStyle(color: hqOrange, fontSize: 22, fontWeight: FontWeight.w700, fontFamily: 'monospace')),
+              style: const TextStyle(color: hqOrange, fontSize: 22, fontWeight: FontWeight.w700, fontFamily: kMono)),
           const SizedBox(height: 4),
           Text(S.t('shop_howto'), style: const TextStyle(color: hqDim, fontSize: 13)),
           const SizedBox(height: 16),

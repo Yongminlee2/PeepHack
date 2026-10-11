@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
+import '../theme.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'fx.dart';
@@ -123,7 +125,7 @@ class _RainPainter extends CustomPainter {
       final a = (level + 1) / _levels;
       final color = head ? const Color(0xFFE8FFE8) : Color.fromRGBO(0, 255, 70, a);
       return TextPainter(
-        text: TextSpan(text: g, style: TextStyle(color: color, fontSize: cell * 0.85, height: 1, fontFamily: 'monospace')),
+        text: TextSpan(text: g, style: TextStyle(color: color, fontSize: cell * 0.85, height: 1, fontFamily: kMono)),
         textDirection: TextDirection.ltr,
       )..layout();
     });

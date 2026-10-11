@@ -86,7 +86,7 @@ class _ModeScreenState extends State<ModeScreen> {
                 const Icon(Icons.memory, color: hqOrange, size: 18),
                 const SizedBox(width: 6),
                 Text(S.tn('shop_credits', {'n': progress.credits}),
-                    style: const TextStyle(color: hqOrange, fontFamily: 'monospace', fontSize: 15)),
+                    style: const TextStyle(color: hqOrange, fontFamily: kMono, fontSize: 15)),
               ]),
             ),
             _card(

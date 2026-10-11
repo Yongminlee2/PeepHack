@@ -76,7 +76,7 @@ class _BreachBoardState extends State<BreachBoard> {
       return k.isOdd ? c == game.picks.last.$2 : r == game.picks.last.$1;
     }
 
-    const mono = TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.w700);
+    const mono = TextStyle(fontFamily: kMono, fontWeight: FontWeight.w700);
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [

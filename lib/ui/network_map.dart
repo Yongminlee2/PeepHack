@@ -73,7 +73,7 @@ class NetworkMap extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(h.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontFamily: 'monospace', fontSize: 10, color: color)),
+              style: TextStyle(fontFamily: kMono, fontSize: 10, color: color)),
         ]),
       ),
     );

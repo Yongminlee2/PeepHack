@@ -18,7 +18,7 @@ class FileView extends StatelessWidget {
             color: hqPanel,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(children: [
-              Expanded(child: Text(path, style: const TextStyle(color: hqOrange, fontFamily: 'monospace'))),
+              Expanded(child: Text(path, style: const TextStyle(color: hqOrange, fontFamily: kMono))),
               TextButton(key: const Key('file_close'), onPressed: onClose, child: Text(closeLabel ?? S.t('btn_close'))),
             ]),
           ),

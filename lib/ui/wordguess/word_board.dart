@@ -20,7 +20,7 @@ class _WordBoardState extends State<WordBoard> {
   final List<(String, bool)> notes = []; // 오른쪽 기록(글, 강조)
   bool _ended = false;
 
-  static const _mono = TextStyle(fontFamily: 'monospace', fontSize: 15, height: 1.35);
+  static const _mono = TextStyle(fontFamily: kMono, fontSize: 15, height: 1.35);
 
   void _guess(String w) {
     final n = game.guess(w);

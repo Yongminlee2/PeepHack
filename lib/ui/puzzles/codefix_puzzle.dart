@@ -70,7 +70,7 @@ class _CodefixState extends State<CodefixPuzzle> {
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Row(children: [
                 SizedBox(width: 28, child: Text('${i + 1}', style: const TextStyle(color: hqDim))),
-                Expanded(child: Text(ls[i], style: const TextStyle(fontSize: 13, fontFamily: 'monospace'))),
+                Expanded(child: Text(ls[i], style: const TextStyle(fontSize: 13, fontFamily: kMono))),
                 if (picks.containsKey(i)) Text('→ ${picks[i]}', style: const TextStyle(color: hqOrange)),
               ]),
             ),

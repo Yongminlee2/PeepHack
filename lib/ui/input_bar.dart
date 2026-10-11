@@ -51,7 +51,7 @@ class _InputBarState extends State<InputBar> {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                SizedBox(width: 80, child: Text(c, style: const TextStyle(fontFamily: 'monospace', color: hqGreen, fontWeight: FontWeight.w700))),
+                SizedBox(width: 80, child: Text(c, style: const TextStyle(fontFamily: kMono, color: hqGreen, fontWeight: FontWeight.w700))),
                 Expanded(child: Text(S.t(cmdKey(c)))),
               ]),
             ),
@@ -130,7 +130,7 @@ class _InputBarState extends State<InputBar> {
                 keyboardType: widget.password ? TextInputType.text : TextInputType.visiblePassword,
                 autocorrect: false,
                 enableSuggestions: false,
-                style: const TextStyle(color: hqGreen, fontFamily: 'monospace'),
+                style: const TextStyle(color: hqGreen, fontFamily: kMono),
                 decoration: InputDecoration(
                   isDense: true,
                   prefixText: widget.password ? '' : '\$ ',

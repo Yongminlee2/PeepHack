@@ -89,7 +89,7 @@ class _BreachListState extends State<BreachListScreen> {
         onTap: open ? () => _open(BreachPlayScreen.stage(progress: p, n: n)) : null,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           open
-              ? Text('$n', style: const TextStyle(fontFamily: 'monospace', fontSize: 18, fontWeight: FontWeight.w700))
+              ? Text('$n', style: const TextStyle(fontFamily: kMono, fontSize: 18, fontWeight: FontWeight.w700))
               : const Icon(Icons.lock, size: 18, color: hqDim),
           Text('★' * stars, style: const TextStyle(color: hqOrange, fontSize: 11)),
         ]),
