@@ -7,7 +7,8 @@ class FileView extends StatelessWidget {
   final String path;
   final String text;
   final VoidCallback onClose;
-  const FileView({super.key, required this.path, required this.text, required this.onClose});
+  final String? closeLabel; // 목표를 이룬 뒤엔 「임무 완료」
+  const FileView({super.key, required this.path, required this.text, required this.onClose, this.closeLabel});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -18,7 +19,7 @@ class FileView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(children: [
               Expanded(child: Text(path, style: const TextStyle(color: hqOrange, fontFamily: 'monospace'))),
-              TextButton(onPressed: onClose, child: Text(S.t('btn_close'))),
+              TextButton(key: const Key('file_close'), onPressed: onClose, child: Text(closeLabel ?? S.t('btn_close'))),
             ]),
           ),
           Expanded(

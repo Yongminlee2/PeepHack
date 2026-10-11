@@ -108,6 +108,15 @@ void main() {
         }
       }
       await settle(t);
+      // 목표 파일을 열었으면 내용을 먼저 보여 주고, 닫을 때 완료로 넘어간다.
+      final last = m.solution.last;
+      if (last is String && last.startsWith('open ')) {
+        expect(find.byKey(const Key('file_view')), findsOneWidget, reason: '목표 파일 내용이 안 보인다');
+      }
+      if (find.byKey(const Key('file_view')).evaluate().isNotEmpty) {
+        expect(find.byType(MissionScreen), findsOneWidget, reason: '파일을 보기도 전에 완료로 넘어갔다');
+        await tapKey(t, 'file_close');
+      }
       expect(find.text(S.t('result_title')), findsOneWidget, reason: '완료 화면으로 안 넘어갔다');
       expect(progress.stars(id), 3);
     });

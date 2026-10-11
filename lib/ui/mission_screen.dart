@@ -56,8 +56,16 @@ class _MissionState extends State<MissionScreen> {
     }
   }
 
+  bool _finished = false;
+
   void _afterAction() {
     setState(() {});
+    // 목표 파일을 막 열었으면 내용을 먼저 읽게 둔다. 창을 닫을 때 완료로 넘어간다.
+    if (shell.goalDone && win != _Win.file) _finish();
+  }
+
+  void _closeFile() {
+    setState(() => win = _Win.terminal);
     if (shell.goalDone) _finish();
   }
 
@@ -77,6 +85,8 @@ class _MissionState extends State<MissionScreen> {
   }
 
   Future<void> _finish() async {
+    if (_finished) return; // 전환 중에 한 번 더 불려도 완료 화면은 하나
+    _finished = true;
     await widget.progress.complete(widget.mission.id, hintsUsed);
     if (!mounted) return;
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResultScreen(
@@ -121,7 +131,8 @@ class _MissionState extends State<MissionScreen> {
     final m = widget.mission;
     final Widget window = switch (win) {
       _Win.terminal => TerminalView(lines: lines),
-      _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: () => setState(() => win = _Win.terminal)),
+      _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: _closeFile,
+          closeLabel: shell.goalDone ? S.t('result_title') : null),
       _Win.puzzle => PuzzleView(
           key: ValueKey(puzzleId),
           puzzle: m.puzzleById(puzzleId)!,

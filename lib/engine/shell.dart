@@ -224,7 +224,7 @@ class Shell {
   ShellResult _scan() {
     final lines = mission.hosts.values.map((h) {
       final locked = h.lock != null && !_unlockedHosts.contains(h.key);
-      return '${h.name}  ${locked ? 'LOCKED' : 'open'}';
+      return '${h.name}  ${locked ? 'LOCKED' : 'OK'}';
     });
     return ShellResult(text: lines.join('\n'));
   }

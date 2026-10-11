@@ -42,16 +42,26 @@ class _InputBarState extends State<InputBar> {
     if (line.isNotEmpty) widget.onRun(line);
   }
 
-  Widget _chips(List<String> items) => SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(children: [
-          for (final t in items)
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: ActionChip(key: Key('chip_$t'), label: Text(t), onPressed: () => _append(t)),
-            ),
-        ]),
+  // 줄을 바꿔 전부 보이게 한다. 옆으로 밀어야 나오는 칩은 실기기에서 아무도 못 찾았다.
+  // 너무 많으면(키보드 챕터) 세 줄 높이에서 위아래로 민다.
+  Widget _chips(List<String> items) => ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 132),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SizedBox(
+            width: double.infinity,
+            child: Wrap(spacing: 6, runSpacing: 2, children: [
+              for (final t in items)
+                ActionChip(
+                  key: Key('chip_$t'),
+                  label: Text(t),
+                  visualDensity: VisualDensity.compact,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: () => _append(t),
+                ),
+            ]),
+          ),
+        ),
       );
 
   @override

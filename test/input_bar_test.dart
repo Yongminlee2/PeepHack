@@ -53,4 +53,16 @@ void main() {
     await t.pump();
     expect(focused(), isFalse);
   });
+  testWidgets('인자 칩이 많아도 옆으로 숨지 않고 줄을 바꿔 전부 보인다', (t) async {
+    await t.pumpWidget(wrap(InputBar(
+      suggestions: Suggestions(['scan', 'connect', 'open', 'decode', 'back'],
+          ['note.txt', 'hint.txt', '..', 'my-laptop', 'mail-box', 'safe-box']),
+      editable: false, password: false, onRun: (_) {},
+    )));
+    final w = t.getSize(find.byType(InputBar)).width;
+    for (final k in ['chip_safe-box', 'chip_back']) {
+      final r = t.getRect(find.byKey(Key(k)));
+      expect(r.right, lessThanOrEqualTo(w), reason: '$k 가 화면 밖');
+    }
+  });
 }
