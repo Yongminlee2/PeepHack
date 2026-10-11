@@ -33,8 +33,8 @@ class ResultScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const SizedBox(height: 12),
-          const Center(child: GlitchText('ACCESS GRANTED', style: TextStyle(
-              fontFamily: kMono, fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 3, color: hqGreen))),
+          Center(child: GlitchText(S.t('wg_granted').toUpperCase(), style: TextStyle(
+              fontFamily: monoFor(S.t('wg_granted')), fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 3, color: hqGreen))),
           const SizedBox(height: 16),
           Text('★' * stars + '☆' * (3 - stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
           const SizedBox(height: 8),
@@ -42,7 +42,7 @@ class ResultScreen extends StatelessWidget {
           Text(S.tn('result_hints', {'n': hintsUsed}), textAlign: TextAlign.center, style: const TextStyle(color: hqDim)),
           if (earned > 0)
             Text(S.tn('result_credits', {'n': earned}), textAlign: TextAlign.center,
-                style: const TextStyle(color: hqOrange, fontSize: 18, fontFamily: kMono)),
+                style: TextStyle(color: hqOrange, fontSize: 18, fontFamily: monoFor(S.tn('result_credits', {'n': earned})))),
           const SizedBox(height: 20),
           Expanded(child: ListView(children: [for (final d in mission.done) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(tr(d), style: const TextStyle(fontSize: 16)))])),
           // 광고 자리. SDK 는 2부 이후에 붙인다 — 자리를 먼저 잡아 두면 판이 안 밀린다.

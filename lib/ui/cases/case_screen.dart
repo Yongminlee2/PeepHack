@@ -196,7 +196,8 @@ class _LockPage extends StatelessWidget {
           puzzle: caseLockPuzzle(caseId, doc.name, doc.lockLength!, attempt),
           onFinish: (ok) async {
             await Future<void>.delayed(const Duration(milliseconds: 500));
-            if (context.mounted) Navigator.pop(context, ok);
+            // 그 사이 직접 뒤로 갔으면 이 화면은 이미 닫히는 중 — 아래 사건 화면까지 닫지 않는다
+            if (context.mounted && (ModalRoute.of(context)?.isCurrent ?? false)) Navigator.pop(context, ok);
           },
         ),
       );

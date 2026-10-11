@@ -21,9 +21,16 @@ class Music {
   /// 위젯 테스트에서는 [Fx.animate] 가 꺼져 있어 아무것도 안 한다(오디오 플러그인이 없다).
   bool get _can => Fx.animate && (progress?.musicOn ?? false);
 
-  Future<void> start(Progress p) async {
+  Future<void>? _starting; // 시작하는 중(켜자마자 앱을 오가면 resume 이 또 start 를 부른다)
+
+  /// 이미 시작 중이면 같은 작업을 돌려줘서 두 번 틀지 않는다.
+  Future<void> start(Progress p) {
     progress = p;
-    if (!_can || _started) return;
+    if (!_can || _started) return Future.value();
+    return _starting ??= _start().whenComplete(() => _starting = null);
+  }
+
+  Future<void> _start() async {
     try {
       final pl = _player ??= AudioPlayer();
       await pl.setAudioContext(AudioContext(android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none)));
@@ -44,6 +51,7 @@ class Music {
 
   Future<void> resume() async {
     if (!_can) return;
+    if (_starting != null) return _starting; // 아직 켜는 중 — 다시 틀지 않는다
     if (!_started) return start(progress!);
     try {
       await _player?.resume();

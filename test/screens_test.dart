@@ -35,6 +35,16 @@ void main() {
     expect(find.text(S.t('btn_next')), findsNothing);
   });
 
+  testWidgets('완료 화면 큰 글씨도 언어를 따른다(한국어면 접속 허가)', (t) async {
+    await AppLang().set('ko');
+    final p = await Progress.load();
+    final c = Catalog.fromTexts({'m1_01': m('m1_01')});
+    await t.pumpWidget(MaterialApp(home: ResultScreen(
+      mission: c.byId('m1_01')!, progress: p, catalog: c, hintsUsed: 0, elapsed: Duration.zero)));
+    expect(find.text(S.t('wg_granted')), findsWidgets);
+    expect(find.text('ACCESS GRANTED'), findsNothing);
+  });
+
   testWidgets('설정: 언어를 고르면 바로 바뀌고 저장된다, 소리 끄기', (t) async {
     final p = await Progress.load();
     await t.pumpWidget(MaterialApp(home: SettingsScreen(progress: p)));

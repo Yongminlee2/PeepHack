@@ -86,4 +86,25 @@ void main() {
     await t.pump(const Duration(seconds: 1));
     expect(slow.caseStars('c01'), 3);
   });
+  testWidgets('잠긴 자료를 맞힌 직후 뒤로가기를 눌러도 사건 화면에 남는다', (t) async {
+    final c = CaseFile.parse(File('assets/cases/c01.json').readAsStringSync());
+    await t.pumpWidget(MaterialApp(home: Builder(
+      builder: (ctx) => TextButton(
+        onPressed: () => Navigator.push(ctx, MaterialPageRoute(builder: (_) => CaseScreen(file: c, progress: p))),
+        child: const Text('list'),
+      ),
+    )));
+    await t.tap(find.text('list'));
+    await settle(t);
+    await t.tap(find.byKey(const Key('doc_minho_dm.txt')));
+    await settle(t);
+    final w = caseLockPuzzle('c01', 'minho_dm.txt', 5);
+    await t.ensureVisible(find.byKey(Key('word_${w.answer}')));
+    await t.tap(find.byKey(Key('word_${w.answer}')));
+    await t.pump(const Duration(milliseconds: 200));
+    await t.pageBack(); // 자동으로 닫히기 전에 직접 뒤로
+    await t.pump(const Duration(seconds: 1));
+    await settle(t);
+    expect(find.byType(CaseScreen), findsOneWidget);
+  });
 }
