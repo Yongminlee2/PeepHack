@@ -47,6 +47,25 @@ class Progress {
   int dailyStars(DateTime d) => _int('daily.${_day(d)}');
   Future<void> setDailyStars(DateTime d, int stars) => _best('daily.${_day(d)}', stars);
 
+  // 크레딧·장비
+  int get credits => _int('credits');
+  Future<void> addCredits(int n) => _p.setInt('credits', credits + n);
+  Set<String> get owned {
+    try {
+      return (_p.getStringList('owned') ?? const []).toSet();
+    } catch (_) {
+      return {};
+    }
+  }
+
+  /// 모자라거나 이미 있으면 false.
+  Future<bool> buy(String id, int price) async {
+    if (owned.contains(id) || credits < price) return false;
+    await _p.setInt('credits', credits - price);
+    await _p.setStringList('owned', [...owned, id]);
+    return true;
+  }
+
   Future<void> _best(String k, int v) async {
     if (v > _int(k)) await _p.setInt(k, v);
   }
@@ -54,7 +73,7 @@ class Progress {
   Future<void> reset() async {
     for (final k in _p.getKeys().toList()) {
       if (k.startsWith('done.') || k.startsWith('stars.') || k.startsWith('hints.') ||
-          k.startsWith('breach.') || k.startsWith('daily.')) {
+          k.startsWith('breach.') || k.startsWith('daily.') || k == 'credits' || k == 'owned') {
         await _p.remove(k);
       }
     }

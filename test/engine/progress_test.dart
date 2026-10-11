@@ -76,4 +76,20 @@ void main() {
     expect(p.breachStars(1), 0);
     expect(p.dailyStars(DateTime(2026, 10, 11)), 0);
   });
+  test('크레딧과 장비: 모자라면 못 사고, 산 건 다시 안 산다, 초기화하면 지운다', () async {
+    final p = await Progress.load();
+    expect(p.credits, 0);
+    await p.addCredits(350);
+    expect(await p.buy('jammer', 400), isFalse);
+    expect(await p.buy('buffer', 300), isTrue);
+    expect(p.credits, 50);
+    expect(p.owned, {'buffer'});
+    expect(await p.buy('buffer', 300), isFalse);
+    final again = await Progress.load();
+    expect(again.credits, 50);
+    expect(again.owned, {'buffer'});
+    await p.reset();
+    expect(p.credits, 0);
+    expect(p.owned, isEmpty);
+  });
 }
