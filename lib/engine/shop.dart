@@ -1,5 +1,6 @@
 import 'breach.dart';
 import 'breach_gen.dart';
+import 'wordguess.dart';
 
 /// 장비(상점)와 그 효과, 크레딧 보상.
 class Upgrade {
@@ -40,6 +41,27 @@ BreachPuzzle crackPuzzle({
     base.time == null ? null : base.time! + (owned.contains('overclock') ? 10 : 0),
   );
   return generate(p, _fnv('$missionId/$host/$port/$attempt'));
+}
+
+/// 2장부터 짝수 번째 포트(2, 4…)는 단어 추리 — 판이 섞여야 지루하지 않다.
+bool isWordPort({required int chapter, required int port}) => chapter >= 2 && port.isOdd;
+
+/// 포트 크랙용 단어 추리. 2장 5글자·8개, 3·4장 6글자·9개, 5장 7글자·10개. 오버클럭 = 기회 +1.
+WordPuzzle wordCrackPuzzle({
+  required String missionId,
+  required String host,
+  required int port,
+  required int attempt,
+  required int chapter,
+  required Set<String> owned,
+}) {
+  final (len, count) = switch (chapter) { <= 2 => (5, 8), 3 || 4 => (6, 9), _ => (7, 10) };
+  return generateWordPuzzle(
+    length: len,
+    count: count,
+    seed: _fnv('w/$missionId/$host/$port/$attempt'),
+    attempts: 4 + (owned.contains('overclock') ? 1 : 0),
+  );
 }
 
 /// 실행마다 같은 값이 나오는 문자열 해시(FNV-1a 32비트).

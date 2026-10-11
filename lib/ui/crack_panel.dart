@@ -5,6 +5,7 @@ import '../engine/mission.dart';
 import '../engine/shop.dart';
 import '../strings.dart';
 import 'breach/breach_board.dart';
+import 'wordguess/word_board.dart';
 import 'theme.dart';
 
 /// 포트 크랙: 포트 하나 = 브리치 판 하나. 다 뚫으면 [onCracked], 판을 놓치면 [onFail](추적 벌칙) 뒤 같은 포트를 새 판으로.
@@ -44,8 +45,10 @@ class _CrackPanelState extends State<CrackPanel> {
         owned: widget.owned,
       );
 
-  Future<void> _done(BreachGame g) async {
-    if (g.stars > 0) {
+  Future<void> _done(BreachGame g) => _result(g.stars > 0);
+
+  Future<void> _result(bool ok) async {
+    if (ok) {
       if (port + 1 >= ports) {
         widget.onCracked();
       } else {
@@ -77,6 +80,21 @@ class _CrackPanelState extends State<CrackPanel> {
             TextButton(onPressed: widget.onClose, child: Text(S.t('btn_close'))),
           ]),
         ),
-        Expanded(child: BreachBoard(key: ValueKey('$port-$attempt'), puzzle: puzzle, onFinish: _done)),
+        Expanded(
+          child: isWordPort(chapter: widget.mission.chapter, port: port)
+              ? WordBoard(
+                  key: ValueKey('w$port-$attempt'),
+                  puzzle: wordCrackPuzzle(
+                    missionId: widget.mission.id,
+                    host: widget.hostKey,
+                    port: port,
+                    attempt: attempt,
+                    chapter: widget.mission.chapter,
+                    owned: widget.owned,
+                  ),
+                  onFinish: _result,
+                )
+              : BreachBoard(key: ValueKey('$port-$attempt'), puzzle: puzzle, onFinish: _done),
+        ),
       ]);
 }

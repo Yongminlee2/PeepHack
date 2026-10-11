@@ -115,4 +115,32 @@ void main() {
     expect(p.owned, {'buffer'});
     expect(find.text(S.t('shop_no_money')), findsOneWidget);
   });
+  testWidgets('2장부터 두 번째 포트는 단어 추리로 뚫는다', (t) async {
+    final m = Mission.fromJson({
+      'id': 'm9_02', 'chapter': 2, 'title': '@t', 'brief': ['@b'], 'done': ['@d'],
+      'commands': ['scan', 'connect', 'ls', 'cat'], 'trace': 0,
+      'hosts': {
+        'home': {'name': 'my-laptop', 'fs': {}},
+        'srv': {'name': 'srv', 'ports': 2, 'lock': {'type': 'password', 'answer': 'zz'}, 'fs': {'flag.txt': 'F'}},
+      },
+      'puzzles': [], 'goal': {'read': 'srv:/flag.txt'}, 'hints': ['@h1', '@h2', '@h3'], 'solution': [],
+    });
+    await open(t, m);
+    await t.tap(find.byKey(const Key('node_srv')));
+    await settle(t);
+    await t.tap(find.text(S.tn('map_crack', {'n': 2})));
+    await settle(t);
+    final b = crackPuzzle(missionId: m.id, host: 'srv', port: 0, attempt: 0, chapter: 2, owned: const {});
+    for (final (r, c) in b.solution) {
+      if (find.byKey(Key('cell_${r}_$c')).evaluate().isEmpty) break;
+      await t.tap(find.byKey(Key('cell_${r}_$c')));
+      await t.pump();
+    }
+    await settle(t);
+    final w = wordCrackPuzzle(missionId: m.id, host: 'srv', port: 1, attempt: 0, chapter: 2, owned: const {});
+    await t.ensureVisible(find.byKey(Key('word_${w.answer}')));
+    await t.tap(find.byKey(Key('word_${w.answer}')));
+    await settle(t);
+    expect(appBarTitle(t), 'srv:/');
+  });
 }

@@ -126,4 +126,16 @@ void main() {
       expect(breachReward(starsGained: 2), 20);
     });
   });
+  group('단어 크랙', () {
+    test('챕터별 길이·후보 수, 오버클럭은 기회 +1, 짝수 번째 포트(2장부터)만 단어', () {
+      final a = wordCrackPuzzle(missionId: 'm2_01', host: 'shop', port: 1, attempt: 0, chapter: 2, owned: const {});
+      expect((a.words.first.length, a.words.length, a.attempts), (5, 8, 4));
+      final b = wordCrackPuzzle(missionId: 'm5_01', host: 'g', port: 1, attempt: 0, chapter: 5, owned: const {'overclock'});
+      expect((b.words.first.length, b.words.length, b.attempts), (7, 10, 5));
+      expect(isWordPort(chapter: 1, port: 1), isFalse);
+      expect(isWordPort(chapter: 2, port: 0), isFalse);
+      expect(isWordPort(chapter: 2, port: 1), isTrue);
+      expect(isWordPort(chapter: 5, port: 2), isFalse);
+    });
+  });
 }
