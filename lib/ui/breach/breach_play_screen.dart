@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../engine/breach.dart';
 import '../../engine/breach_gen.dart';
 import '../../engine/progress.dart';
+import '../../engine/shop.dart';
 import '../../strings.dart';
 import '../fx/crt.dart';
 import '../fx/glitch_text.dart';
@@ -33,6 +34,9 @@ class _BreachPlayState extends State<BreachPlayScreen> {
       : S.tn('breach_daily_title', {'date': '${widget.day!.month}.${widget.day!.day}'});
 
   Future<void> _finish(BreachGame g) async {
+    final p = widget.progress;
+    final before = widget.n != null ? p.breachStars(widget.n!) : p.dailyStars(widget.day!);
+    if (g.stars > before) await p.addCredits(breachReward(starsGained: g.stars - before));
     if (widget.n != null) {
       await widget.progress.setBreachStars(widget.n!, g.stars);
     } else {

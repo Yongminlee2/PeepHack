@@ -52,6 +52,9 @@ class Shell {
   }
 
   Host get host => mission.hosts[hostKey]!;
+  /// 잠금을 풀었거나(비밀번호·퍼즐·크랙) ssh 로 들어간 적 있는 서버.
+  bool isUnlocked(String key) => _unlockedHosts.contains(key);
+
   bool get awaitingPassword => _pendingHost != null || _pendingFile != null;
   GoalState get state => GoalState(read: _read, solved: _solved, connected: _connected, ran: _ran);
   bool get goalDone => mission.goal.check(state);
@@ -150,7 +153,9 @@ class Shell {
     final h = mission.hostByName(name);
     if (h == null) return _err('shell_err_no_host', {'host': name});
     if (h.user != null && h.user != user) return _err('shell_err_ssh_denied', {'user': user});
-    return _connect(name, viaSsh: true);
+    final r = _connect(name, viaSsh: true);
+    if (r.key == 'shell_connected') _unlockedHosts.add(h.key);
+    return r;
   }
 
   ShellResult _headTail(String cmd, List<String> a) {

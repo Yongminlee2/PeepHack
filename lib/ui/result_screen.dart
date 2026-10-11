@@ -17,7 +17,8 @@ class ResultScreen extends StatelessWidget {
   final Catalog catalog;
   final int hintsUsed;
   final Duration elapsed;
-  const ResultScreen({super.key, required this.mission, required this.progress, required this.catalog, required this.hintsUsed, required this.elapsed});
+  final int earned;
+  const ResultScreen({super.key, required this.mission, required this.progress, required this.catalog, required this.hintsUsed, required this.elapsed, this.earned = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,9 @@ class ResultScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(S.tn('result_time', {'m': elapsed.inMinutes, 's': elapsed.inSeconds % 60}), textAlign: TextAlign.center),
           Text(S.tn('result_hints', {'n': hintsUsed}), textAlign: TextAlign.center, style: const TextStyle(color: hqDim)),
+          if (earned > 0)
+            Text(S.tn('result_credits', {'n': earned}), textAlign: TextAlign.center,
+                style: const TextStyle(color: hqOrange, fontSize: 18, fontFamily: 'monospace')),
           const SizedBox(height: 20),
           Expanded(child: ListView(children: [for (final d in mission.done) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(tr(d), style: const TextStyle(fontSize: 16)))])),
           // 광고 자리. SDK 는 2부 이후에 붙인다 — 자리를 먼저 잡아 두면 판이 안 밀린다.

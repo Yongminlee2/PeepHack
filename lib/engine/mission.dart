@@ -18,18 +18,18 @@ class Mission {
   final Goal goal;
   final List<String> hints;
   final List<Object> solution; // String | PuzzleStep
-  final int? _trace;
+  final int? traceOverride; // JSON 의 trace
 
   Mission({
     required this.id, required this.chapter, required this.title,
     required this.brief, required this.done, required this.input,
     required this.commands, required this.words, required this.hosts,
     required this.start, required this.puzzles, required this.goal,
-    required this.hints, required this.solution, int? trace,
-  }) : _trace = trace;
+    required this.hints, required this.solution, this.traceOverride,
+  });
 
   /// 추적 한도(초). 0 이면 추적 없음. JSON 에 없으면 챕터 기본값.
-  int get trace => _trace ?? defaultTrace(chapter);
+  int get trace => traceOverride ?? defaultTrace(chapter);
 
   /// 이 서버를 크랙할 때 뚫어야 하는 포트 수.
   int portsFor(Host h) => h.ports ?? defaultPorts(chapter);
@@ -55,7 +55,7 @@ class Mission {
         ],
         goal: Goal.fromJson(j['goal'] as Map<String, dynamic>),
         hints: _strs(j['hints']),
-        trace: j['trace'] as int?,
+        traceOverride: j['trace'] as int?,
         solution: [
           for (final s in j['solution'] as List)
             s is String ? s : PuzzleStep((s as Map)['puzzle'] as String)

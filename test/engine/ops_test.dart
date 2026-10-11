@@ -8,10 +8,10 @@ import 'package:hack_quest/engine/trace.dart';
 Mission mk({int chapter = 2, int? trace, int? ports}) => Mission.fromJson({
       'id': 'm9_01', 'chapter': chapter, 'title': '@t', 'brief': ['@b'], 'done': ['@d'],
       'commands': ['scan', 'connect', 'ssh', 'ls', 'cat'],
-      if (trace != null) 'trace': trace,
+      'trace': ?trace,
       'hosts': {
         'home': {'name': 'my-laptop', 'fs': {}},
-        'shop': {'name': 'shop-server', 'lock': {'type': 'password', 'answer': 'pw'}, if (ports != null) 'ports': ports, 'fs': {'f.txt': 'F'}},
+        'shop': {'name': 'shop-server', 'lock': {'type': 'password', 'answer': 'pw'}, 'ports': ?ports, 'fs': {'f.txt': 'F'}},
         'vault': {'name': 'vault', 'lock': {'type': 'puzzle', 'puzzle': 'p1'}, 'fs': {}},
         'db': {'name': 'db-server', 'user': 'dba', 'fs': {}},
         'open': {'name': 'open-box', 'fs': {}},

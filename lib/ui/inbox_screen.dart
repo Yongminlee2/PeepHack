@@ -9,6 +9,7 @@ import 'fx/crt.dart';
 import 'fx/matrix_rain.dart';
 import 'promo_screen.dart';
 import 'settings_screen.dart';
+import 'shop_screen.dart';
 import 'theme.dart';
 
 class InboxScreen extends StatefulWidget {
@@ -40,6 +41,14 @@ class _InboxState extends State<InboxScreen> {
           child: Text(S.t('inbox_title')),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.memory),
+            tooltip: S.t('shop_title'),
+            onPressed: () async {
+              await Navigator.push(context, MaterialPageRoute(builder: (_) => ShopScreen(progress: widget.progress)));
+              setState(() {});
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.videogame_asset),
             tooltip: S.t('btn_promo'),
