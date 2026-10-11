@@ -1,0 +1,52 @@
+{
+ "id": "c01",
+ "title": "@c01_title",
+ "brief": [
+  "@c01_brief_1",
+  "@c01_brief_2"
+ ],
+ "done": [
+  "@c01_done_1"
+ ],
+ "docs": [
+  {
+   "name": "admin_access.log",
+   "text": "10-12 18:02 view   coupon_list  user=jiwoo\n10-12 21:47 view   coupon_list  user=minho\n10-12 21:49 export coupon_list.csv user=minho\n10-12 22:15 view   orders       user=jiwoo"
+  },
+  {
+   "name": "shift.csv",
+   "text": "name,10-12\njiwoo,09:00-18:30\nminho,off\nseoyeon,13:00-22:00"
+  },
+  {
+   "name": "forum_post.txt",
+   "text": "@c01_d_post"
+  },
+  {
+   "name": "minho_dm.txt",
+   "lock": {
+    "length": 5
+   },
+   "text": "@c01_d_dm"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c01_q1",
+   "options": [
+    "jiwoo",
+    "minho",
+    "seoyeon"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c01_q2",
+   "options": [
+    "@c01_q2_o1",
+    "@c01_q2_o2",
+    "@c01_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

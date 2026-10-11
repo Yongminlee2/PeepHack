@@ -1,0 +1,53 @@
+{
+ "id": "c06",
+ "title": "@c06_title",
+ "brief": [
+  "@c06_brief_1",
+  "@c06_brief_2"
+ ],
+ "done": [
+  "@c06_done_1",
+  "@c06_done_2"
+ ],
+ "docs": [
+  {
+   "name": "last_message.txt",
+   "text": "@c06_d_msg"
+  },
+  {
+   "name": "welcome_meta.txt",
+   "text": "file: cafe-pc:/welcome.txt\nauthor: lee.hayun\ncreated: 2026-09-01"
+  },
+  {
+   "name": "staff_list.csv",
+   "text": "id,role,status\nlee.hayun,security engineer,left 2026-08\npark.seojun,finance,active\nmin.ho,sales,suspended"
+  },
+  {
+   "name": "handover.txt",
+   "lock": {
+    "length": 7
+   },
+   "text": "@c06_d_handover"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c06_q1",
+   "options": [
+    "@c06_q1_o1",
+    "@c06_q1_o2",
+    "@c06_q1_o3"
+   ],
+   "answer": 0
+  },
+  {
+   "q": "@c06_q2",
+   "options": [
+    "@c06_q2_o1",
+    "@c06_q2_o2",
+    "@c06_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

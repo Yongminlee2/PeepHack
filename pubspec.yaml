@@ -63,6 +63,7 @@ flutter:
     - assets/missions/
     - assets/sfx/
     - assets/images/
+    - assets/cases/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,5 +1,6 @@
 import 'breach.dart';
 import 'breach_gen.dart';
+import 'hash.dart';
 import 'wordguess.dart';
 
 /// 장비(상점)와 그 효과, 크레딧 보상.
@@ -40,7 +41,7 @@ BreachPuzzle crackPuzzle({
     base.daemonLens,
     base.time == null ? null : base.time! + (owned.contains('overclock') ? 10 : 0),
   );
-  return generate(p, _fnv('$missionId/$host/$port/$attempt'));
+  return generate(p, stableHash('$missionId/$host/$port/$attempt'));
 }
 
 /// 2장부터 짝수 번째 포트(2, 4…)는 단어 추리 — 판이 섞여야 지루하지 않다.
@@ -59,16 +60,7 @@ WordPuzzle wordCrackPuzzle({
   return generateWordPuzzle(
     length: len,
     count: count,
-    seed: _fnv('w/$missionId/$host/$port/$attempt'),
+    seed: stableHash('w/$missionId/$host/$port/$attempt'),
     attempts: 4 + (owned.contains('overclock') ? 1 : 0),
   );
-}
-
-/// 실행마다 같은 값이 나오는 문자열 해시(FNV-1a 32비트).
-int _fnv(String s) {
-  var h = 0x811c9dc5;
-  for (final c in s.codeUnits) {
-    h = ((h ^ c) * 0x01000193) & 0xffffffff;
-  }
-  return h;
 }

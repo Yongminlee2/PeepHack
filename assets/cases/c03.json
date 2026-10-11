@@ -1,0 +1,65 @@
+{
+ "id": "c03",
+ "title": "@c03_title",
+ "brief": [
+  "@c03_brief_1",
+  "@c03_brief_2"
+ ],
+ "done": [
+  "@c03_done_1"
+ ],
+ "docs": [
+  {
+   "name": "mail_1.eml",
+   "text": "From: billing@paypal.com\nSubject: Your invoice #8812\nLink: https://www.paypal.com/invoice/8812"
+  },
+  {
+   "name": "mail_2.eml",
+   "text": "From: service@paypa1.com\nSubject: Payment on hold - verify now\nLink: http://paypa1-secure.com/login"
+  },
+  {
+   "name": "mail_3.eml",
+   "text": "From: noreply@paypal.com\nSubject: Receipt for your payment\nLink: https://www.paypal.com/receipt/5521"
+  },
+  {
+   "name": "security_tip.txt",
+   "text": "@c03_d_tip"
+  },
+  {
+   "name": "click_log.csv",
+   "lock": {
+    "length": 5
+   },
+   "text": "time,mail,user\n09:02,mail_1,jun\n09:14,mail_2,hana\n09:20,mail_3,mina"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c03_q1",
+   "options": [
+    "mail_1",
+    "mail_2",
+    "mail_3"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c03_q2",
+   "options": [
+    "@c03_q2_o1",
+    "@c03_q2_o2",
+    "@c03_q2_o3"
+   ],
+   "answer": 0
+  },
+  {
+   "q": "@c03_q3",
+   "options": [
+    "jun",
+    "hana",
+    "mina"
+   ],
+   "answer": 1
+  }
+ ]
+}

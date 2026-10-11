@@ -1,0 +1,52 @@
+{
+ "id": "c05",
+ "title": "@c05_title",
+ "brief": [
+  "@c05_brief_1",
+  "@c05_brief_2"
+ ],
+ "done": [
+  "@c05_done_1"
+ ],
+ "docs": [
+  {
+   "name": "printer.log",
+   "text": "19:40 print merger_plan.pdf user=guest pages=12 printer=3F-B"
+  },
+  {
+   "name": "badge.log",
+   "text": "19:31 3F in   card=0418 (yoon)\n19:36 3F in   card=0722 (choi)\n19:52 3F out  card=0722 (choi)\n20:30 3F out  card=0418 (yoon)"
+  },
+  {
+   "name": "guard_note.txt",
+   "text": "@c05_d_guard"
+  },
+  {
+   "name": "team_chat.txt",
+   "lock": {
+    "length": 6
+   },
+   "text": "@c05_d_chat"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c05_q1",
+   "options": [
+    "@c05_q1_o1",
+    "@c05_q1_o2",
+    "@c05_q1_o3"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c05_q2",
+   "options": [
+    "@c05_q2_o1",
+    "@c05_q2_o2",
+    "@c05_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

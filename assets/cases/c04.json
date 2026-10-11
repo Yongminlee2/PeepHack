@@ -1,0 +1,52 @@
+{
+ "id": "c04",
+ "title": "@c04_title",
+ "brief": [
+  "@c04_brief_1",
+  "@c04_brief_2"
+ ],
+ "done": [
+  "@c04_done_1"
+ ],
+ "docs": [
+  {
+   "name": "git_log.txt",
+   "text": "f7a1  10-02 10:11  dahye  add login page\nc3d9  10-02 23:48  taeho  fix typo\nb2e0  10-03 09:02  dahye  remove leaked file"
+  },
+  {
+   "name": "git_show_c3d9.txt",
+   "text": "commit c3d9  fix typo\n  README.md        | 1 -\n+ config/deploy.key | 27 +++\n+-----BEGIN PRIVATE KEY-----"
+  },
+  {
+   "name": "chat.txt",
+   "text": "@c04_d_chat"
+  },
+  {
+   "name": "reflog.txt",
+   "lock": {
+    "length": 6
+   },
+   "text": "b2e0 dahye: remove config/deploy.key (added in c3d9 by taeho)\nc3d9 taeho: commit (amend)"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c04_q1",
+   "options": [
+    "dahye",
+    "taeho",
+    "unknown"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c04_q2",
+   "options": [
+    "@c04_q2_o1",
+    "@c04_q2_o2",
+    "@c04_q2_o3"
+   ],
+   "answer": 0
+  }
+ ]
+}

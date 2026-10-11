@@ -1,0 +1,45 @@
+{
+ "id": "c02",
+ "title": "@c02_title",
+ "brief": [
+  "@c02_brief_1",
+  "@c02_brief_2"
+ ],
+ "done": [
+  "@c02_done_1"
+ ],
+ "docs": [
+  {
+   "name": "auth.log",
+   "text": "03:12 login ok   user=finance01 ip=203.0.113.50 country=JP\n03:12 2fa   ok   device=finance01-phone\n03:40 download   payroll.xlsx user=finance01"
+  },
+  {
+   "name": "calendar.txt",
+   "text": "@c02_d_cal"
+  },
+  {
+   "name": "team_chat.txt",
+   "text": "@c02_d_chat"
+  }
+ ],
+ "questions": [
+  {
+   "q": "@c02_q1",
+   "options": [
+    "@c02_q1_o1",
+    "@c02_q1_o2",
+    "@c02_q1_o3"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c02_q2",
+   "options": [
+    "@c02_q2_o1",
+    "@c02_q2_o2",
+    "@c02_q2_o3"
+   ],
+   "answer": 1
+  }
+ ]
+}
