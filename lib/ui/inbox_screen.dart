@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../catalog.dart';
@@ -22,6 +23,11 @@ class InboxScreen extends StatefulWidget {
 }
 
 class _InboxState extends State<InboxScreen> {
+  // 개발용: 디버그 빌드에서 제목을 7번 누르면 모든 임무가 열린다(실기기 확인용). 출시 빌드엔 없다.
+  int _devTaps = 0;
+  bool _devUnlock = false;
+  bool _open(Progress p, String id, List<String> ids) => _devUnlock || p.isUnlocked(id, ids);
+
   @override
   Widget build(BuildContext context) {
     final p = widget.progress;
@@ -29,7 +35,10 @@ class _InboxState extends State<InboxScreen> {
     final ids = c.orderedIds;
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.t('inbox_title')),
+        title: GestureDetector(
+          onTap: kDebugMode ? () => setState(() => _devUnlock = ++_devTaps >= 7) : null,
+          child: Text(S.t('inbox_title')),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.videogame_asset),
@@ -58,12 +67,12 @@ class _InboxState extends State<InboxScreen> {
               child: Text('// ${S.tn('inbox_chapter_n', {'n': ch})}', style: const TextStyle(color: hqOrange, fontSize: 16, letterSpacing: 1)),
             ),
             for (final m in c.chapter(ch))
-              _card(p.isUnlocked(m.id, ids), ListTile(
-                enabled: p.isUnlocked(m.id, ids),
-                leading: Icon(p.isDone(m.id) ? Icons.check_circle : (p.isUnlocked(m.id, ids) ? Icons.mail : Icons.lock),
+              _card(_open(p, m.id, ids), ListTile(
+                enabled: _open(p, m.id, ids),
+                leading: Icon(p.isDone(m.id) ? Icons.check_circle : (_open(p, m.id, ids) ? Icons.mail : Icons.lock),
                     color: p.isDone(m.id) ? hqGreen : hqDim),
                 title: Text(tr(m.title)),
-                subtitle: p.isUnlocked(m.id, ids) ? null : Text(S.t('inbox_locked')),
+                subtitle: _open(p, m.id, ids) ? null : Text(S.t('inbox_locked')),
                 trailing: Text('★' * p.stars(m.id), style: const TextStyle(color: hqOrange)),
                 onTap: () async {
                   await Navigator.push(context, MaterialPageRoute(
