@@ -11,22 +11,30 @@
  "docs": [
   {
    "name": "chat.txt",
-   "text": "@c09_d_chat"
+   "text": "@c09_d_chat_txt"
   },
   {
-   "name": "link.txt",
-   "text": "https://safe-pay-market.shop/order/8812"
+   "name": "links.txt",
+   "text": "link A (made with the in-app \"request payment\" button): https://market.app/pay/8812\nlink B (sent by the buyer):                            https://safe-pay-market.shop/order/8812"
   },
   {
    "name": "app_notice.txt",
-   "text": "@c09_d_notice"
+   "text": "@c09_d_app_notice_txt"
+  },
+  {
+   "name": "support_chat.txt",
+   "text": "@c09_d_support_chat_txt"
   },
   {
    "name": "buyer_reports.txt",
+   "text": "@c09_d_buyer_reports_txt"
+  },
+  {
+   "name": "whois.txt",
+   "text": "domain:   safe-pay-market.shop\ncreated:  2026-10-07\nregistrant phone: +82-10-****-5521\n(the deal chat started 2026-10-10)",
    "lock": {
     "length": 5
-   },
-   "text": "@c09_d_reports"
+   }
   }
  ],
  "questions": [
@@ -35,7 +43,9 @@
    "options": [
     "@c09_q1_o1",
     "@c09_q1_o2",
-    "@c09_q1_o3"
+    "@c09_q1_o3",
+    "@c09_q1_o4",
+    "@c09_q1_o5"
    ],
    "answer": 0
   },
@@ -44,9 +54,33 @@
    "options": [
     "@c09_q2_o1",
     "@c09_q2_o2",
-    "@c09_q2_o3"
+    "@c09_q2_o3",
+    "@c09_q2_o4",
+    "@c09_q2_o5"
    ],
-   "answer": 0
+   "answer": 1
+  },
+  {
+   "q": "@c09_q3",
+   "options": [
+    "2026-09-01",
+    "2026-10-10",
+    "2026-10-07",
+    "@c09_q3_o4",
+    "@c09_q3_o5"
+   ],
+   "answer": 2
+  },
+  {
+   "q": "@c09_q4",
+   "options": [
+    "@c09_q4_o1",
+    "@c09_q4_o2",
+    "@c09_q4_o3",
+    "@c09_q4_o4",
+    "@c09_q4_o5"
+   ],
+   "answer": 1
   }
  ]
 }

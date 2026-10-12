@@ -11,40 +11,85 @@
  "docs": [
   {
    "name": "lock_log.txt",
-   "text": "02:03 unlock  method=app  user=guest_temp\n02:03 door opened\n02:05 door closed\n09:12 unlock  method=fingerprint  user=owner"
+   "text": "10-08 14:20 unlock  method=pin  code=one-time (delivery)\n10-11 02:03 unlock  method=app  user=guest_02  device=SM-A546\n10-11 02:03 door opened\n10-11 02:05 door closed\n10-11 09:12 unlock  method=fingerprint  user=owner"
   },
   {
    "name": "app_users.txt",
-   "text": "owner        (me)\nguest_temp   created 09-20 by owner   expires: never"
+   "text": "owner     (me)\nguest_01  created 09-20 by owner     expires 09-21\nguest_02  created 09-20 by guest_01  expires never"
   },
   {
    "name": "memo.txt",
-   "text": "@c11_d_memo"
+   "text": "@c11_d_memo_txt"
   },
   {
    "name": "technician_sms.txt",
+   "text": "@c11_d_technician_sms_txt"
+  },
+  {
+   "name": "device_note.txt",
+   "text": "SM-A546 = Samsung Galaxy A54"
+  },
+  {
+   "name": "share_rule.txt",
+   "text": "@c11_d_share_rule_txt",
    "lock": {
     "length": 7
-   },
-   "text": "@c11_d_tech"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c11_q1",
    "options": [
-    "@c11_q1_o1",
-    "@c11_q1_o2",
-    "@c11_q1_o3"
+    "owner",
+    "guest_01",
+    "guest_02",
+    "@c11_q1_o4",
+    "@c11_q1_o5"
    ],
-   "answer": 1
+   "answer": 2
   },
   {
    "q": "@c11_q2",
    "options": [
     "@c11_q2_o1",
     "@c11_q2_o2",
-    "@c11_q2_o3"
+    "@c11_q2_o3",
+    "@c11_q2_o4",
+    "@c11_q2_o5"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c11_q3",
+   "options": [
+    "@c11_q3_o1",
+    "@c11_q3_o2",
+    "@c11_q3_o3",
+    "@c11_q3_o4",
+    "@c11_q3_o5"
+   ],
+   "answer": 3
+  },
+  {
+   "q": "@c11_q4",
+   "options": [
+    "@c11_q4_o1",
+    "@c11_q4_o2",
+    "@c11_q4_o3",
+    "@c11_q4_o4",
+    "@c11_q4_o5"
+   ],
+   "answer": 4
+  },
+  {
+   "q": "@c11_q5",
+   "options": [
+    "@c11_q5_o1",
+    "@c11_q5_o2",
+    "@c11_q5_o3",
+    "@c11_q5_o4",
+    "@c11_q5_o5"
    ],
    "answer": 0
   }

@@ -11,31 +11,40 @@
  "docs": [
   {
    "name": "printer.log",
-   "text": "19:40 print merger_plan.pdf user=guest pages=12 printer=3F-B"
+   "text": "19:52 print merger_plan.pdf user=guest pages=12 printer=3F-B"
+  },
+  {
+   "name": "maint_memo.txt",
+   "text": "@c05_d_maint_memo_txt"
   },
   {
    "name": "badge.log",
-   "text": "19:31 3F in   card=0418 (yoon)\n19:36 3F in   card=0722 (choi)\n19:52 3F out  card=0722 (choi)\n20:30 3F out  card=0418 (yoon)"
+   "text": "19:31 3F in   card=0418\n19:36 3F in   card=0722\n19:44 3F in   card=0913\n19:47 3F out  card=0722\n20:02 3F out  card=0913\n20:30 3F out  card=0418"
   },
   {
    "name": "guard_note.txt",
-   "text": "@c05_d_guard"
+   "text": "@c05_d_guard_note_txt"
   },
   {
    "name": "team_chat.txt",
+   "text": "@c05_d_team_chat_txt"
+  },
+  {
+   "name": "cards.csv",
+   "text": "card,name\n0418,yoon\n0722,choi\n0913,kang\n1201,seo",
    "lock": {
     "length": 6
-   },
-   "text": "@c05_d_chat"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c05_q1",
    "options": [
-    "@c05_q1_o1",
-    "@c05_q1_o2",
-    "@c05_q1_o3"
+    "19:28",
+    "19:40",
+    "19:52",
+    "20:04"
    ],
    "answer": 1
   },
@@ -44,9 +53,20 @@
    "options": [
     "@c05_q2_o1",
     "@c05_q2_o2",
-    "@c05_q2_o3"
+    "@c05_q2_o3",
+    "@c05_q2_o4"
    ],
-   "answer": 0
+   "answer": 2
+  },
+  {
+   "q": "@c05_q3",
+   "options": [
+    "@c05_q3_o1",
+    "@c05_q3_o2",
+    "@c05_q3_o3",
+    "@c05_q3_o4"
+   ],
+   "answer": 1
   }
  ]
 }

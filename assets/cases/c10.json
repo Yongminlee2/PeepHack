@@ -11,22 +11,30 @@
  "docs": [
   {
    "name": "photo_meta.txt",
-   "text": "posted image: IMG_2231_edit.jpg\nedited with: SnapCut v2 (watermark: 'made by jw_cut')"
+   "text": "forum image: IMG_2231_edit.jpg\nwatermark:   SnapCut 'jw_cut'\nuploaded:    10-09 23:41  device=iPhone 13 mini\nuploader:    하늘색구름"
+  },
+  {
+   "name": "group_log.txt",
+   "text": "10-09 22:10 jiwoo   posted IMG_2231_edit.jpg  'lol I made a meme'\n10-09 23:38 haneul  saved IMG_2231_edit.jpg\n10-09 23:39 minji   saved IMG_2231_edit.jpg"
   },
   {
    "name": "members.txt",
-   "text": "minji   nickname: minjj\njiwoo   nickname: jw_cut\nhaneul  nickname: sky_h\n(+9 more)"
+   "text": "minji   SnapCut: minjj   phone: Galaxy S24\njiwoo   SnapCut: jw_cut  phone: iPhone 15\nhaneul  SnapCut: sky_h   phone: iPhone 13 mini\ndohyun  SnapCut: dh      phone: Galaxy A54\n(+8 more)"
   },
   {
    "name": "group_rules.txt",
-   "text": "@c10_d_rules"
+   "text": "@c10_d_group_rules_txt"
   },
   {
-   "name": "dm.txt",
+   "name": "club_note.txt",
+   "text": "@c10_d_club_note_txt"
+  },
+  {
+   "name": "forum_profile.txt",
+   "text": "nickname: 하늘색구름\njoined:   2026-03\nposts:    \"our club festival recap\" (2026-05)\n          IMG_2231_edit.jpg (2026-10-09)\nclub role listed in recap: promotion — haneul",
    "lock": {
     "length": 6
-   },
-   "text": "@c10_d_dm"
+   }
   }
  ],
  "questions": [
@@ -35,7 +43,9 @@
    "options": [
     "minji",
     "jiwoo",
-    "haneul"
+    "haneul",
+    "dohyun",
+    "@c10_q1_o5"
    ],
    "answer": 1
   },
@@ -44,7 +54,31 @@
    "options": [
     "@c10_q2_o1",
     "@c10_q2_o2",
-    "@c10_q2_o3"
+    "@c10_q2_o3",
+    "@c10_q2_o4",
+    "@c10_q2_o5"
+   ],
+   "answer": 3
+  },
+  {
+   "q": "@c10_q3",
+   "options": [
+    "minji",
+    "jiwoo",
+    "haneul",
+    "dohyun",
+    "@c10_q3_o5"
+   ],
+   "answer": 2
+  },
+  {
+   "q": "@c10_q4",
+   "options": [
+    "@c10_q4_o1",
+    "@c10_q4_o2",
+    "@c10_q4_o3",
+    "@c10_q4_o4",
+    "@c10_q4_o5"
    ],
    "answer": 0
   }

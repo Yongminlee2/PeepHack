@@ -6,20 +6,32 @@
   "@c02_brief_2"
  ],
  "done": [
-  "@c02_done_1"
+  "@c02_done_1",
+  "@c02_done_2"
  ],
  "docs": [
   {
    "name": "auth.log",
-   "text": "03:12 login ok   user=finance01 ip=203.0.113.50 country=JP\n03:12 2fa   ok   device=finance01-phone\n03:40 download   payroll.xlsx user=finance01"
+   "text": "2026-10-10T09:05Z login ok  user=finance01 ip=10.1.1.4     geo=KR device=FIN-PC-02\n2026-10-10T18:12Z login ok  user=finance01 ip=203.0.113.50 geo=JP 2fa=push device=FIN-PHONE-07\n2026-10-10T18:40Z download  payroll.xlsx user=finance01"
+  },
+  {
+   "name": "server_note.txt",
+   "text": "@c02_d_server_note_txt"
   },
   {
    "name": "calendar.txt",
-   "text": "@c02_d_cal"
+   "text": "@c02_d_calendar_txt"
   },
   {
    "name": "team_chat.txt",
-   "text": "@c02_d_chat"
+   "text": "@c02_d_team_chat_txt"
+  },
+  {
+   "name": "device_list.csv",
+   "text": "device,owner\nFIN-PC-02,shared\nFIN-PHONE-03,kim.haeun\nFIN-PHONE-07,park.seojun",
+   "lock": {
+    "length": 6
+   }
   }
  ],
  "questions": [
@@ -28,7 +40,8 @@
    "options": [
     "@c02_q1_o1",
     "@c02_q1_o2",
-    "@c02_q1_o3"
+    "@c02_q1_o3",
+    "@c02_q1_o4"
    ],
    "answer": 1
   },
@@ -37,9 +50,20 @@
    "options": [
     "@c02_q2_o1",
     "@c02_q2_o2",
-    "@c02_q2_o3"
+    "@c02_q2_o3",
+    "@c02_q2_o4"
    ],
-   "answer": 1
+   "answer": 2
+  },
+  {
+   "q": "@c02_q3",
+   "options": [
+    "@c02_q3_o1",
+    "@c02_q3_o2",
+    "@c02_q3_o3",
+    "@c02_q3_o4"
+   ],
+   "answer": 3
   }
  ]
 }

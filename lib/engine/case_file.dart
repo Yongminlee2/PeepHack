@@ -6,6 +6,9 @@ import 'wordguess.dart';
 /// 사건 파일: 의뢰 + 자료(일부는 단어 추리로 잠김) + 결론 질문. Flutter 의존 없음.
 const kCaseCount = 12;
 
+/// 이만큼 틀리면 사건 실패(처음부터 다시).
+const kCaseMaxWrong = 3;
+
 /// 사건 번호 → id (c01 … c12).
 String caseId(int n) => 'c${n.toString().padLeft(2, '0')}';
 
@@ -58,11 +61,12 @@ class CaseGame {
 
   CaseQuestion? get current => index < file.questions.length ? file.questions[index] : null;
   bool get finished => current == null;
+  bool get failed => wrong >= kCaseMaxWrong;
 
   /// 맞으면 다음 질문으로. 틀리면 오답 +1, 같은 질문 그대로.
   bool answer(int option) {
     final q = current;
-    if (q == null) return false;
+    if (q == null || failed) return false;
     if (option == q.answer) {
       index++;
       return true;
@@ -77,5 +81,15 @@ class CaseGame {
 
 /// 잠긴 자료를 여는 단어 추리. 같은 사건·자료면 같은 퍼즐.
 /// 실패하면 [attempt] 를 올려 다른 퍼즐을 낸다(같은 퍼즐이면 답을 외워 버린다).
-WordPuzzle caseLockPuzzle(String caseId, String docName, int length, [int attempt = 0]) =>
-    generateWordPuzzle(length: length, count: 8, seed: stableHash('case/$caseId/$docName/$attempt'));
+/// 뒤 사건일수록 후보가 늘고 기회·괄호 보너스가 준다.
+WordPuzzle caseLockPuzzle(String caseId, String docName, int length, [int attempt = 0]) {
+  final n = int.tryParse(caseId.substring(1)) ?? 1;
+  final (tries, brackets) = n <= 4 ? (4, 3) : (n <= 8 ? (4, 2) : (3, 1));
+  return generateWordPuzzle(
+    length: length,
+    count: const {5: 8, 6: 9, 7: 10}[length] ?? 8,
+    seed: stableHash('case/$caseId/$docName/$attempt'),
+    attempts: tries,
+    brackets: brackets,
+  );
+}

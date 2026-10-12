@@ -34,12 +34,29 @@ void main() {
     expect(g.current, isNull);
     expect(g.stars, 2);
     expect(CaseGame(CaseFile.parse(sample)).starsFor(0), 3);
-    expect(CaseGame(CaseFile.parse(sample)).starsFor(5), 1);
+    expect(CaseGame(CaseFile.parse(sample)).starsFor(2), 1);
   });
 
-  test('잠긴 자료의 단어 퍼즐: 길이대로, 같은 사건·자료는 같은 퍼즐', () {
+  test('세 번 틀리면 사건 실패: 더 고를 수 없고, 처음부터 다시 풀어야 한다', () {
+    final g = CaseGame(CaseFile.parse(sample));
+    g.answer(0);
+    g.answer(2);
+    expect(g.failed, isFalse);
+    g.answer(0);
+    expect(g.failed, isTrue);
+    expect(g.finished, isFalse);
+    expect(g.answer(1), isFalse); // 실패한 뒤엔 맞는 답도 안 받는다
+    expect(kCaseMaxWrong, 3);
+  });
+
+  test('잠긴 자료의 단어 퍼즐: 길이대로, 같은 사건·자료는 같은 퍼즐, 뒤 사건일수록 기회·괄호가 준다', () {
     final a = caseLockPuzzle('c99', 'secret.txt', 6);
     expect(a.words.first.length, 6);
+    int brackets(WordPuzzle p) => p.lines.expand((l) => l).where((t) => t.bracket != null).length;
+    final early = caseLockPuzzle('c02', 'x.txt', 5), late = caseLockPuzzle('c11', 'x.txt', 7);
+    expect((early.attempts, brackets(early)), (4, 3));
+    expect((late.attempts, brackets(late)), (3, 1));
+    expect(late.words.length, 10);
     expect(a.words, caseLockPuzzle('c99', 'secret.txt', 6).words);
     expect(a, isA<WordPuzzle>());
   });
@@ -59,11 +76,16 @@ void main() {
       final c = CaseFile.parse(raw);
       expect(c.id, id);
       expect(c.docs.length, greaterThanOrEqualTo(3), reason: '$id 자료');
-      expect(c.questions.length, greaterThanOrEqualTo(2), reason: '$id 질문');
+      // 어렵게: 질문 셋 이상(7번부터 넷 이상), 보기 넷 이상(7번부터 다섯 이상) — 찍어서는 안 맞는다
+      expect(c.questions.length, greaterThanOrEqualTo(i >= 7 ? 4 : 3), reason: '$id 질문');
+      expect(c.docs.length, greaterThanOrEqualTo(i >= 7 ? 5 : 4), reason: '$id 자료');
+      final answers = <int>{};
       for (final q in c.questions) {
         expect(q.answer, inInclusiveRange(0, q.options.length - 1), reason: '$id ${q.q}');
-        expect(q.options.length, greaterThanOrEqualTo(2));
+        expect(q.options.length, greaterThanOrEqualTo(i >= 7 ? 5 : 4), reason: '$id ${q.q}');
+        answers.add(q.answer);
       }
+      expect(answers.length, greaterThan(1), reason: '$id 정답 자리가 늘 같다');
       for (final d in c.docs) {
         if (d.lockLength != null) expect(d.lockLength, inInclusiveRange(5, 7));
       }

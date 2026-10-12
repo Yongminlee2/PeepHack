@@ -12,42 +12,96 @@
  "docs": [
   {
    "name": "last_message.txt",
-   "text": "@c12_d_msg"
+   "text": "@c12_d_last_message_txt"
   },
   {
    "name": "welcome_meta.txt",
-   "text": "file: cafe-pc:/welcome.txt\nauthor: lee.hayun\ncreated: 2026-09-01"
+   "text": "file:     cafe-pc:/welcome.txt\nauthor:   admin\ncreated:  2026-09-01 03:14\nfrom host: sec-lab-07"
+  },
+  {
+   "name": "asset_list.csv",
+   "text": "asset,team,last user,status\nsec-lab-07,security,lee.hayun,\"returned 2026-08-31, remote access still on\"\nFIN-PHONE-07,finance,park.seojun,in use\n3F-B,facilities,-,in use"
   },
   {
    "name": "staff_list.csv",
-   "text": "id,role,status\nlee.hayun,security engineer,left 2026-08\npark.seojun,finance,active\nmin.ho,sales,suspended"
+   "text": "id,role,status\nlee.hayun,security engineer,left 2026-08-31\npark.seojun,finance,active\nmin.ho,sales,suspended 2026-10-13\nkim.taeho,developer,active\nhan.dahye,developer,active"
+  },
+  {
+   "name": "old_blame.txt",
+   "text": "repo: security-checks\nlee.hayun  2026-07-30  # TODO: check cafe-pc, printer 3F-B // g\nkim.taeho  2026-08-02  # fix typo\nhan.dahye  2026-08-05  # add login page"
+  },
+  {
+   "name": "minho_note.txt",
+   "text": "@c12_d_minho_note_txt"
   },
   {
    "name": "handover.txt",
+   "text": "@c12_d_handover_txt",
    "lock": {
     "length": 7
-   },
-   "text": "@c12_d_handover"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c12_q1",
    "options": [
-    "@c12_q1_o1",
-    "@c12_q1_o2",
-    "@c12_q1_o3"
+    "cafe-pc",
+    "sec-lab-07",
+    "FIN-PHONE-07",
+    "3F-B",
+    "@c12_q1_o5",
+    "@c12_q1_o6"
    ],
-   "answer": 0
+   "answer": 1
   },
   {
    "q": "@c12_q2",
    "options": [
-    "@c12_q2_o1",
-    "@c12_q2_o2",
-    "@c12_q2_o3"
+    "park.seojun",
+    "min.ho",
+    "lee.hayun",
+    "kim.taeho",
+    "han.dahye",
+    "@c12_q2_o6"
+   ],
+   "answer": 2
+  },
+  {
+   "q": "@c12_q3",
+   "options": [
+    "@c12_q3_o1",
+    "@c12_q3_o2",
+    "@c12_q3_o3",
+    "@c12_q3_o4",
+    "@c12_q3_o5",
+    "@c12_q3_o6"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c12_q4",
+   "options": [
+    "@c12_q4_o1",
+    "@c12_q4_o2",
+    "@c12_q4_o3",
+    "@c12_q4_o4",
+    "@c12_q4_o5",
+    "@c12_q4_o6"
    ],
    "answer": 0
+  },
+  {
+   "q": "@c12_q5",
+   "options": [
+    "@c12_q5_o1",
+    "@c12_q5_o2",
+    "@c12_q5_o3",
+    "@c12_q5_o4",
+    "@c12_q5_o5",
+    "@c12_q5_o6"
+   ],
+   "answer": 3
   }
  ]
 }

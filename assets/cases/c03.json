@@ -11,26 +11,34 @@
  "docs": [
   {
    "name": "mail_1.eml",
-   "text": "From: billing@paypal.com\nSubject: Your invoice #8812\nLink: https://www.paypal.com/invoice/8812"
+   "text": "From: \"PayPal\" <service@paypal.com>\nSubject: Your invoice #8812\nLink: https://www.paypal.com/invoice/8812"
   },
   {
    "name": "mail_2.eml",
-   "text": "From: service@paypa1.com\nSubject: Payment on hold - verify now\nLink: http://paypa1-secure.com/login"
+   "text": "From: \"PayPaI Billing\" <billing@paypal.com>\nSubject: Receipt\nLink: https://www.paypal.com/receipt/5521"
   },
   {
    "name": "mail_3.eml",
-   "text": "From: noreply@paypal.com\nSubject: Receipt for your payment\nLink: https://www.paypal.com/receipt/5521"
+   "text": "From: <noreply@paypal.com.billing-center.net>\nSubject: Payment on hold - verify now\nLink: https://paypal.com.billing-center.net/verify"
+  },
+  {
+   "name": "mail_4.eml",
+   "text": "From: <receipts@paypal.com>\nSubject: Receipt for your payment\nLink: https://www.paypal.com/receipt/7710"
   },
   {
    "name": "security_tip.txt",
-   "text": "@c03_d_tip"
+   "text": "@c03_d_security_tip_txt"
   },
   {
-   "name": "click_log.csv",
+   "name": "staff.csv",
+   "text": "uid,name\nu17,jun\nu23,hana\nu31,mina\nu40,dohyun"
+  },
+  {
+   "name": "proxy.log",
+   "text": "09:02 GET  www.paypal.com/invoice/8812             uid=u31\n09:14 GET  paypal.com.billing-center.net/verify   uid=u23\n09:15 POST paypal.com.billing-center.net/verify   uid=u23\n09:41 GET  paypal.com.billing-center.net/verify   uid=u17",
    "lock": {
     "length": 5
-   },
-   "text": "time,mail,user\n09:02,mail_1,jun\n09:14,mail_2,hana\n09:20,mail_3,mina"
+   }
   }
  ],
  "questions": [
@@ -39,27 +47,30 @@
    "options": [
     "mail_1",
     "mail_2",
-    "mail_3"
+    "mail_3",
+    "mail_4"
    ],
-   "answer": 1
+   "answer": 2
   },
   {
    "q": "@c03_q2",
    "options": [
     "@c03_q2_o1",
     "@c03_q2_o2",
-    "@c03_q2_o3"
+    "@c03_q2_o3",
+    "@c03_q2_o4"
    ],
-   "answer": 0
+   "answer": 1
   },
   {
    "q": "@c03_q3",
    "options": [
     "jun",
-    "hana",
-    "mina"
+    "mina",
+    "dohyun",
+    "hana"
    ],
-   "answer": 1
+   "answer": 3
   }
  ]
 }

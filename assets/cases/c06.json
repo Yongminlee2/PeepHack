@@ -11,40 +11,46 @@
  "docs": [
   {
    "name": "login_alerts.txt",
-   "text": "10-03 21:14 new login  Seoul, Galaxy S23 (suah phone)\n10-05 02:31 new login  Lagos, Windows PC\n10-05 02:33 password changed\n10-05 02:34 email changed to s.uah@mai1box.net"
+   "text": "10-03 21:14 new login        Seoul, Galaxy S23 (suah phone)\n10-05 02:31 new login        Lagos, Windows PC\n10-05 02:33 password changed\n10-05 02:34 email changed to s.uah@mai1box.net\n10-05 02:40 two-factor turned ON"
   },
   {
    "name": "dm_capture.txt",
-   "text": "@c06_d_dm"
+   "text": "@c06_d_dm_capture_txt"
   },
   {
    "name": "suah_message.txt",
-   "text": "@c06_d_suah"
+   "text": "@c06_d_suah_message_txt"
+  },
+  {
+   "name": "official_help.txt",
+   "text": "@c06_d_official_help_txt"
   },
   {
    "name": "browser_history.txt",
+   "text": "10-04 22:12 insta-help-center.co/login\n10-04 22:13 insta-help-center.co/verified\n10-04 22:31 help.instagram.com/security",
    "lock": {
     "length": 5
-   },
-   "text": "10-04 22:12 insta-help-center.co/login\n10-04 22:13 insta-help-center.co/verified"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c06_q1",
    "options": [
-    "@c06_q1_o1",
-    "@c06_q1_o2",
-    "@c06_q1_o3"
+    "insta-help-center.co",
+    "help.instagram.com",
+    "mai1box.net",
+    "instagram.com"
    ],
-   "answer": 1
+   "answer": 0
   },
   {
    "q": "@c06_q2",
    "options": [
     "@c06_q2_o1",
     "@c06_q2_o2",
-    "@c06_q2_o3"
+    "@c06_q2_o3",
+    "@c06_q2_o4"
    ],
    "answer": 1
   },
@@ -53,9 +59,10 @@
    "options": [
     "@c06_q3_o1",
     "@c06_q3_o2",
-    "@c06_q3_o3"
+    "@c06_q3_o3",
+    "@c06_q3_o4"
    ],
-   "answer": 1
+   "answer": 3
   }
  ]
 }

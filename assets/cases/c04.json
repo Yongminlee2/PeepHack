@@ -11,42 +11,62 @@
  "docs": [
   {
    "name": "git_log.txt",
-   "text": "f7a1  10-02 10:11  dahye  add login page\nc3d9  10-02 23:48  taeho  fix typo\nb2e0  10-03 09:02  dahye  remove leaked file"
+   "text": "f7a1  10-02 10:11  author=dahye  add login page\na91c  10-02 18:30  author=taeho  update readme\nc3d9  10-02 23:48  author=dahye  fix typo\nb2e0  10-03 09:02  author=dahye  remove leaked file"
   },
   {
    "name": "git_show_c3d9.txt",
-   "text": "commit c3d9  fix typo\n  README.md        | 1 -\n+ config/deploy.key | 27 +++\n+-----BEGIN PRIVATE KEY-----"
+   "text": "commit c3d9  fix typo\n  README.md          | 1 -\n+ config/deploy.key  | 27 +++\n+ -----BEGIN PRIVATE KEY-----"
+  },
+  {
+   "name": "push_log.txt",
+   "text": "10-02 10:12 push f7a1 key=SHA256:Mx9e\n10-02 18:31 push a91c key=SHA256:Kq7b\n10-02 23:49 push c3d9 key=SHA256:Zt2c\n10-03 09:03 push b2e0 key=SHA256:Mx9e"
+  },
+  {
+   "name": "git_note.txt",
+   "text": "@c04_d_git_note_txt"
   },
   {
    "name": "chat.txt",
-   "text": "@c04_d_chat"
+   "text": "@c04_d_chat_txt"
   },
   {
-   "name": "reflog.txt",
+   "name": "ssh_keys.txt",
+   "text": "SHA256:Mx9e  dahye  (work laptop)\nSHA256:Kq7b  taeho  (office desktop)\nSHA256:Zt2c  taeho  (home laptop)\nSHA256:Pp1a  junho  (work laptop)",
    "lock": {
     "length": 6
-   },
-   "text": "b2e0 dahye: remove config/deploy.key (added in c3d9 by taeho)\nc3d9 taeho: commit (amend)"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c04_q1",
    "options": [
-    "dahye",
-    "taeho",
-    "unknown"
+    "f7a1",
+    "a91c",
+    "c3d9",
+    "b2e0"
    ],
-   "answer": 1
+   "answer": 2
   },
   {
    "q": "@c04_q2",
    "options": [
-    "@c04_q2_o1",
-    "@c04_q2_o2",
-    "@c04_q2_o3"
+    "dahye",
+    "taeho",
+    "junho",
+    "@c04_q2_o4"
    ],
-   "answer": 0
+   "answer": 1
+  },
+  {
+   "q": "@c04_q3",
+   "options": [
+    "@c04_q3_o1",
+    "@c04_q3_o2",
+    "@c04_q3_o3",
+    "@c04_q3_o4"
+   ],
+   "answer": 3
   }
  ]
 }

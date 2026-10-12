@@ -11,30 +11,41 @@
  "docs": [
   {
    "name": "wifi_scan.txt",
-   "text": "SSID: CAFE_LATTE        security: WPA2   source: router at the counter\nSSID: CAFE_LATTE_FREE   security: OPEN   strongest near: window seat"
+   "text": "SSID CAFE_LATTE     BSSID 7C:2E:0D:11:4A:90  WPA2  ch6\nSSID CAFE_LATTE     BSSID A4:5E:60:C2:19:03  OPEN  ch11\nSSID CAFE_LATTE_5G  BSSID 7C:2E:0D:11:4A:91  WPA2  ch36\nSSID iptime_3F      BSSID 00:26:66:8B:02:10  WPA2  ch1"
+  },
+  {
+   "name": "router_sticker.txt",
+   "text": "@c08_d_router_sticker_txt"
   },
   {
    "name": "owner_note.txt",
-   "text": "@c08_d_owner"
+   "text": "@c08_d_owner_note_txt"
   },
   {
    "name": "seat_note.txt",
-   "text": "@c08_d_seat"
+   "text": "@c08_d_seat_note_txt"
   },
   {
-   "name": "login_page.txt",
+   "name": "victim_note.txt",
+   "text": "@c08_d_victim_note_txt"
+  },
+  {
+   "name": "signal_walk.txt",
+   "text": "BSSID A4:5E:60:C2:19:03 signal\n  counter        -71 dBm\n  window seat 2  -38 dBm\n  restroom door  -60 dBm\n  window seat 5  -55 dBm\n(closer to 0 = stronger)",
    "lock": {
     "length": 6
-   },
-   "text": "CAFE_LATTE_FREE login page: 'Sign in with your Google account to use free Wi-Fi'\nform posts to http://10.0.0.1/collect"
+   }
   }
  ],
  "questions": [
   {
    "q": "@c08_q1",
    "options": [
-    "CAFE_LATTE",
-    "CAFE_LATTE_FREE"
+    "7C:2E:0D:11:4A:90",
+    "A4:5E:60:C2:19:03",
+    "7C:2E:0D:11:4A:91",
+    "00:26:66:8B:02:10",
+    "@c08_q1_o5"
    ],
    "answer": 1
   },
@@ -43,18 +54,33 @@
    "options": [
     "@c08_q2_o1",
     "@c08_q2_o2",
-    "@c08_q2_o3"
+    "@c08_q2_o3",
+    "@c08_q2_o4",
+    "@c08_q2_o5"
    ],
-   "answer": 1
+   "answer": 2
   },
   {
    "q": "@c08_q3",
    "options": [
     "@c08_q3_o1",
     "@c08_q3_o2",
-    "@c08_q3_o3"
+    "@c08_q3_o3",
+    "@c08_q3_o4",
+    "@c08_q3_o5"
    ],
-   "answer": 0
+   "answer": 1
+  },
+  {
+   "q": "@c08_q4",
+   "options": [
+    "@c08_q4_o1",
+    "@c08_q4_o2",
+    "@c08_q4_o3",
+    "@c08_q4_o4",
+    "@c08_q4_o5"
+   ],
+   "answer": 3
   }
  ]
 }

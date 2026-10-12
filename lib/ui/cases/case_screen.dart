@@ -22,7 +22,7 @@ class CaseScreen extends StatefulWidget {
 }
 
 class _CaseScreenState extends State<CaseScreen> {
-  late final CaseGame game = CaseGame(widget.file);
+  late CaseGame game = CaseGame(widget.file); // 실패하면 새로
   final Set<String> unlocked = {};
   final Map<String, int> lockAttempts = {};
   bool concluding = false;
@@ -51,9 +51,9 @@ class _CaseScreenState extends State<CaseScreen> {
   }
 
   Future<void> _pick(int i) async {
-    if (wrongPicks.contains(i)) return;
+    if (wrongPicks.contains(i) || game.failed) return;
     if (!game.answer(i)) {
-      Sfx().play('fail');
+      Sfx().play(game.failed ? 'alarm' : 'fail');
       setState(() => wrongPicks.add(i));
       return;
     }
@@ -77,7 +77,7 @@ class _CaseScreenState extends State<CaseScreen> {
         body: Stack(fit: StackFit.expand, children: [
           const MatrixRain(opacity: 0.1),
           const CrtOverlay(),
-          if (earned != null) _result() else if (concluding) _questions() else _evidence(),
+          if (earned != null) _result() else if (game.failed) _failed() else if (concluding) _questions() else _evidence(),
         ]),
       );
 
@@ -155,6 +155,24 @@ class _CaseScreenState extends State<CaseScreen> {
       TextButton(onPressed: () => setState(() => concluding = false), child: Text(S.t('case_back_docs'))),
     ]);
   }
+
+  // 세 번 틀렸다: 처음부터(자료부터 다시 맞춰 보게)
+  Widget _failed() => ListView(padding: const EdgeInsets.all(24), children: [
+        const SizedBox(height: 24),
+        Center(child: Stamp(text: S.t('case_failed'))),
+        const SizedBox(height: 28),
+        Text(S.t('case_failed_desc'), textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, height: 1.5)),
+        const SizedBox(height: 28),
+        FilledButton(
+          key: const Key('case_retry'),
+          onPressed: () => setState(() {
+            game = CaseGame(widget.file);
+            wrongPicks.clear();
+            concluding = false;
+          }),
+          child: Text(S.t('btn_retry')),
+        ),
+      ]);
 
   Widget _result() => ListView(padding: const EdgeInsets.all(24), children: [
         const SizedBox(height: 8),

@@ -30,38 +30,37 @@ void main() {
     p = await Progress.load();
   });
 
-  testWidgets('자료를 읽고, 잠긴 자료는 단어 추리로 열고, 결론(오답 1개) → 별 2', (t) async {
+  testWidgets('자료를 읽고, 잠긴 이름표는 단어 추리로 열고, 결론(오답 1개) → 별 2', (t) async {
     final c = CaseFile.parse(File('assets/cases/c01.json').readAsStringSync());
     await t.pumpWidget(MaterialApp(home: CaseScreen(file: c, progress: p)));
     await settle(t);
 
     await t.tap(find.byKey(const Key('doc_admin_access.log')));
     await settle(t);
-    expect(find.textContaining('export coupon_list.csv'), findsOneWidget);
+    expect(find.textContaining('export  coupon_list.csv'), findsOneWidget);
     await t.pageBack();
     await settle(t);
 
-    await t.tap(find.byKey(const Key('doc_minho_dm.txt')));
+    await t.tap(find.byKey(const Key('doc_accounts.csv')));
     await settle(t);
-    final w = caseLockPuzzle('c01', 'minho_dm.txt', 5);
+    final w = caseLockPuzzle('c01', 'accounts.csv', 5);
     await t.ensureVisible(find.byKey(Key('word_${w.answer}')));
     await t.tap(find.byKey(Key('word_${w.answer}')));
     await t.pump(const Duration(seconds: 1)); // 「접속 허가」를 잠깐 보여 준 뒤 닫힌다
     await settle(t);
-    expect(find.text(S.t('c01_d_dm')), findsOneWidget); // 열리면 바로 내용
+    expect(find.textContaining('A-105,minho'), findsOneWidget); // 열리면 바로 내용
     await t.pageBack();
     await settle(t);
 
-    await t.ensureVisible(find.byKey(const Key('case_conclude')));
+    await t.scrollUntilVisible(find.byKey(const Key('case_conclude')), 200, scrollable: find.byType(Scrollable).last);
     await settle(t);
     await t.tap(find.byKey(const Key('case_conclude')));
     await settle(t);
-    await t.tap(find.byKey(const Key('opt_0'))); // 오답
-    await settle(t);
-    await t.tap(find.byKey(const Key('opt_1')));
-    await settle(t);
-    await t.tap(find.byKey(const Key('opt_0')));
-    await settle(t);
+    for (final o in [0, 1, 2, 1]) { // 첫 번째는 오답
+      await t.ensureVisible(find.byKey(Key('opt_$o')));
+      await t.tap(find.byKey(Key('opt_$o')));
+      await settle(t);
+    }
     expect(find.text(S.t('case_solved')), findsWidgets);
     expect(p.caseStars('c01'), 2);
     expect(p.credits, 60);
@@ -73,13 +72,15 @@ void main() {
     final c = CaseFile.parse(File('assets/cases/c01.json').readAsStringSync());
     await t.pumpWidget(MaterialApp(home: CaseScreen(file: c, progress: slow)));
     await settle(t);
-    await t.ensureVisible(find.byKey(const Key('case_conclude')));
+    await t.scrollUntilVisible(find.byKey(const Key('case_conclude')), 200, scrollable: find.byType(Scrollable).last);
     await settle(t);
     await t.tap(find.byKey(const Key('case_conclude')));
     await settle(t);
+    for (final o in [1, 2]) {
+      await t.tap(find.byKey(Key('opt_$o')));
+      await settle(t);
+    }
     await t.tap(find.byKey(const Key('opt_1')));
-    await settle(t);
-    await t.tap(find.byKey(const Key('opt_0')));
     await t.pump(); // 저장이 아직 안 끝난 첫 프레임
     expect(t.takeException(), isNull);
     expect(find.text(S.t('case_solved')), findsWidgets);
@@ -96,9 +97,9 @@ void main() {
     )));
     await t.tap(find.text('list'));
     await settle(t);
-    await t.tap(find.byKey(const Key('doc_minho_dm.txt')));
+    await t.tap(find.byKey(const Key('doc_accounts.csv')));
     await settle(t);
-    final w = caseLockPuzzle('c01', 'minho_dm.txt', 5);
+    final w = caseLockPuzzle('c01', 'accounts.csv', 5);
     await t.ensureVisible(find.byKey(Key('word_${w.answer}')));
     await t.tap(find.byKey(Key('word_${w.answer}')));
     await t.pump(const Duration(milliseconds: 200));
@@ -106,5 +107,29 @@ void main() {
     await t.pump(const Duration(seconds: 1));
     await settle(t);
     expect(find.byType(CaseScreen), findsOneWidget);
+  });
+  testWidgets('세 번 틀리면 사건 실패, 다시 하면 자료부터 처음부터', (t) async {
+    final c = CaseFile.parse(File('assets/cases/c01.json').readAsStringSync());
+    await t.pumpWidget(MaterialApp(home: CaseScreen(file: c, progress: p)));
+    await settle(t);
+    await t.scrollUntilVisible(find.byKey(const Key('case_conclude')), 200, scrollable: find.byType(Scrollable).last);
+    await t.tap(find.byKey(const Key('case_conclude')));
+    await settle(t);
+    final q = c.questions.first;
+    final wrongs = [for (var i = 0; i < q.options.length; i++) if (i != q.answer) i];
+    for (final w in wrongs.take(3)) {
+      await t.ensureVisible(find.byKey(Key('opt_$w')));
+      await t.tap(find.byKey(Key('opt_$w')));
+      await settle(t);
+    }
+    expect(find.text(S.t('case_failed')), findsWidgets);
+    expect(p.caseStars('c01'), 0);
+    await t.tap(find.byKey(const Key('case_retry')));
+    await settle(t);
+    expect(find.byKey(const Key('doc_admin_access.log')), findsOneWidget); // 자료 보기로 돌아왔다
+    await t.scrollUntilVisible(find.byKey(const Key('case_conclude')), 200, scrollable: find.byType(Scrollable).last);
+    await t.tap(find.byKey(const Key('case_conclude')));
+    await settle(t);
+    expect(find.text(S.tn('case_question_n', {'i': 1, 'n': c.questions.length})), findsOneWidget); // 첫 질문부터
   });
 }

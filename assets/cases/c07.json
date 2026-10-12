@@ -10,23 +10,31 @@
  ],
  "docs": [
   {
-   "name": "sms.txt",
-   "text": "[CJ Logistics] Delivery on hold: address unknown. Confirm here: http://cj-de1ivery.top/a7"
+   "name": "sms_inbox.txt",
+   "text": "[1] [CJ대한통운] 10/6 배송 완료되었습니다. 문의 1588-1255\n[2] [CJ Logistics] Delivery on hold: address unknown. Confirm: http://cj-de1ivery.top/a7\n[3] [우체국] 소포 도착 예정입니다. 조회: https://service.epost.go.kr"
   },
   {
    "name": "installed_apps.txt",
-   "text": "10-06 14:02 installed  delivery_check.apk (unknown source)\n10-06 14:03 permission granted: SMS, Contacts"
+   "text": "10-06 14:02 installed delivery_check.apk  source=unknown     perms=SMS,Contacts\n10-06 14:30 installed CJ대한통운          source=Play Store  perms=Notifications"
   },
   {
    "name": "mom_chat.txt",
-   "text": "@c07_d_mom"
+   "text": "@c07_d_mom_chat_txt"
   },
   {
    "name": "friend_sms.txt",
+   "text": "@c07_d_friend_sms_txt"
+  },
+  {
+   "name": "carrier_bill.txt",
+   "text": "2026-10-06  SMS sent: 39"
+  },
+  {
+   "name": "sent_sms_log.txt",
+   "text": "10-06 14:10-14:12  sent 38  via app=delivery_check  to=contacts\n10-06 15:00        sent 1   via app=Messages        to=daughter",
    "lock": {
     "length": 5
-   },
-   "text": "@c07_d_friend"
+   }
   }
  ],
  "questions": [
@@ -35,18 +43,44 @@
    "options": [
     "@c07_q1_o1",
     "@c07_q1_o2",
-    "@c07_q1_o3"
+    "@c07_q1_o3",
+    "@c07_q1_o4",
+    "@c07_q1_o5"
    ],
-   "answer": 0
+   "answer": 1
   },
   {
    "q": "@c07_q2",
    "options": [
     "@c07_q2_o1",
     "@c07_q2_o2",
-    "@c07_q2_o3"
+    "@c07_q2_o3",
+    "@c07_q2_o4",
+    "@c07_q2_o5"
    ],
-   "answer": 0
+   "answer": 2
+  },
+  {
+   "q": "@c07_q3",
+   "options": [
+    "0",
+    "1",
+    "38",
+    "39",
+    "40"
+   ],
+   "answer": 1
+  },
+  {
+   "q": "@c07_q4",
+   "options": [
+    "@c07_q4_o1",
+    "@c07_q4_o2",
+    "@c07_q4_o3",
+    "@c07_q4_o4",
+    "@c07_q4_o5"
+   ],
+   "answer": 3
   }
  ]
 }
