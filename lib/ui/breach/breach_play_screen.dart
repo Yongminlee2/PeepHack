@@ -43,6 +43,7 @@ class _BreachPlayState extends State<BreachPlayScreen> {
     } else {
       await widget.progress.setDailyStars(widget.day!, g.stars);
     }
+    await finishBeat();
     if (mounted) setState(() => result = g);
   }
 

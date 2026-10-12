@@ -8,6 +8,9 @@ import 'fx.dart';
 
 // 손맛 연출 부품. [Fx.animate] 가 꺼지면(위젯 테스트) 모두 끝 모습을 바로 그린다.
 
+/// 판을 끝낸 뒤 결과를 띄우기 전 숨 고르기 — 마지막 칸의 완료·연쇄 연출을 결과 판이 덮지 않게.
+Future<void> finishBeat() => Fx.animate ? Future<void>.delayed(const Duration(milliseconds: 900)) : Future.value();
+
 /// 한 번 도는 애니메이션의 공통 뼈대: [replay] 하면 처음부터 다시 돈다.
 abstract class _OnceState<T extends StatefulWidget> extends State<T> with SingleTickerProviderStateMixin {
   Duration get duration;

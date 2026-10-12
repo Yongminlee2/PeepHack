@@ -5,6 +5,7 @@ import '../engine/mission.dart';
 import '../engine/shop.dart';
 import '../strings.dart';
 import 'breach/breach_board.dart';
+import 'fx/juice.dart';
 import 'wordguess/word_board.dart';
 import 'theme.dart';
 
@@ -49,6 +50,8 @@ class _CrackPanelState extends State<CrackPanel> {
 
   Future<void> _result(bool ok) async {
     if (ok) {
+      await finishBeat(); // 뚫는 순간의 연출을 보고 넘어간다
+      if (!mounted) return;
       if (port + 1 >= ports) {
         widget.onCracked();
       } else {
