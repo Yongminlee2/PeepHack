@@ -67,9 +67,21 @@ void main() {
     await settle(t);
     expect(find.text(S.t('breach_success')), findsWidgets); // 글리치로 세 겹
     expect(p.breachStars(1), 3);
+    expect(find.byKey(const Key('effect_0')), findsOneWidget); // 결과에 얻은 효과 목록
+    expect(find.byKey(const Key('effect_1')), findsOneWidget);
+    expect(find.text(S.tn('breach_chain_n', {'n': 1})), findsOneWidget); // 1단계는 꼭 맞는 판 — 겹쳐 이어야 끝난다
     await t.tap(find.text(S.t('btn_next_stage')));
     await settle(t);
     expect(find.text(S.tn('breach_stage_n', {'n': 2})), findsOneWidget);
+  });
+
+  testWidgets('1단계는 따라 하기 연습판, 2단계부터는 안내 없음', (t) async {
+    await t.pumpWidget(MaterialApp(home: BreachPlayScreen.stage(progress: p, n: 1)));
+    await settle(t);
+    expect(find.text(S.t('breach_tut_top')), findsOneWidget);
+    await t.pumpWidget(MaterialApp(home: BreachPlayScreen.stage(key: UniqueKey(), progress: p, n: 2)));
+    await settle(t);
+    expect(find.text(S.t('breach_tut_top')), findsNothing);
   });
 
   testWidgets('다시: 같은 퍼즐을 처음부터', (t) async {

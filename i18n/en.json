@@ -350,7 +350,7 @@
   "breach_daily_title": "Today's puzzle {date}",
   "breach_stage_n": "Breach {n}",
   "breach_pack_n": "Pack {n}",
-  "breach_howto": "Start on the top row, then alternate between column and row. The codes you pick fill the buffer; build the target sequences to win.",
+  "breach_howto": "Start in the top row, then alternate between columns and rows. Orange cells move a target forward. Share codes between targets to finish them all in a short buffer.",
   "breach_success": "Access granted",
   "breach_fail": "Access denied",
   "breach_timeout": "Time up",
@@ -622,5 +622,14 @@
   "c12_done_2": "— Ghost. Or rather, Lee Hayun",
   "breach_streak": "🔥 {n}-day streak",
   "shell_err_hangul": "That was typed in Korean. Switch your keyboard to English",
-  "promo_coming": "Coming soon"
+  "promo_coming": "Coming soon",
+  "breach_d_alarm": "Disable alarm",
+  "breach_d_door": "Open door",
+  "breach_d_camera": "Kill cameras",
+  "breach_done": "{name} done",
+  "breach_chain": "Chain! Codes shared",
+  "breach_tut_top": "Tap the cell the finger points to in the top row",
+  "breach_tut_col": "Now you can only pick from that cell's column",
+  "breach_tut_row": "Now pick from its row. Column, row, column…",
+  "breach_chain_n": "Chain ×{n}"
 }

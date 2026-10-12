@@ -16,11 +16,20 @@ void main() {
   test('스테이지 표(설계 문서)', () {
     expect(kBreachStages, 60);
     final s1 = stageParams(1);
-    expect((s1.size, s1.codes, s1.buffer, s1.daemonLens.length, s1.time), (5, 4, 4, 1, null));
+    expect((s1.size, s1.codes, s1.buffer, s1.daemonLens.length, s1.time), (5, 4, 3, 2, null));
     final s35 = stageParams(35);
     expect((s35.size, s35.codes, s35.buffer, s35.daemonLens.length, s35.time), (6, 5, 7, 3, 60));
     final s60 = stageParams(60);
     expect((s60.size, s60.codes, s60.buffer, s60.daemonLens.length, s60.time), (7, 6, 8, 3, 40));
+    for (var n = 1; n <= kBreachStages; n++) {
+      final p = stageParams(n);
+      final chained = p.daemonLens.fold<int>(0, (a, l) => a + l) - (p.daemonLens.length - 1);
+      // 1단계부터 목표 둘 이상 — 하나짜리는 두 번 누르면 끝나 고민할 게 없었다
+      expect(p.daemonLens.length, greaterThanOrEqualTo(2), reason: '스테이지 $n');
+      // 16단계부터 버퍼가 꼭 맞다 — 목표를 겹쳐 잇지 않으면 별 3 이 안 나온다.
+      // 1단계(연습판)도 꼭 맞다 — 손가락이 가리키는 칸마다 목표가 채워져야 따라 하며 이해된다
+      if (n >= 16 || n == 1) expect(chained, p.buffer, reason: '스테이지 $n');
+    }
     expect(() => stageParams(0), throwsRangeError);
     expect(() => stageParams(61), throwsRangeError);
   });

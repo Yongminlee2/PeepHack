@@ -7,12 +7,18 @@ import '../../sfx.dart';
 import '../../strings.dart';
 import '../theme.dart';
 
+/// 목표(데몬)마다 붙는 효과 이름 — 코드 줄이 「무엇을 얻는지」로 읽히게.
+const kBreachEffects = ['alarm', 'door', 'camera'];
+String breachEffectName(int i) => S.t('breach_d_${kBreachEffects[i % kBreachEffects.length]}');
+
 /// 브리치 프로토콜 판(버퍼·목표·남은 시간·격자). 브리치 모드와 작전 모드(포트 크랙)가 같이 쓴다.
 /// 끝나면 [onFinish] 를 한 번 부른다.
+/// 누르면 목표가 한 칸 나아가는 칸은 주황으로 빛난다. [guide] 면 따라 하기 연습판(정답 칸을 가리키고 규칙을 한 줄씩).
 class BreachBoard extends StatefulWidget {
   final BreachPuzzle puzzle;
   final void Function(BreachGame game) onFinish;
-  const BreachBoard({super.key, required this.puzzle, required this.onFinish});
+  final bool guide;
+  const BreachBoard({super.key, required this.puzzle, required this.onFinish, this.guide = false});
 
   @override
   State<BreachBoard> createState() => _BreachBoardState();
@@ -23,11 +29,38 @@ class _BreachBoardState extends State<BreachBoard> {
   Timer? _timer;
   late int _left = widget.puzzle.timeLimit ?? 0;
   bool _ended = false;
+  String? _flash; // 「경보 끄기 완료」·「연쇄!」 — 잠깐 떴다 사라진다
+  bool _flashChain = false;
+  Timer? _flashTimer;
 
   @override
   void dispose() {
     _timer?.cancel();
+    _flashTimer?.cancel();
     super.dispose();
+  }
+
+  void _showDone() {
+    final done = game.lastCompleted;
+    if (done.isEmpty) return;
+    if (!game.finished) Sfx().play('ok'); // 마지막 칸은 _end 가 울린다
+    _flashChain = game.lastChained;
+    _flash = _flashChain ? S.t('breach_chain') : S.tn('breach_done', {'name': done.map(breachEffectName).join(', ')});
+    _flashTimer?.cancel();
+    _flashTimer = Timer(const Duration(milliseconds: 1600), () {
+      if (mounted) setState(() => _flash = null);
+    });
+  }
+
+  /// 연습판에서 다음에 누를 정답 칸(정답대로 따라오고 있을 때만).
+  (int, int)? get _guideCell {
+    final sol = widget.puzzle.solution;
+    final k = game.picks.length;
+    if (!widget.guide || game.finished || k >= sol.length) return null;
+    for (var i = 0; i < k; i++) {
+      if (game.picks[i] != sol[i]) return null;
+    }
+    return sol[k];
   }
 
   void _tap(int r, int c) {
@@ -43,7 +76,7 @@ class _BreachBoardState extends State<BreachBoard> {
         }
       });
     }
-    setState(() {});
+    setState(_showDone);
     _end();
   }
 
@@ -55,19 +88,13 @@ class _BreachBoardState extends State<BreachBoard> {
     widget.onFinish(game);
   }
 
-  /// 버퍼 끝이 목표의 앞부분과 몇 칸 맞는지(진행 표시용).
-  int _progress(List<String> d) {
-    final b = game.bufferCodes;
-    for (var k = d.length - 1; k > 0; k--) {
-      if (b.length >= k && List.generate(k, (i) => b[b.length - k + i]).join() == d.sublist(0, k).join()) return k;
-    }
-    return 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     final p = widget.puzzle;
     final legal = game.legalCells();
+    // 연습판에선 손가락 칸만 빛낸다(여럿 빛나면 어느 걸 누를지 헷갈렸다 — 실기기)
+    final hints = widget.guide ? const <(int, int)>{} : game.hintCells();
+    final guideCell = _guideCell;
     final k = game.picks.length;
     final finished = game.finished;
     bool inLine(int r, int c) {
@@ -109,13 +136,19 @@ class _BreachBoardState extends State<BreachBoard> {
             child: Row(children: [
               Icon(game.daemonDone(i) ? Icons.check_box : Icons.check_box_outline_blank,
                   size: 18, color: game.daemonDone(i) ? hqGreen : hqDim),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
+              // 효과 이름: 이 줄을 채우면 무엇을 얻는지
+              SizedBox(
+                width: 96,
+                child: Text(breachEffectName(i), maxLines: 1, overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13, color: game.daemonDone(i) ? hqGreen : Colors.white70)),
+              ),
               for (var j = 0; j < p.daemons[i].length; j++)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: Text(p.daemons[i][j],
                       style: mono.copyWith(
-                          color: game.daemonDone(i) ? hqGreen : (j < _progress(p.daemons[i]) ? hqOrange : Colors.white70))),
+                          color: game.daemonDone(i) ? hqGreen : (j < game.progress(i) ? hqOrange : Colors.white70))),
                 ),
             ]),
           ),
@@ -136,7 +169,25 @@ class _BreachBoardState extends State<BreachBoard> {
             Text('${_left ~/ 60}:${(_left % 60).toString().padLeft(2, '0')}', style: mono.copyWith(color: _left <= 10 ? hqRed : hqOrange)),
           ]),
         ],
-        const SizedBox(height: 12),
+        // 연습판 안내 한 줄 + 완료·연쇄 알림(자리를 늘 잡아 판이 출렁이지 않게)
+        if (widget.guide && !finished)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(S.t(k == 0 ? 'breach_tut_top' : (k.isOdd ? 'breach_tut_col' : 'breach_tut_row')),
+                textAlign: TextAlign.center, style: const TextStyle(color: hqOrange, fontSize: 15, fontWeight: FontWeight.w700)),
+          ),
+        SizedBox(
+          height: 30,
+          child: Center(
+            child: _flash == null
+                ? null
+                : Text(_flash!,
+                    style: TextStyle(
+                        color: _flashChain ? hqOrange : hqGreen,
+                        fontSize: _flashChain ? 20 : 16,
+                        fontWeight: FontWeight.w900)),
+          ),
+        ),
         // 격자
         Expanded(
           child: Center(
@@ -152,23 +203,8 @@ class _BreachBoardState extends State<BreachBoard> {
                             key: Key('cell_${r}_$c'),
                             behavior: HitTestBehavior.opaque,
                             onTap: () => _tap(r, c),
-                            child: Container(
-                              margin: const EdgeInsets.all(2),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: inLine(r, c) ? const Color(0xFF16301D) : const Color(0xCC0B0F0C),
-                                border: Border.all(color: legal.contains((r, c)) ? hqGreen : hqPanel, width: legal.contains((r, c)) ? 1.5 : 1),
-                              ),
-                              child: Text(
-                                game.picks.contains((r, c)) ? '[ ]' : p.grid[r][c],
-                                style: mono.copyWith(
-                                  fontSize: 18,
-                                  color: game.picks.contains((r, c))
-                                      ? hqDim
-                                      : (legal.contains((r, c)) ? hqGreen : Colors.white38),
-                                ),
-                              ),
-                            ),
+                            child: _cell(r, c, legal: legal.contains((r, c)), hint: hints.contains((r, c)),
+                                guide: guideCell == (r, c), line: inLine(r, c), mono: mono),
                           ),
                         ),
                     ]),
@@ -177,6 +213,37 @@ class _BreachBoardState extends State<BreachBoard> {
             ),
           ),
         ),
+      ]),
+    );
+  }
+
+  Widget _cell(int r, int c, {required bool legal, required bool hint, required bool guide, required bool line, required TextStyle mono}) {
+    final p = widget.puzzle;
+    final picked = game.picks.contains((r, c));
+    final glow = hint || guide;
+    return Container(
+      key: guide ? Key('guide_${r}_$c') : (hint ? Key('hint_${r}_$c') : null),
+      margin: const EdgeInsets.all(2),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: glow ? const Color(0xFF33260A) : (line ? const Color(0xFF16301D) : const Color(0xCC0B0F0C)),
+        border: Border.all(
+          color: glow ? hqOrange : (legal ? hqGreen : hqPanel),
+          width: guide ? 3 : (glow || legal ? 1.5 : 1),
+        ),
+      ),
+      // 손가락은 칸 귀퉁이에(글자를 가리지 않게) — Stack 이 칸 전체를 차지해야 귀퉁이가 칸 귀퉁이다
+      child: Stack(fit: StackFit.expand, children: [
+        Center(
+          child: Text(
+            picked ? '[ ]' : p.grid[r][c],
+            style: mono.copyWith(
+              fontSize: 18,
+              color: picked ? hqDim : (glow ? hqOrange : (legal ? hqGreen : Colors.white38)),
+            ),
+          ),
+        ),
+        if (guide) const Positioned(right: 2, bottom: 2, child: Icon(Icons.touch_app, size: 16, color: hqOrange)),
       ]),
     );
   }

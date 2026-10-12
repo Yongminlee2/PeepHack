@@ -25,7 +25,18 @@ class BreachGame {
   final List<(int, int)> picks = [];
   bool _timeUp = false;
 
-  BreachGame(this.puzzle);
+  BreachGame(this.puzzle) : _doneAt = List.filled(puzzle.daemons.length, -1);
+
+  final List<int> _doneAt; // 목표마다 끝낸 선택 번호(-1 = 아직)
+
+  /// 방금 선택으로 끝낸 목표들.
+  List<int> lastCompleted = const [];
+
+  /// 방금 끝낸 목표가 앞서 끝낸 목표와 코드를 같이 썼다(겹쳐 이었다) — 「연쇄」.
+  bool lastChained = false;
+
+  /// 이번 판에서 연쇄한 횟수.
+  int chains = 0;
 
   List<String> get bufferCodes => [for (final p in picks) puzzle.grid[p.$1][p.$2]];
 
@@ -58,7 +69,41 @@ class BreachGame {
   bool pick(int r, int c) {
     if (!legalCells().contains((r, c))) return false;
     picks.add((r, c));
+    final k = picks.length - 1;
+    final now = [for (var i = 0; i < puzzle.daemons.length; i++) if (_doneAt[i] < 0 && daemonDone(i)) i];
+    lastChained = now.any((i) => [
+          for (var j = 0; j < _doneAt.length; j++)
+            if (_doneAt[j] >= 0 && k - _doneAt[j] < puzzle.daemons[i].length) j
+        ].isNotEmpty);
+    if (lastChained) chains++;
+    for (final i in now) {
+      _doneAt[i] = k;
+    }
+    lastCompleted = now;
     return true;
+  }
+
+  /// 버퍼 끝이 목표 i 의 앞부분과 몇 칸 맞는지(끝낸 목표는 그 길이).
+  int progress(int i) {
+    final d = puzzle.daemons[i];
+    if (daemonDone(i)) return d.length;
+    final b = bufferCodes;
+    for (var k = d.length - 1; k > 0; k--) {
+      if (b.length >= k && List.generate(k, (j) => b[b.length - k + j]).join(' ') == d.sublist(0, k).join(' ')) return k;
+    }
+    return 0;
+  }
+
+  /// 아직 못 끝낸 목표들이 다음에 바라는 코드.
+  Set<String> nextCodes() => {
+        for (var i = 0; i < puzzle.daemons.length; i++)
+          if (!daemonDone(i)) puzzle.daemons[i][progress(i)],
+      };
+
+  /// 지금 고를 수 있으면서 목표를 한 칸 나아가게 하는 칸(판에서 빛낸다).
+  Set<(int, int)> hintCells() {
+    final want = nextCodes();
+    return {for (final c in legalCells()) if (want.contains(puzzle.grid[c.$1][c.$2])) c};
   }
 
   bool daemonDone(int i) {

@@ -83,4 +83,47 @@ void main() {
     expect(g.finished, isTrue);
     expect(g.stars, 0);
   });
+  group('안내(누르면 목표가 나아가는 칸)·완료·연쇄', () {
+    const p = BreachPuzzle(
+      grid: [['55', 'E9', 'BD'], ['E9', 'BD', '55'], ['BD', '55', 'E9']],
+      buffer: 4,
+      daemons: [['55', 'E9'], ['E9', 'BD']],
+    );
+    test('목표마다 다음에 필요한 코드, 그 코드가 있는 고를 수 있는 칸', () {
+      final g = BreachGame(p);
+      expect(g.nextCodes(), {'55', 'E9'});
+      expect(g.hintCells(), {(0, 0), (0, 1)});
+      g.pick(0, 0); // 55
+      expect(g.progress(0), 1);
+      expect(g.nextCodes(), {'E9'});
+      expect(g.hintCells(), {(1, 0)});
+    });
+    test('끝낸 목표를 알려 주고, 앞 목표와 겹쳐 이어 끝내면 연쇄', () {
+      final g = BreachGame(p);
+      g.pick(0, 0);
+      expect(g.lastCompleted, isEmpty);
+      g.pick(1, 0); // E9 → 첫 목표
+      expect(g.lastCompleted, [0]);
+      expect(g.lastChained, isFalse);
+      g.pick(1, 1); // BD → 둘째 목표, E9 를 같이 썼다
+      expect(g.lastCompleted, [1]);
+      expect(g.lastChained, isTrue);
+      expect(g.chains, 1); // 결과 화면에 「연쇄 ×1」
+      expect(g.stars, 3);
+    });
+    test('따로 떨어져 끝내면 연쇄가 아니다', () {
+      const q = BreachPuzzle(
+        grid: [['55', 'E9', '1C'], ['E9', '1C', 'BD'], ['1C', 'BD', 'FF']],
+        buffer: 5,
+        daemons: [['55', 'E9'], ['1C', 'BD']],
+      );
+      final g = BreachGame(q);
+      g.pick(0, 0); // 55
+      g.pick(1, 0); // E9 → 첫 목표
+      g.pick(1, 1); // 1C
+      g.pick(2, 1); // BD → 둘째 목표
+      expect(g.lastCompleted, [1]);
+      expect(g.lastChained, isFalse);
+    });
+  });
 }

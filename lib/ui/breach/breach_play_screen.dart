@@ -59,7 +59,8 @@ class _BreachPlayState extends State<BreachPlayScreen> {
         body: Stack(fit: StackFit.expand, children: [
           const MatrixRain(opacity: 0.08),
           const CrtOverlay(), // 판 아래에 깐다 — 위에 덮으면 버퍼·목표 글자가 어두워진다(실기기)
-          BreachBoard(key: ValueKey(attempt), puzzle: puzzle, onFinish: _finish),
+          // 1단계는 따라 하기 연습판
+          BreachBoard(key: ValueKey(attempt), puzzle: puzzle, guide: widget.n == 1, onFinish: _finish),
           if (result != null) _resultPanel(result!),
         ]),
       );
@@ -79,6 +80,22 @@ class _BreachPlayState extends State<BreachPlayScreen> {
         if (g.timedOut) Text(S.t('breach_timeout'), textAlign: TextAlign.center, style: const TextStyle(color: hqOrange)),
         const SizedBox(height: 12),
         Text('★' * g.stars + '☆' * (3 - g.stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
+        const SizedBox(height: 12),
+        // 얻은 효과
+        for (var i = 0; i < g.puzzle.daemons.length; i++)
+          Text(
+            '${g.daemonDone(i) ? '✓' : '✗'}  ${breachEffectName(i)}',
+            key: Key('effect_$i'),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: g.daemonDone(i) ? hqGreen : hqDim),
+          ),
+        // 마지막 칸의 연쇄는 이 판이 바로 덮으니 여기서 한 번 더
+        if (g.chains > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(S.tn('breach_chain_n', {'n': g.chains}), textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: hqOrange)),
+          ),
         const SizedBox(height: 24),
         if (next)
           FilledButton(

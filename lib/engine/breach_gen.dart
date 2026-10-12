@@ -16,19 +16,21 @@ class BreachParams {
   const BreachParams(this.size, this.codes, this.buffer, this.daemonLens, [this.time]);
 }
 
-/// 설계 문서의 스테이지 표.
+/// 스테이지 표.
 BreachParams stageParams(int n) {
   RangeError.checkValueInInterval(n, 1, kBreachStages, 'n');
-  if (n <= 5) return const BreachParams(5, 4, 4, [2]);
-  if (n <= 10) return const BreachParams(5, 4, 5, [3]);
-  if (n <= 15) return const BreachParams(5, 4, 5, [2, 2]);
-  if (n <= 20) return const BreachParams(5, 4, 6, [2, 3]);
-  if (n <= 25) return const BreachParams(6, 5, 6, [2, 3]);
-  if (n <= 30) return const BreachParams(6, 5, 7, [2, 2, 3]);
-  if (n <= 40) return const BreachParams(6, 5, 7, [2, 3, 3], 60);
-  if (n <= 45) return const BreachParams(7, 6, 7, [2, 3, 3], 50);
-  if (n <= 50) return const BreachParams(7, 6, 8, [3, 3, 3], 50);
-  return const BreachParams(7, 6, 8, [3, 3, 3], 40);
+  // 1단계부터 목표 둘(1단계는 따라 하기 연습판). 16단계부터는 버퍼가 꼭 맞아 목표를 겹쳐 이어야 별 3.
+  if (n == 1) return const BreachParams(5, 4, 3, [2, 2]); // 연습판: 누르는 칸마다 목표가 찬다
+  if (n <= 4) return const BreachParams(5, 4, 4, [2, 2]);
+  if (n <= 10) return const BreachParams(5, 4, 5, [2, 3]);
+  if (n <= 15) return const BreachParams(5, 4, 5, [2, 2, 2]);
+  if (n <= 20) return const BreachParams(5, 5, 6, [2, 3, 3]);
+  if (n <= 25) return const BreachParams(6, 5, 6, [2, 3, 3]);
+  if (n <= 30) return const BreachParams(6, 5, 7, [3, 3, 3]);
+  if (n <= 40) return const BreachParams(6, 5, 7, [3, 3, 3], 60);
+  if (n <= 45) return const BreachParams(7, 6, 7, [3, 3, 3], 50);
+  if (n <= 50) return const BreachParams(7, 6, 8, [3, 3, 4], 50);
+  return const BreachParams(7, 6, 8, [3, 3, 4], 40);
 }
 
 const _daily = BreachParams(7, 6, 8, [3, 3, 3], 40);

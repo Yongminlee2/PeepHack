@@ -350,7 +350,7 @@
   "breach_daily_title": "오늘의 퍼즐 {date}",
   "breach_stage_n": "브리치 {n}",
   "breach_pack_n": "묶음 {n}",
-  "breach_howto": "맨 윗줄에서 시작해 세로줄과 가로줄을 번갈아 고르세요. 고른 코드가 버퍼에 쌓여 목표 순서를 만들면 성공입니다.",
+  "breach_howto": "맨 윗줄에서 시작해 세로줄과 가로줄을 번갈아 고르세요. 주황으로 빛나는 칸은 목표를 한 칸 채웁니다. 목표끼리 겹치는 코드를 이어 쓰면 짧은 버퍼로도 전부 끝낼 수 있어요.",
   "breach_success": "접속 성공",
   "breach_fail": "접속 실패",
   "breach_timeout": "시간 초과",
@@ -622,5 +622,14 @@
   "c12_done_2": "— 고스트, 아니 이하윤",
   "breach_streak": "🔥 {n}일 연속",
   "shell_err_hangul": "한글로 입력됐어요. 키보드의 한/영 키로 영어 자판으로 바꿔 주세요",
-  "promo_coming": "곧 열립니다"
+  "promo_coming": "곧 열립니다",
+  "breach_d_alarm": "경보 끄기",
+  "breach_d_door": "문 열기",
+  "breach_d_camera": "카메라 끄기",
+  "breach_done": "{name} 완료",
+  "breach_chain": "연쇄! 코드를 겹쳐 이었다",
+  "breach_tut_top": "맨 윗줄에서 손가락이 가리키는 칸을 누르세요",
+  "breach_tut_col": "이제 방금 고른 칸의 세로줄에서만 고를 수 있어요",
+  "breach_tut_row": "이번엔 그 칸의 가로줄에서 골라요. 세로·가로를 번갈아!",
+  "breach_chain_n": "연쇄 ×{n}"
 }
