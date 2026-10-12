@@ -106,4 +106,14 @@ void main() {
     expect(find.text(S.t('breach_tut_row')), findsOneWidget);
     expect(find.byKey(const Key('guide_2_0')), findsOneWidget);
   });
+  testWidgets('안내를 끄면(11단계부터·2장부터 크랙) 빛나는 칸이 없다, 목표 넷째 이름', (t) async {
+    await t.pumpWidget(MaterialApp(home: Scaffold(body: BreachBoard(
+        puzzle: const BreachPuzzle(grid: [['1C', '55', 'BD'], ['E9', '1C', '55'], ['BD', 'E9', '1C']], buffer: 6,
+            daemons: [['55', 'E9'], ['E9', 'BD'], ['1C', '55'], ['BD', '1C']]),
+        hints: false,
+        onFinish: (_) {}))));
+    expect(find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('hint_')),
+        findsNothing);
+    expect(find.text(S.t('breach_d_data')), findsOneWidget);
+  });
 }

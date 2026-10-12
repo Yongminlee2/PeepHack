@@ -62,7 +62,13 @@ class _BreachPlayState extends State<BreachPlayScreen> {
           const MatrixRain(opacity: 0.08),
           const CrtOverlay(), // 판 아래에 깐다 — 위에 덮으면 버퍼·목표 글자가 어두워진다(실기기)
           // 1단계는 따라 하기 연습판
-          BreachBoard(key: ValueKey(attempt), puzzle: puzzle, guide: widget.n == 1, onFinish: _finish),
+          BreachBoard(
+            key: ValueKey(attempt),
+            puzzle: puzzle,
+            guide: widget.n == 1,
+            hints: widget.n != null && breachHints(widget.n!), // 오늘의 퍼즐은 안내 없이
+            onFinish: _finish,
+          ),
           if (result != null) _resultPanel(result!),
         ]),
       );

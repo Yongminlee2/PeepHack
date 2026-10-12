@@ -106,7 +106,12 @@ class _CrackPanelState extends State<CrackPanel> {
                   ),
                   onFinish: _result,
                 )
-              : BreachBoard(key: ValueKey('$port-$attempt'), puzzle: puzzle, onFinish: _done),
+              : BreachBoard(
+                  key: ValueKey('$port-$attempt'),
+                  puzzle: puzzle,
+                  hints: widget.mission.chapter == 1, // 2장부터는 스스로 찾는다
+                  onFinish: _done,
+                ),
         ),
       ]);
 }

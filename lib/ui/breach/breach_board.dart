@@ -10,7 +10,7 @@ import '../fx/juice.dart';
 import '../theme.dart';
 
 /// 목표(데몬)마다 붙는 효과 이름 — 코드 줄이 「무엇을 얻는지」로 읽히게.
-const kBreachEffects = ['alarm', 'door', 'camera'];
+const kBreachEffects = ['alarm', 'door', 'camera', 'data'];
 String breachEffectName(int i) => S.t('breach_d_${kBreachEffects[i % kBreachEffects.length]}');
 
 /// 브리치 프로토콜 판(버퍼·목표·남은 시간·격자). 브리치 모드와 작전 모드(포트 크랙)가 같이 쓴다.
@@ -20,7 +20,9 @@ class BreachBoard extends StatefulWidget {
   final BreachPuzzle puzzle;
   final void Function(BreachGame game) onFinish;
   final bool guide;
-  const BreachBoard({super.key, required this.puzzle, required this.onFinish, this.guide = false});
+  /// 누르면 목표가 나아가는 칸을 빛낼지(익히는 동안만 — 뒤로 가면 스스로 찾아야 한다).
+  final bool hints;
+  const BreachBoard({super.key, required this.puzzle, required this.onFinish, this.guide = false, this.hints = true});
 
   @override
   State<BreachBoard> createState() => _BreachBoardState();
@@ -105,7 +107,7 @@ class _BreachBoardState extends State<BreachBoard> with SingleTickerProviderStat
     final p = widget.puzzle;
     final legal = game.legalCells();
     // 연습판에선 손가락 칸만 빛낸다(여럿 빛나면 어느 걸 누를지 헷갈렸다 — 실기기)
-    final hints = widget.guide ? const <(int, int)>{} : game.hintCells();
+    final hints = widget.guide || !widget.hints ? const <(int, int)>{} : game.hintCells();
     final guideCell = _guideCell;
     final k = game.picks.length;
     final finished = game.finished;

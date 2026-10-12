@@ -350,7 +350,7 @@
   "breach_daily_title": "Today's puzzle {date}",
   "breach_stage_n": "Breach {n}",
   "breach_pack_n": "Pack {n}",
-  "breach_howto": "Start in the top row, then alternate between columns and rows. Orange cells move a target forward. Share codes between targets to finish them all in a short buffer.",
+  "breach_howto": "Start in the top row, then alternate between columns and rows. The buffer is exact: share codes between targets to finish them all. Up to stage 10, orange cells move a target forward.",
   "breach_success": "Access granted",
   "breach_fail": "Access denied",
   "breach_timeout": "Time up",
@@ -631,5 +631,6 @@
   "breach_tut_top": "Tap the cell the finger points to in the top row",
   "breach_tut_col": "Now you can only pick from that cell's column",
   "breach_tut_row": "Now pick from its row. Column, row, column…",
-  "breach_chain_n": "Chain ×{n}"
+  "breach_chain_n": "Chain ×{n}",
+  "breach_d_data": "Grab data"
 }
