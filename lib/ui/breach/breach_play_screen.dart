@@ -7,6 +7,7 @@ import '../../engine/shop.dart';
 import '../../strings.dart';
 import '../fx/crt.dart';
 import '../fx/glitch_text.dart';
+import '../fx/juice.dart';
 import '../fx/matrix_rain.dart';
 import '../theme.dart';
 import 'breach_board.dart';
@@ -79,7 +80,7 @@ class _BreachPlayState extends State<BreachPlayScreen> {
         ),
         if (g.timedOut) Text(S.t('breach_timeout'), textAlign: TextAlign.center, style: const TextStyle(color: hqOrange)),
         const SizedBox(height: 12),
-        Text('★' * g.stars + '☆' * (3 - g.stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
+        Center(child: StarsReveal(stars: g.stars)),
         const SizedBox(height: 12),
         // 얻은 효과
         for (var i = 0; i < g.puzzle.daemons.length; i++)

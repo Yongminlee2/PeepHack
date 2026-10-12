@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../engine/wordguess.dart';
 import '../../sfx.dart';
 import '../../strings.dart';
+import '../fx/juice.dart';
 import '../theme.dart';
 
 /// 단어 추리 판(폴아웃 단말기처럼). 메모리 덤프 속 단어·괄호를 누른다. 끝나면 [onFinish](성공 여부) 한 번.
@@ -113,7 +114,12 @@ class _WordBoardState extends State<WordBoard> {
         Expanded(
           child: LayoutBuilder(
             builder: (context, box) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              ConstrainedBox(
+              // 틀리면 덤프가 흔들리고, 맞히면 파편이 튄다
+              Shake(
+                trigger: game.log.length - (game.solved ? 1 : 0),
+                child: Burst(
+                trigger: game.solved,
+                child: ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: box.maxHeight * 0.7),
                 child: FittedBox(
                   fit: BoxFit.contain,
@@ -127,13 +133,19 @@ class _WordBoardState extends State<WordBoard> {
                   ]),
                 ),
               ),
+              ),
+              ),
               const SizedBox(height: 10),
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scroll,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    for (final (text, hi) in notes)
-                      Text(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 15, color: hi ? hqOrange : hqGreen)),
+                    for (final (i, (text, hi)) in notes.indexed)
+                      Pop(
+                        trigger: i == notes.length - 1 ? notes.length : null,
+                        scale: 1.3,
+                        child: Text(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 15, color: hi ? hqOrange : hqGreen)),
+                      ),
                   ]),
                 ),
               ),

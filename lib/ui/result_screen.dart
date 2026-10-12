@@ -6,6 +6,7 @@ import '../engine/progress.dart';
 import '../strings.dart';
 import 'brief_screen.dart';
 import 'fx/crt.dart';
+import 'fx/juice.dart';
 import 'fx/glitch_text.dart';
 import 'fx/matrix_rain.dart';
 import 'inbox_screen.dart';
@@ -36,13 +37,16 @@ class ResultScreen extends StatelessWidget {
           Center(child: GlitchText(S.t('wg_granted').toUpperCase(), style: TextStyle(
               fontFamily: monoFor(S.t('wg_granted')), fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 3, color: hqGreen))),
           const SizedBox(height: 16),
-          Text('★' * stars + '☆' * (3 - stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
+          Center(child: StarsReveal(stars: stars)),
           const SizedBox(height: 8),
           Text(S.tn('result_time', {'m': elapsed.inMinutes, 's': elapsed.inSeconds % 60}), textAlign: TextAlign.center),
           Text(S.tn('result_hints', {'n': hintsUsed}), textAlign: TextAlign.center, style: const TextStyle(color: hqDim)),
           if (earned > 0)
-            Text(S.tn('result_credits', {'n': earned}), textAlign: TextAlign.center,
-                style: TextStyle(color: hqOrange, fontSize: 18, fontFamily: monoFor(S.tn('result_credits', {'n': earned})))),
+            CountUp(
+              value: earned,
+              builder: (n) => Text(S.tn('result_credits', {'n': n}), textAlign: TextAlign.center,
+                  style: TextStyle(color: hqOrange, fontSize: 18, fontFamily: monoFor(S.tn('result_credits', {'n': n})))),
+            ),
           const SizedBox(height: 20),
           Expanded(child: ListView(children: [for (final d in mission.done) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(tr(d), style: const TextStyle(fontSize: 16)))])),
           // 광고 자리. SDK 는 2부 이후에 붙인다 — 자리를 먼저 잡아 두면 판이 안 밀린다.

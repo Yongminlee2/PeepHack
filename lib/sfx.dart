@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'engine/progress.dart';
 import 'sfx_low_latency.dart'; // common/flutter/sfx_low_latency.dart 복사
 
-/// 효과음 다섯 개: key tap run ok fail. 설정에서 끄면 전부 조용.
+/// 효과음: 입력(key tap run)·결과(ok fail alarm)·연출(daemon chain star stamp). 설정에서 끄면 전부 조용.
 class Sfx {
   static final Sfx _i = Sfx._();
   factory Sfx() => _i;
   Sfx._();
 
-  static const names = ['key', 'tap', 'run', 'ok', 'fail', 'alarm'];
+  static const names = ['key', 'tap', 'run', 'ok', 'fail', 'alarm', 'daemon', 'chain', 'star', 'stamp'];
   final Map<String, LowLatencySfx> _s = {};
   Progress? progress;
 
@@ -25,7 +25,10 @@ class Sfx {
   final List<String> haptics = [];
 
   // 소리마다 진동 세기. 키 입력·실행은 진동 없이(너무 잦다).
-  static const _haptic = {'tap': 'light', 'ok': 'medium', 'fail': 'heavy', 'alarm': 'heavy'};
+  static const _haptic = {
+    'tap': 'light', 'ok': 'medium', 'fail': 'heavy', 'alarm': 'heavy',
+    'daemon': 'medium', 'chain': 'heavy', 'star': 'light', 'stamp': 'heavy',
+  };
 
   /// 실패해도 앱은 뜬다(소리 없이). 위젯 테스트에는 오디오 플러그인이 없다.
   Future<void> load(Progress p) async {

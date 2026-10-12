@@ -68,3 +68,11 @@ write_wav("ok", concat(tone(660, 70, 0.3, "square"), tone(880, 70, 0.3, "square"
 write_wav("alarm", concat(*[tone(f, 120, 0.28, "square") for f in (880, 660, 880, 660)]))
 # 실패: 낮게 떨어지는 버즈
 write_wav("fail", mix(tone(220, 180, 0.3, "square", sweep_to=110), noise(120, 0.15, 0.5)))
+# 목표 완료: 맑은 두 음 위로
+write_wav("daemon", concat(tone(988, 60, 0.28, "square"), tone(1480, 110, 0.28, "square")))
+# 연쇄: 빠른 네 음 상승 + 반짝이
+write_wav("chain", mix(concat(*[tone(f, 55, 0.3, "square") for f in (784, 988, 1175, 1568)]), concat(tone(1, 160, 0), noise(90, 0.12, 0.95))))
+# 별: 짧은 딩
+write_wav("star", tone(1760, 120, 0.25, "sine"))
+# 도장: 낮은 쿵 + 종이 소리
+write_wav("stamp", mix(tone(120, 140, 0.45, "sine", sweep_to=60), noise(80, 0.25, 0.4)))

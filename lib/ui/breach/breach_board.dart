@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../../engine/breach.dart';
 import '../../sfx.dart';
 import '../../strings.dart';
+import '../fx/fx.dart';
+import '../fx/juice.dart';
 import '../theme.dart';
 
 /// 목표(데몬)마다 붙는 효과 이름 — 코드 줄이 「무엇을 얻는지」로 읽히게.
@@ -24,7 +26,16 @@ class BreachBoard extends StatefulWidget {
   State<BreachBoard> createState() => _BreachBoardState();
 }
 
-class _BreachBoardState extends State<BreachBoard> {
+class _BreachBoardState extends State<BreachBoard> with SingleTickerProviderStateMixin {
+  // 빛나는 칸이 숨 쉬듯 깜빡인다(연출을 끄면 멈춘 채)
+  late final AnimationController _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
+
+  @override
+  void initState() {
+    super.initState();
+    if (Fx.animate) _pulse.repeat(reverse: true);
+  }
+
   late BreachGame game = BreachGame(widget.puzzle);
   Timer? _timer;
   late int _left = widget.puzzle.timeLimit ?? 0;
@@ -37,13 +48,14 @@ class _BreachBoardState extends State<BreachBoard> {
   void dispose() {
     _timer?.cancel();
     _flashTimer?.cancel();
+    _pulse.dispose();
     super.dispose();
   }
 
   void _showDone() {
     final done = game.lastCompleted;
     if (done.isEmpty) return;
-    if (!game.finished) Sfx().play('ok'); // 마지막 칸은 _end 가 울린다
+    Sfx().play(game.lastChained ? 'chain' : 'daemon'); // 마지막 칸이면 _end 의 ok 가 뒤따른다
     _flashChain = game.lastChained;
     _flash = _flashChain ? S.t('breach_chain') : S.tn('breach_done', {'name': done.map(breachEffectName).join(', ')});
     _flashTimer?.cancel();
@@ -115,7 +127,9 @@ class _BreachBoardState extends State<BreachBoard> {
           final w = ((box.maxWidth - 6 * (p.buffer - 1)) / p.buffer).clamp(0.0, 40.0);
           return Row(children: [
             for (var i = 0; i < p.buffer; i++)
-              Container(
+              Pop(
+                trigger: i < k ? game.bufferCodes[i] : null,
+                child: Container(
                 key: Key('buf_$i'),
                 width: w,
                 height: 34,
@@ -124,6 +138,7 @@ class _BreachBoardState extends State<BreachBoard> {
                 decoration: BoxDecoration(border: Border.all(color: i < k ? hqGreen : hqDim.withValues(alpha: 0.5))),
                 child: FittedBox(child: Text(i < k ? game.bufferCodes[i] : '', style: mono.copyWith(color: hqGreen))),
               ),
+              ),
           ]);
         }),
         const SizedBox(height: 12),
@@ -131,7 +146,10 @@ class _BreachBoardState extends State<BreachBoard> {
         Text(S.t('breach_targets'), style: const TextStyle(color: hqDim, fontSize: 12)),
         const SizedBox(height: 4),
         for (var i = 0; i < p.daemons.length; i++)
-          Padding(
+          Pop(
+            trigger: game.daemonDone(i),
+            scale: 1.08,
+            child: Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Row(children: [
               Icon(game.daemonDone(i) ? Icons.check_box : Icons.check_box_outline_blank,
@@ -152,6 +170,7 @@ class _BreachBoardState extends State<BreachBoard> {
                 ),
             ]),
           ),
+          ),
         // 남은 시간
         if (p.timeLimit != null) ...[
           const SizedBox(height: 6),
@@ -166,7 +185,10 @@ class _BreachBoardState extends State<BreachBoard> {
               ),
             ),
             const SizedBox(width: 8),
-            Text('${_left ~/ 60}:${(_left % 60).toString().padLeft(2, '0')}', style: mono.copyWith(color: _left <= 10 ? hqRed : hqOrange)),
+            Pop(
+              trigger: _left <= 10 ? _left : null,
+              child: Text('${_left ~/ 60}:${(_left % 60).toString().padLeft(2, '0')}', style: mono.copyWith(color: _left <= 10 ? hqRed : hqOrange)),
+            ),
           ]),
         ],
         // 연습판 안내 한 줄 + 완료·연쇄 알림(자리를 늘 잡아 판이 출렁이지 않게)
@@ -181,16 +203,24 @@ class _BreachBoardState extends State<BreachBoard> {
           child: Center(
             child: _flash == null
                 ? null
-                : Text(_flash!,
+                : Pop(
+                    trigger: _flash,
+                    scale: 1.5,
+                    child: Text(_flash!,
                     style: TextStyle(
                         color: _flashChain ? hqOrange : hqGreen,
-                        fontSize: _flashChain ? 20 : 16,
+                        fontSize: _flashChain ? 22 : 16,
                         fontWeight: FontWeight.w900)),
+                  ),
           ),
         ),
         // 격자
         Expanded(
           child: Center(
+            child: Shake(
+            trigger: game.chains,
+            child: Burst(
+            trigger: game.doneCount,
             child: AspectRatio(
               aspectRatio: 1,
               child: Column(children: [
@@ -203,13 +233,19 @@ class _BreachBoardState extends State<BreachBoard> {
                             key: Key('cell_${r}_$c'),
                             behavior: HitTestBehavior.opaque,
                             onTap: () => _tap(r, c),
-                            child: _cell(r, c, legal: legal.contains((r, c)), hint: hints.contains((r, c)),
+                            child: Pop(
+                              trigger: game.picks.contains((r, c)),
+                              scale: 1.15,
+                              child: _cell(r, c, legal: legal.contains((r, c)), hint: hints.contains((r, c)),
                                 guide: guideCell == (r, c), line: inLine(r, c), mono: mono),
+                            ),
                           ),
                         ),
                     ]),
                   ),
               ]),
+            ),
+            ),
             ),
           ),
         ),
@@ -221,14 +257,16 @@ class _BreachBoardState extends State<BreachBoard> {
     final p = widget.puzzle;
     final picked = game.picks.contains((r, c));
     final glow = hint || guide;
-    return Container(
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (_, _) => Container(
       key: guide ? Key('guide_${r}_$c') : (hint ? Key('hint_${r}_$c') : null),
       margin: const EdgeInsets.all(2),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: glow ? const Color(0xFF33260A) : (line ? const Color(0xFF16301D) : const Color(0xCC0B0F0C)),
         border: Border.all(
-          color: glow ? hqOrange : (legal ? hqGreen : hqPanel),
+          color: glow ? hqOrange.withValues(alpha: 0.45 + 0.55 * _pulse.value) : (legal ? hqGreen : hqPanel),
           width: guide ? 3 : (glow || legal ? 1.5 : 1),
         ),
       ),
@@ -245,6 +283,7 @@ class _BreachBoardState extends State<BreachBoard> {
         ),
         if (guide) const Positioned(right: 2, bottom: 2, child: Icon(Icons.touch_app, size: 16, color: hqOrange)),
       ]),
+    ),
     );
   }
 }

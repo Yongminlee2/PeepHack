@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../engine/mission.dart';
 import '../engine/shell.dart';
+import 'fx/juice.dart';
 import 'theme.dart';
 
 /// 임무의 서버 지도(Hacknet 처럼). 집(시작 서버)에서 각 서버로 선을 긋는다.
@@ -60,7 +61,10 @@ class NetworkMap extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () => onTap(key),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(
+          Pop(
+            trigger: here,
+            scale: 1.4,
+            child: Container(
             width: 36,
             height: 36,
             decoration: BoxDecoration(
@@ -70,6 +74,7 @@ class NetworkMap extends StatelessWidget {
               boxShadow: [BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 8)],
             ),
             child: Icon(icon, size: 18, color: color),
+          ),
           ),
           const SizedBox(height: 2),
           Text(h.name, maxLines: 1, overflow: TextOverflow.ellipsis,

@@ -22,7 +22,8 @@ void main() {
     final c = Catalog.fromTexts({'m1_01': m('m1_01'), 'm1_02': m('m1_02')});
     await t.pumpWidget(MaterialApp(home: ResultScreen(
       mission: c.byId('m1_01')!, progress: p, catalog: c, hintsUsed: 1, elapsed: const Duration(seconds: 75))));
-    expect(find.text('★★☆'), findsOneWidget);
+    expect(find.byIcon(Icons.star), findsNWidgets(2)); // 별 하나씩(연출을 끈 테스트에선 끝 모습)
+    expect(find.byIcon(Icons.star_border), findsOneWidget);
     expect(find.text(S.tn('result_time', {'m': 1, 's': 15})), findsOneWidget);
     expect(find.text(S.t('btn_next')), findsOneWidget);
     await t.tap(find.text(S.t('btn_next')));

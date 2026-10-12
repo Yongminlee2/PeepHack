@@ -7,7 +7,7 @@ import '../../sfx.dart';
 import '../../strings.dart';
 import '../fx/crt.dart';
 import '../fx/ghost_avatar.dart';
-import '../fx/glitch_text.dart';
+import '../fx/juice.dart';
 import '../fx/matrix_rain.dart';
 import '../theme.dart';
 import '../wordguess/word_board.dart';
@@ -132,7 +132,9 @@ class _CaseScreenState extends State<CaseScreen> {
       Text(tr(q.q), style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w700, height: 1.4)),
       const SizedBox(height: 16),
       for (var i = 0; i < q.options.length; i++)
-        Padding(
+        Shake(
+          trigger: wrongPicks.contains(i),
+          child: Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: OutlinedButton(
             key: Key('opt_$i'),
@@ -149,16 +151,22 @@ class _CaseScreenState extends State<CaseScreen> {
             ),
           ),
         ),
+        ),
       TextButton(onPressed: () => setState(() => concluding = false), child: Text(S.t('case_back_docs'))),
     ]);
   }
 
   Widget _result() => ListView(padding: const EdgeInsets.all(24), children: [
-        Center(child: GlitchText(S.t('case_solved'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: hqGreen))),
-        const SizedBox(height: 12),
-        Text('★' * game.stars + '☆' * (3 - game.stars), textAlign: TextAlign.center, style: const TextStyle(fontSize: 40, color: hqOrange)),
+        const SizedBox(height: 8),
+        Center(child: Stamp(text: S.t('case_solved'), color: hqGreen)),
+        const SizedBox(height: 20),
+        Center(child: StarsReveal(stars: game.stars)),
         if (earned! > 0)
-          Text(S.tn('result_credits', {'n': earned!}), textAlign: TextAlign.center, style: const TextStyle(color: hqOrange, fontFamily: kMono)),
+          CountUp(
+            value: earned!,
+            builder: (n) => Text(S.tn('result_credits', {'n': n}), textAlign: TextAlign.center,
+                style: TextStyle(color: hqOrange, fontSize: 18, fontFamily: monoFor(S.tn('result_credits', {'n': n})))),
+          ),
         const SizedBox(height: 20),
         for (final d in c.done) Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(tr(d), style: const TextStyle(fontSize: 16, height: 1.45))),
         const SizedBox(height: 20),
