@@ -132,4 +132,19 @@ void main() {
     await settle(t);
     expect(find.text(S.tn('case_question_n', {'i': 1, 'n': c.questions.length})), findsOneWidget); // 첫 질문부터
   });
+  testWidgets('영문 기록은 줄이 꺾이지 않게: 가장 긴 줄에 맞춰 글자를 줄이고 옆으로 밀 수 있다', (t) async {
+    t.view.physicalSize = const Size(412, 915);
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.reset);
+    final c = CaseFile.parse(File('assets/cases/c01.json').readAsStringSync());
+    await t.pumpWidget(MaterialApp(home: CaseScreen(file: c, progress: p)));
+    await settle(t);
+    await t.tap(find.byKey(const Key('doc_admin_access.log')));
+    await settle(t);
+    final txt = t.widget<SelectableText>(find.byType(SelectableText));
+    expect(txt.style!.fontSize, lessThan(14));
+    expect(txt.style!.fontSize, greaterThanOrEqualTo(10));
+    expect(find.ancestor(of: find.byType(SelectableText), matching: find.byWidgetPredicate(
+        (w) => w is SingleChildScrollView && w.scrollDirection == Axis.horizontal)), findsOneWidget);
+  });
 }
