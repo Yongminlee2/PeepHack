@@ -33,12 +33,12 @@ void main() {
       expect(t.level, 1);
       expect(t.caught, isTrue);
     });
-    test('교란기는 속도를 늦추고, 실패 벌칙은 15%', () {
+    test('교란기는 속도를 늦추고, 실패 벌칙은 20%', () {
       final t = Trace(100);
       t.tick(10, exposed: true, speed: 0.7);
       expect(t.level, closeTo(0.07, 1e-9));
       t.penalty();
-      expect(t.level, closeTo(0.22, 1e-9));
+      expect(t.level, closeTo(0.27, 1e-9));
     });
     test('한도 0 이면 꺼져 있다', () {
       final t = Trace(0);
@@ -51,8 +51,11 @@ void main() {
 
   group('임무 기본값', () {
     test('챕터별 추적 한도·포트 수, JSON 이 덮어쓴다', () {
-      expect(mk(chapter: 1).trace, 300);
-      expect(mk(chapter: 3).trace, 200);
+      expect(mk(chapter: 1).trace, 240);
+      expect(mk(chapter: 3).trace, 150);
+      expect(mk(chapter: 5).trace, 140); // 뒤 챕터일수록 빠듯하게
+      expect(defaultPorts(2), 2);
+      expect(defaultPorts(4), 3);
       expect(mk(trace: 0).trace, 0);
       expect(mk(chapter: 3).portsFor(mk(chapter: 3).hosts['shop']!), 2);
       final m = mk(chapter: 5, ports: 1);
@@ -98,9 +101,9 @@ void main() {
     });
     test('크랙 판: 챕터 표대로, 장비가 버퍼·시간을 늘린다, 같은 씨앗은 같은 판', () {
       final a = crackPuzzle(missionId: 'm3_01', host: 'corp', port: 0, attempt: 0, chapter: 3, owned: const {});
-      expect((a.size, a.buffer, a.daemons.length, a.timeLimit), (6, 6, 2, 40));
+      expect((a.size, a.buffer, a.daemons.length, a.timeLimit), (6, 6, 3, 35)); // 3장부터 버퍼가 꼭 맞다
       final b = crackPuzzle(missionId: 'm3_01', host: 'corp', port: 0, attempt: 0, chapter: 3, owned: const {'buffer', 'overclock'});
-      expect((b.buffer, b.timeLimit), (7, 50));
+      expect((b.buffer, b.timeLimit), (7, 45));
       expect(crackPuzzle(missionId: 'm3_01', host: 'corp', port: 0, attempt: 0, chapter: 3, owned: const {}).grid, a.grid);
       expect(crackPuzzle(missionId: 'm3_01', host: 'corp', port: 1, attempt: 0, chapter: 3, owned: const {}).grid, isNot(a.grid));
       expect(crackPuzzle(missionId: 'm1_01', host: 'x', port: 0, attempt: 0, chapter: 1, owned: const {}).timeLimit, isNull);
@@ -131,7 +134,8 @@ void main() {
       final a = wordCrackPuzzle(missionId: 'm2_01', host: 'shop', port: 1, attempt: 0, chapter: 2, owned: const {});
       expect((a.words.first.length, a.words.length, a.attempts), (5, 8, 4));
       final b = wordCrackPuzzle(missionId: 'm5_01', host: 'g', port: 1, attempt: 0, chapter: 5, owned: const {'overclock'});
-      expect((b.words.first.length, b.words.length, b.attempts), (7, 10, 5));
+      expect((b.words.first.length, b.words.length, b.attempts), (7, 10, 4)); // 5장은 기본 3번
+      expect(b.lines.expand((l) => l).where((t) => t.bracket != null).length, 1); // 괄호 보너스도 줄어든다
       expect(isWordPort(chapter: 1, port: 1), isFalse);
       expect(isWordPort(chapter: 2, port: 0), isFalse);
       expect(isWordPort(chapter: 2, port: 1), isTrue);

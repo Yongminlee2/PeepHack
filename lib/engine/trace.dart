@@ -15,14 +15,15 @@ class Trace {
   }
 
   /// 크랙 실패 벌칙.
-  void penalty([double amount = 0.15]) {
+  void penalty([double amount = 0.2]) {
     if (!enabled) return;
     level = min(1, level + amount);
   }
 }
 
 /// 챕터 기본 추적 한도(초). 임무 JSON 의 `trace` 가 덮어쓴다.
-int defaultTrace(int chapter) => const {1: 300, 2: 180, 3: 200, 4: 240, 5: 200}[chapter] ?? 0;
+// 뒤 챕터일수록 빠듯하게(사람 플레이: 너무 여유로웠다)
+int defaultTrace(int chapter) => const {1: 240, 2: 160, 3: 150, 4: 150, 5: 140}[chapter] ?? 0;
 
 /// 챕터 기본 포트 수. 호스트 JSON 의 `ports` 가 덮어쓴다.
-int defaultPorts(int chapter) => const {1: 1, 2: 1, 3: 2, 4: 2, 5: 3}[chapter] ?? 1;
+int defaultPorts(int chapter) => const {1: 1, 2: 2, 3: 2, 4: 3, 5: 3}[chapter] ?? 1;

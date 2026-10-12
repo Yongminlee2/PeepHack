@@ -29,11 +29,12 @@ BreachPuzzle crackPuzzle({
   required Set<String> owned,
 }) {
   final base = switch (chapter) {
-    1 => const BreachParams(5, 4, 4, [2]),
-    2 => const BreachParams(5, 4, 5, [2, 2], 45),
-    3 => const BreachParams(6, 5, 6, [2, 3], 40),
-    4 => const BreachParams(6, 5, 7, [2, 2, 3], 40),
-    _ => const BreachParams(7, 6, 7, [2, 3, 3], 35),
+    // 3장부터 버퍼가 꼭 맞다(목표를 겹쳐 이어야 뚫린다)
+    1 => const BreachParams(5, 4, 4, [2, 2]),
+    2 => const BreachParams(5, 5, 5, [2, 2, 3], 40),
+    3 => const BreachParams(6, 5, 6, [2, 3, 3], 35),
+    4 => const BreachParams(6, 6, 7, [3, 3, 3], 30),
+    _ => const BreachParams(7, 6, 8, [3, 3, 4], 30),
   };
   final p = BreachParams(
     base.size,
@@ -57,11 +58,13 @@ WordPuzzle wordCrackPuzzle({
   required int chapter,
   required Set<String> owned,
 }) {
-  final (len, count) = switch (chapter) { <= 2 => (5, 8), 3 || 4 => (6, 9), _ => (7, 10) };
+  // 뒤로 갈수록 길고, 기회·괄호 보너스가 준다
+  final (len, count, tries, brackets) = switch (chapter) { <= 2 => (5, 8, 4, 2), 3 || 4 => (6, 9, 4, 1), _ => (7, 10, 3, 1) };
   return generateWordPuzzle(
     length: len,
     count: count,
     seed: stableHash('w/$missionId/$host/$port/$attempt'),
-    attempts: 4 + (owned.contains('overclock') ? 1 : 0),
+    attempts: tries + (owned.contains('overclock') ? 1 : 0),
+    brackets: brackets,
   );
 }
