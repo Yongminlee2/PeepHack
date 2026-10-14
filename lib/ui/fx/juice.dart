@@ -56,6 +56,40 @@ class _PopState extends _OnceState<Pop> {
       AnimatedBuilder(animation: _s, builder: (_, c) => Transform.scale(scale: _s.value, child: c), child: widget.child);
 }
 
+/// 번쩍: [trigger] 가 바뀌면 [child] 가 잠깐 떠올랐다 사라진다(누르는 건 그대로 통과).
+class Flash extends StatefulWidget {
+  final Object? trigger;
+  final Widget child;
+  const Flash({super.key, required this.trigger, required this.child});
+  @override
+  State<Flash> createState() => _FlashState();
+}
+
+class _FlashState extends _OnceState<Flash> {
+  @override
+  Duration get duration => const Duration(milliseconds: 1100);
+
+  @override
+  void didUpdateWidget(Flash old) {
+    super.didUpdateWidget(old);
+    if (old.trigger != widget.trigger) replay();
+  }
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+        child: AnimatedBuilder(
+          animation: ctl,
+          builder: (_, c) {
+            if (!ctl.isAnimating) return const SizedBox.shrink();
+            final v = ctl.value;
+            final o = v < 0.15 ? v / 0.15 : (v > 0.7 ? (1 - v) / 0.3 : 1.0);
+            return Opacity(opacity: o.clamp(0, 1), child: Transform.scale(scale: 0.9 + 0.1 * Curves.easeOut.transform(v.clamp(0, 0.3) / 0.3), child: c));
+          },
+          child: widget.child,
+        ),
+      );
+}
+
 /// 흔들림: [trigger] 가 바뀌면 옆으로 흔들렸다가 멈춘다(틀렸을 때·연쇄).
 class Shake extends StatefulWidget {
   final Object? trigger;

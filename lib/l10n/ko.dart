@@ -350,6 +350,7 @@ const Map<String, String> kKo = {
   'hint_next_cmd': '다음 명령: {cmd}',
   'hint_none_left': '힌트를 다 썼습니다',
   'hint_title': '힌트 (남은 별 {n})',
+  'hop_flash': '접속 → {host}',
   'inbox_chapter_n': '챕터 {n}',
   'inbox_locked': '앞 임무를 먼저 끝내세요',
   'inbox_title': '메시지함',

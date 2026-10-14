@@ -742,5 +742,6 @@
   "c12_brief_1": "Ghost went silent. The last message was a single line: \"Find me.\"",
   "c12_brief_2": "Tie everything together and find out who Ghost is. No file simply names them.",
   "c12_done_1": "You found me. I wanted someone to finish the checks I left undone when I quit. Glad it was you. // g",
-  "c12_done_2": "— Ghost. Or rather, Lee Hayun"
+  "c12_done_2": "— Ghost. Or rather, Lee Hayun",
+  "hop_flash": "CONNECTED → {host}"
 }

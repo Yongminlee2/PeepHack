@@ -47,10 +47,18 @@ void main() {
 
   testWidgets('지도: 열린 서버를 누르면 접속한다', (t) async {
     await open(t, mk());
+    Sfx().log.clear();
     expect(find.byKey(const Key('node_srv')), findsOneWidget);
+    expect(find.text('my-laptop:/'), findsWidgets); // 입력줄 위: 지금 있는 곳
     await t.tap(find.byKey(const Key('node_pub')));
     await settle(t);
     expect(appBarTitle(t), 'pub-box:/');
+    // 서버가 바뀐 게 눈에 띄게: 터미널에 접속 띠, 입력줄의 「있는 곳」과 파일 칩이 바뀐다
+    expect(find.byKey(const Key('term_banner')), findsOneWidget);
+    expect(find.descendant(of: find.byKey(const Key('chips_place')), matching: find.text('pub-box:/')), findsOneWidget);
+    expect(find.byKey(const Key('chip_p.txt')), findsOneWidget);
+    expect(find.byKey(const Key('chip_a.txt')), findsNothing);
+    expect(Sfx().log, contains('daemon')); // 서버를 옮기면 접속음
   });
 
   testWidgets('지도: 잠긴 서버는 포트 크랙으로 뚫고 들어간다', (t) async {

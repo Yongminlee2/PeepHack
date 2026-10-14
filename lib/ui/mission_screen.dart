@@ -16,6 +16,7 @@ import 'crack_panel.dart';
 import 'file_view.dart';
 import 'fx/glitch_text.dart';
 import 'fx/crt.dart';
+import 'fx/juice.dart';
 import 'fx/matrix_rain.dart';
 import 'input_bar.dart';
 import 'network_map.dart';
@@ -151,7 +152,8 @@ class _MissionState extends State<MissionScreen> {
   }
 
   void _show(ShellResult r) {
-    if (r.key != null) lines.add(TermLine(S.tn(r.key!, r.args), isError: r.isError));
+    final hop = r.key == 'shell_connected' || r.key == 'shell_cracked'; // 서버를 옮겼다
+    if (r.key != null) lines.add(TermLine(S.tn(r.key!, r.args), isError: r.isError, banner: hop));
     // 파일 내용도 터미널 기록에 남긴다. 창을 닫은 뒤에도 비밀번호 같은 걸 다시 볼 수 있게.
     if (r.text.isNotEmpty) lines.add(TermLine(tr(r.text)));
     if (r.openFile != null) {
@@ -167,8 +169,15 @@ class _MissionState extends State<MissionScreen> {
   }
 
   bool _finished = false;
+  late String _lastHost = widget.mission.start; // 처음 쓸 때 정해지므로 지금 서버가 아니라 시작 서버로
+  int _hops = 0; // 서버를 옮긴 횟수 — 바뀔 때마다 「접속 → 서버」 가 번쩍
 
   void _afterAction() {
+    if (shell.hostKey != _lastHost) {
+      _lastHost = shell.hostKey;
+      _hops++;
+      Sfx().play('daemon');
+    }
     setState(() {});
     if (shell.goalDone) _traceTimer?.cancel(); // 목표를 이뤘으면 읽는 동안 추적은 멈춘다
     // 목표 파일을 막 열었으면 내용을 먼저 읽게 둔다. 창을 닫을 때 완료로 넘어간다.
@@ -306,9 +315,25 @@ class _MissionState extends State<MissionScreen> {
               editable: m.input == 'keyboard',
               password: shell.awaitingPassword,
               compact: keyboardOpen,
+              place: '${shell.host.name}:${shell.cwd}',
               onRun: _onRun,
             ),
         ]),
+        // 서버를 옮기면 가운데에 잠깐 「접속 → 서버」
+        Positioned.fill(
+          child: Align(
+            alignment: const Alignment(0, -0.2),
+            child: Flash(
+              trigger: _hops,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                decoration: BoxDecoration(color: const Color(0xEE0B0F0C), border: Border.all(color: hqOrange, width: 2)),
+                child: Text(S.tn('hop_flash', {'host': shell.host.name}),
+                    style: const TextStyle(color: hqOrange, fontSize: 22, fontWeight: FontWeight.w900, fontFamily: kMono)),
+              ),
+            ),
+          ),
+        ),
         // 추적 70% 이상: 화면 가장자리 붉은빛
         if (trace.level >= 0.7 && !caught)
           const Positioned.fill(

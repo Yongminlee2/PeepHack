@@ -350,6 +350,7 @@ const Map<String, String> kEn = {
   'hint_next_cmd': 'Next command: {cmd}',
   'hint_none_left': 'No hints left',
   'hint_title': 'Hints ({n} stars left)',
+  'hop_flash': 'CONNECTED → {host}',
   'inbox_chapter_n': 'Chapter {n}',
   'inbox_locked': 'Finish the previous mission first',
   'inbox_title': 'Inbox',

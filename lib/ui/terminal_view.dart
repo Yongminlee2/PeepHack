@@ -9,7 +9,9 @@ class TermLine {
   final String text;
   final bool isCmd;
   final bool isError;
-  const TermLine(this.text, {this.isCmd = false, this.isError = false});
+  /// 서버를 옮긴 줄 — 눈에 띄는 띠로 그린다(접속했는지 모르겠다는 실기기 피드백).
+  final bool banner;
+  const TermLine(this.text, {this.isCmd = false, this.isError = false, this.banner = false});
 }
 
 /// 출력 줄 목록. 새 줄이 오면 맨 아래로. 새 출력은 한 글자씩 찍힌다([Fx.animate] 일 때).
@@ -45,6 +47,22 @@ class _TerminalViewState extends State<TerminalView> {
         itemCount: widget.lines.length,
         itemBuilder: (_, i) {
           final l = widget.lines[i];
+          if (l.banner) {
+            return Container(
+              key: const Key('term_banner'),
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: const BoxDecoration(
+                color: Color(0x3333260A),
+                border: Border(left: BorderSide(color: hqOrange, width: 4)),
+              ),
+              child: Row(children: [
+                const Icon(Icons.login, size: 18, color: hqOrange),
+                const SizedBox(width: 8),
+                Expanded(child: Text(l.text, style: TextStyle(color: hqOrange, fontSize: 15, fontWeight: FontWeight.w700, fontFamily: monoFor(l.text)))),
+              ]),
+            );
+          }
           final text = l.isCmd ? '\$ ${l.text}' : l.text;
           final style = TextStyle(color: l.isError ? hqRed : (l.isCmd ? hqOrange : hqGreen), fontSize: 14, fontFamily: monoFor(l.text));
           return _Typing(

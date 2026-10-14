@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../engine/shell.dart';
 import '../sfx.dart';
 import '../strings.dart';
+import 'fx/juice.dart';
 import 'theme.dart';
 
 /// 칩 두 줄(명령·인자) + 입력칸 + 실행. 칩을 누르면 입력칸에 낱말이 들어간다.
@@ -11,10 +12,12 @@ class InputBar extends StatefulWidget {
   final Suggestions suggestions;
   final bool editable;
   final bool password;
+  /// 지금 있는 곳(서버:폴더). 파일 칩 위에 띄우고, 바뀌면 칩이 튀어 오른다.
+  final String place;
   /// 키보드가 떠 있다 — 칩을 한 줄로. (Scaffold 안에선 키보드 높이가 0으로 보여서 바깥에서 알려 준다)
   final bool compact;
   final void Function(String line) onRun;
-  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun, this.compact = false});
+  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun, this.compact = false, this.place = ''});
   @override
   State<InputBar> createState() => _InputBarState();
 }
@@ -121,7 +124,21 @@ class _InputBarState extends State<InputBar> {
           if (!widget.password) ...[
             _chips(widget.suggestions.commands, compact: keyboardOpen),
             const SizedBox(height: 6),
-            _chips(widget.suggestions.args, compact: keyboardOpen),
+            if (widget.place.isNotEmpty)
+              Padding(
+                key: const Key('chips_place'),
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 2),
+                child: Pop(
+                  trigger: widget.place,
+                  scale: 1.15,
+                  child: Row(children: [
+                    const Icon(Icons.folder_open, size: 14, color: hqOrange),
+                    const SizedBox(width: 4),
+                    Text(widget.place, style: const TextStyle(color: hqOrange, fontSize: 12, fontFamily: kMono, fontWeight: FontWeight.w700)),
+                  ]),
+                ),
+              ),
+            Pop(trigger: widget.place, scale: 1.04, child: _chips(widget.suggestions.args, compact: keyboardOpen)),
             const SizedBox(height: 6),
           ],
           Row(children: [
