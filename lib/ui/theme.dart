@@ -6,6 +6,8 @@ const hqBg = Color(0xFF0B0F0C);
 const hqPanel = Color(0xFF121A14);
 const hqGreen = Color(0xFFB8F5C0);
 const hqDim = Color(0xFF6E9A75);
+/// 사람이 읽는 글(안내·편지). 형광 초록은 긴 한글에 눈이 아파서 흰빛에 가까운 연초록.
+const hqText = Color(0xFFE4F1E7);
 const hqOrange = Color(0xFFFFB454);
 const hqRed = Color(0xFFFF6B6B);
 

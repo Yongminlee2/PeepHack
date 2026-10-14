@@ -155,7 +155,7 @@ class _MissionState extends State<MissionScreen> {
     final hop = r.key == 'shell_connected' || r.key == 'shell_cracked'; // 서버를 옮겼다
     if (r.key != null) lines.add(TermLine(S.tn(r.key!, r.args), isError: r.isError, banner: hop));
     // 파일 내용도 터미널 기록에 남긴다. 창을 닫은 뒤에도 비밀번호 같은 걸 다시 볼 수 있게.
-    if (r.text.isNotEmpty) lines.add(TermLine(tr(r.text)));
+    if (r.text.isNotEmpty) lines.add(TermLine(tr(r.text), isData: true));
     if (r.openFile != null) {
       filePath = r.openFile!;
       fileText = tr(r.fileText ?? '');
@@ -268,8 +268,8 @@ class _MissionState extends State<MissionScreen> {
     final Widget window = switch (win) {
       _Win.terminal => Stack(fit: StackFit.expand, children: [
           const MatrixRain(opacity: 0.07),
+          const CrtOverlay(), // 글자 아래에 — 위에 덮으면 줄무늬·가장자리 그늘이 글자를 가렸다
           TerminalView(lines: lines),
-          const CrtOverlay(),
         ]),
       _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: _closeFile,
           closeLabel: shell.goalDone ? S.t('result_title') : null),

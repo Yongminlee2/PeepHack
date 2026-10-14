@@ -9,6 +9,7 @@ import '../fx/crt.dart';
 import '../fx/ghost_avatar.dart';
 import '../fx/juice.dart';
 import '../fx/matrix_rain.dart';
+import '../readable_text.dart';
 import '../theme.dart';
 import '../wordguess/word_board.dart';
 
@@ -202,17 +203,7 @@ class _DocPage extends StatelessWidget {
       appBar: AppBar(title: Text(doc.name, style: const TextStyle(fontFamily: kMono, fontSize: 16))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: monoFor(text) == kMono
-            // 영문 기록: 한 기록이 두 줄로 꺾이면 맞춰 보기 어렵다(실기기). 가장 긴 줄에 맞춰 글자를 줄이고, 그래도 넘치면 옆으로 민다.
-            ? LayoutBuilder(builder: (_, box) {
-                final longest = text.split('\n').fold<int>(1, (m, l) => l.length > m ? l.length : m);
-                final size = (box.maxWidth / (longest * 0.62)).clamp(10.0, 15.0);
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SelectableText(text, style: TextStyle(fontFamily: kMono, fontSize: size, height: 1.7)),
-                );
-              })
-            : SelectableText(text, style: TextStyle(fontFamily: monoFor(text), fontSize: 15, height: 1.6)),
+        child: ReadableText(text),
       ),
     );
   }

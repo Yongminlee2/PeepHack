@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../strings.dart';
+import 'readable_text.dart';
 import 'theme.dart';
 
 class FileView extends StatelessWidget {
@@ -25,7 +26,7 @@ class FileView extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(12),
-              child: SelectableText(text, style: TextStyle(fontSize: 15, height: 1.5, fontFamily: monoFor(text))),
+              child: ReadableText(text),
             ),
           ),
           // 목표를 이뤘으면 아래에 큰 버튼. 위쪽 작은 글자만으로는 실기기에서 눈에 안 띄었다.

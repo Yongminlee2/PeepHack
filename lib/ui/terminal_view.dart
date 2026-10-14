@@ -11,7 +11,9 @@ class TermLine {
   final bool isError;
   /// 서버를 옮긴 줄 — 눈에 띄는 띠로 그린다(접속했는지 모르겠다는 실기기 피드백).
   final bool banner;
-  const TermLine(this.text, {this.isCmd = false, this.isError = false, this.banner = false});
+  /// 파일 목록·내용 같은 출력 — 왼쪽 선으로 묶어 안내 문장과 구분한다.
+  final bool isData;
+  const TermLine(this.text, {this.isCmd = false, this.isError = false, this.banner = false, this.isData = false});
 }
 
 /// 출력 줄 목록. 새 줄이 오면 맨 아래로. 새 출력은 한 글자씩 찍힌다([Fx.animate] 일 때).
@@ -63,15 +65,30 @@ class _TerminalViewState extends State<TerminalView> {
               ]),
             );
           }
-          final text = l.isCmd ? '\$ ${l.text}' : l.text;
-          final style = TextStyle(color: l.isError ? hqRed : (l.isCmd ? hqOrange : hqGreen), fontSize: 14, fontFamily: monoFor(l.text));
-          return _Typing(
+          // 읽기 쉽게(실기기 피드백): 명령은 위에 여백을 둬 「명령 → 결과」 를 한 덩어리로,
+          // 안내 문장은 밝은 글씨·넓은 줄 간격, 출력은 초록 고정폭에 왼쪽 선, 오류는 빨간 ✗.
+          final text = l.isCmd ? '\$ ${l.text}' : (l.isError ? '✗ ${l.text}' : l.text);
+          final style = l.isCmd
+              ? TextStyle(color: hqOrange, fontSize: 15, fontWeight: FontWeight.w600, fontFamily: monoFor(l.text), height: 1.4)
+              : l.isData
+                  ? TextStyle(color: hqGreen, fontSize: 14.5, fontFamily: monoFor(l.text), height: 1.5)
+                  : TextStyle(color: l.isError ? hqRed : hqText, fontSize: 15.5, fontFamily: monoFor(l.text), height: 1.5);
+          final line = _Typing(
             key: ValueKey(i),
             text: text,
             style: style,
             // 친 명령은 바로, 출력만 찍는다
             animate: Fx.animate && !l.isCmd && !_typed.contains(i),
             onDone: () => _typed.add(i),
+          );
+          if (l.isCmd) return Padding(padding: EdgeInsets.only(top: i == 0 ? 0 : 12, bottom: 2), child: line);
+          if (!l.isData) return Padding(padding: const EdgeInsets.only(bottom: 2), child: line);
+          return Container(
+            key: const Key('term_data'),
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(border: Border(left: BorderSide(color: hqDim.withValues(alpha: 0.6), width: 2))),
+            child: line,
           );
         },
       );
