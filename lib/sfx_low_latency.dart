@@ -28,6 +28,8 @@ class LowLatencySfx {
 
   static final _ctx = AudioContext(
     android: AudioContextAndroid(audioFocus: AndroidAudioFocus.none),
+    // 아이폰도 듣던 음악을 끊지 않고, 무음 스위치를 따른다(music.dart 와 같은 세션).
+    iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
   );
 
   /// 같은 소리가 겹쳐 날 수 있는 수. 소리가 재생 간격보다 길어도 앞 소리를

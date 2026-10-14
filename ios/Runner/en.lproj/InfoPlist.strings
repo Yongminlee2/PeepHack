@@ -1,0 +1,3 @@
+/* 홈 화면에 보이는 앱 이름. 안드로이드 AndroidManifest 의 android:label 과 같게 둔다. */
+"CFBundleDisplayName" = "HackQuest";
+"CFBundleName" = "HackQuest";

@@ -12,6 +12,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude:
     - lib/l10n/**   # common/i18n/gen.py 생성물 (zh_Hant.dart 이름은 언어 코드 그대로)
+    - build/**      # 아이폰 빌드가 받아 오는 플러그인 소스(시험 코드까지 검사해 경고가 수백 개 뜬다)
 
 linter:
   # The lint rules applied to this project can be customized in the
