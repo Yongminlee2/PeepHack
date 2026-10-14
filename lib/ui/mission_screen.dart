@@ -42,6 +42,7 @@ class _MissionState extends State<MissionScreen> {
   _Win win = _Win.terminal;
   String filePath = '';
   String fileText = '';
+  bool fileProse = false; // 번역되는 글이면 영어여도 줄을 꺾는다
   String puzzleId = '';
   int hintsUsed = 0;
   final startedAt = DateTime.now();
@@ -159,6 +160,7 @@ class _MissionState extends State<MissionScreen> {
     if (r.openFile != null) {
       filePath = r.openFile!;
       fileText = tr(r.fileText ?? '');
+      fileProse = (r.fileText ?? '').startsWith('@');
       win = _Win.file;
     } else if (r.openPuzzle != null) {
       puzzleId = r.openPuzzle!;
@@ -271,7 +273,7 @@ class _MissionState extends State<MissionScreen> {
           const CrtOverlay(), // 글자 아래에 — 위에 덮으면 줄무늬·가장자리 그늘이 글자를 가렸다
           TerminalView(lines: lines),
         ]),
-      _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, onClose: _closeFile,
+      _Win.file => FileView(key: const Key('file_view'), path: filePath, text: fileText, prose: fileProse, onClose: _closeFile,
           closeLabel: shell.goalDone ? S.t('result_title') : null),
       _Win.puzzle => PuzzleView(
           key: ValueKey(puzzleId),

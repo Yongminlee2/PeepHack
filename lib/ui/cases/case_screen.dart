@@ -203,7 +203,7 @@ class _DocPage extends StatelessWidget {
       appBar: AppBar(title: Text(doc.name, style: const TextStyle(fontFamily: kMono, fontSize: 16))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: ReadableText(text),
+        child: ReadableText(text, prose: doc.text.startsWith('@')),
       ),
     );
   }

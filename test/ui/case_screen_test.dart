@@ -147,4 +147,19 @@ void main() {
     expect(find.ancestor(of: find.byType(SelectableText), matching: find.byWidgetPredicate(
         (w) => w is SingleChildScrollView && w.scrollDirection == Axis.horizontal)), findsOneWidget);
   });
+  testWidgets('번역되는 자료(메모·채팅)는 영어여도 문장이라 줄을 꺾는다 — 옆으로 밀려 잘리지 않게', (t) async {
+    await AppLang().set('en');
+    t.view.physicalSize = const Size(375, 667); // 아이폰 SE
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.reset);
+    final c = CaseFile.parse(File('assets/cases/c12.json').readAsStringSync());
+    await t.pumpWidget(MaterialApp(home: CaseScreen(file: c, progress: p)));
+    await settle(t);
+    await t.tap(find.byKey(const Key('doc_last_message.txt')));
+    await settle(t);
+    final txt = t.widget<SelectableText>(find.byType(SelectableText));
+    expect(txt.data, contains('Find me.'));
+    expect(find.ancestor(of: find.byType(SelectableText), matching: find.byWidgetPredicate(
+        (w) => w is SingleChildScrollView && w.scrollDirection == Axis.horizontal)), findsNothing);
+  });
 }

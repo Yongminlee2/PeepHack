@@ -1,0 +1,24 @@
+{
+ "en-US": {
+  "name": "HackQuest - Hacking Puzzles",
+  "subtitle": "Terminal, code grid & cases",
+  "keywords": "hacker,cyber,logic,detective,mystery,escape room,code,brain,riddle,breach,shell,crime,clue,security",
+  "description": "Every server has a back door.\n\nA hacker who calls themself \"Ghost\" sends you jobs. Tap the buttons under the screen to build each command — no coding needed to feel like a real hacker.\n\n■ Operations — 30 missions\nPick servers on the map, dig through files and crack locked ports. Stay too long and you get traced. The story runs across five chapters.\n\n■ Breach — 60 code-grid stages + a daily puzzle\nAlternate between rows and columns to pick codes in the right order. A new puzzle every day, with a streak to keep.\n\n■ Case files — 12 cases\nAccount theft, delivery-text scams, fake Wi-Fi, second-hand fraud… Read the evidence, open locked files with word deduction, then name the culprit.\n\n■ Made for\n· Escape-room, mystery and puzzle fans\n· Anyone who wanted to touch a movie-style hacker screen\n· Short sessions that make you think\n\n* All hacking in the game is fiction and differs from real techniques.",
+  "promotionalText": "Take jobs from Ghost and slip into servers — terminal commands, code-grid puzzles and detective cases.",
+  "whatsNew": "First release: 30 operations, 60 breach stages plus a daily puzzle, 12 case files.",
+  "privacyPolicyUrl": "https://yongminlee2.github.io/legal/hackquest/privacy.html",
+  "supportUrl": "https://yongminlee2.github.io/legal/hackquest/support.html",
+  "marketingUrl": "https://yongminlee2.github.io/legal/hackquest/"
+ },
+ "ko": {
+  "name": "HackQuest - 해킹 퍼즐",
+  "subtitle": "터미널·코드 격자·사건 추리",
+  "keywords": "해커,해킹,사이버,추리,탐정,방탈출,두뇌,논리,코딩,수수께끼,브리치,범인,단서,보안",
+  "description": "모든 서버에는 뒷문이 있다.\n\n정체를 숨긴 해커 '고스트'가 당신에게 의뢰를 보냅니다. 화면 아래 단추만 눌러도 명령이 완성되니, 코딩을 몰라도 진짜 해커가 된 기분으로 풀 수 있어요.\n\n■ 작전 — 30개 임무\n지도에서 서버를 고르고, 파일을 뒤지고, 잠긴 포트를 뚫으세요. 오래 머물면 추적당하니 서둘러야 합니다. 5개 장으로 이야기가 이어집니다.\n\n■ 브리치 — 코드 격자 퍼즐 60단계 + 오늘의 퍼즐\n가로, 세로를 번갈아 칸을 골라 정해진 순서를 맞추는 퍼즐. 매일 새 퍼즐이 나오고, 연속 기록도 쌓입니다.\n\n■ 사건 파일 — 12개 사건\n계정 도용, 택배 문자, 가짜 와이파이, 중고거래 사기… 자료를 읽고 잠긴 파일은 단어 추리로 연 뒤 범인을 지목하세요.\n\n■ 이런 분께\n· 방탈출·추리·퍼즐을 좋아하는 분\n· 영화 속 해커 화면을 직접 만져 보고 싶었던 분\n· 짧게 한 판씩 머리를 쓰고 싶은 분\n\n※ 게임 속 해킹은 모두 가상의 이야기이며 실제 기술과 다릅니다.",
+  "promotionalText": "고스트의 의뢰를 받고 서버에 숨어들어라. 터미널 명령·코드 격자 퍼즐·사건 추리.",
+  "whatsNew": "첫 출시: 작전 30개, 브리치 60단계와 오늘의 퍼즐, 사건 파일 12개.",
+  "privacyPolicyUrl": "https://yongminlee2.github.io/legal/hackquest/privacy.html",
+  "supportUrl": "https://yongminlee2.github.io/legal/hackquest/support.html",
+  "marketingUrl": "https://yongminlee2.github.io/legal/hackquest/"
+ }
+}
