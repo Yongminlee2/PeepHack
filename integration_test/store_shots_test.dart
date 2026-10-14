@@ -37,10 +37,14 @@ void main() {
   testWidgets('스토어 스크린샷', (t) async {
     final catalog = await Catalog.load();
 
+    // 실제 폰처럼 기다리는 동안 계속 그린다. 두 번만 그리면 화면 전환이 덜 끝난 채 찍혀 왼쪽 끝에 앞 화면이 비친다.
     Future<void> wait(int ms) async {
+      final end = DateTime.now().add(Duration(milliseconds: ms));
       await t.pump();
-      await Future<void>.delayed(Duration(milliseconds: ms));
-      await t.pump();
+      while (DateTime.now().isBefore(end)) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        await t.pump();
+      }
     }
 
     Future<void> shot(String lang, String name) async {

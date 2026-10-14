@@ -47,6 +47,7 @@ tool/ios_screen_tour.sh                # 아이폰 SE·17 Pro Max 에서 모든 
 tool/ios_archive.sh upload             # 보관 + App Store Connect 업로드
 ```
 
+- 폰에 깔아 시험하는 법과 아이폰에서 꼭 볼 것: `store/ios/아이폰-테스트-방법.md`.
 - 앱스토어 문구·설문·심사 메모: `store/ios/앱스토어-작성내용.md`. 개인정보처리방침은 legal 저장소 `hackquest/`.
 - 아이폰에서만 다른 것: 명령 입력칸의 둥근 따옴표·긴 줄표 자동 바꾸기를 끈다(`input_bar.dart`), 소리는 ambient 세션
   (듣던 음악과 섞이고 무음 스위치를 따른다), 「다른 게임」 단추는 아직 "준비 중" 이라 아이폰에서 숨긴다(심사 2.1·2.3.10).
