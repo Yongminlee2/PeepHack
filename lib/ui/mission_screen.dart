@@ -316,6 +316,10 @@ class _MissionState extends State<MissionScreen> {
               password: shell.awaitingPassword,
               compact: keyboardOpen,
               place: '${shell.host.name}:${shell.cwd}',
+              // 첫 임무는 따라 하기: 다음 정답 줄(퍼즐 단계·비밀번호 대기 땐 없음)
+              guideLine: m.tutorial && !shell.awaitingPassword && !(shell.nextSolutionLine()?.startsWith('puzzle ') ?? true)
+                  ? shell.nextSolutionLine()
+                  : null,
               onRun: _onRun,
             ),
         ]),

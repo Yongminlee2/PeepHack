@@ -7,6 +7,7 @@ import '../strings.dart';
 import 'brief_screen.dart';
 import 'fx/crt.dart';
 import 'fx/matrix_rain.dart';
+import 'how_to.dart';
 import 'promo_screen.dart';
 import 'settings_screen.dart';
 import 'shop_screen.dart';
@@ -30,6 +31,12 @@ class _InboxState extends State<InboxScreen> {
   bool _open(Progress p, String id, List<String> ids) => _devUnlock || p.isUnlocked(id, ids);
 
   @override
+  void initState() {
+    super.initState();
+    HowTo.maybeShow(context, 'ops', widget.progress);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final p = widget.progress;
     final c = widget.catalog;
@@ -41,6 +48,7 @@ class _InboxState extends State<InboxScreen> {
           child: Text(S.t('inbox_title')),
         ),
         actions: [
+          HowTo.button(context, 'ops', p),
           IconButton(
             icon: const Icon(Icons.memory),
             tooltip: S.t('shop_title'),

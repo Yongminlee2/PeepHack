@@ -6,6 +6,7 @@ import '../../engine/progress.dart';
 import '../../strings.dart';
 import '../fx/crt.dart';
 import '../fx/matrix_rain.dart';
+import '../how_to.dart';
 import '../theme.dart';
 import 'case_screen.dart';
 
@@ -23,6 +24,7 @@ class _CaseListState extends State<CaseListScreen> {
   @override
   void initState() {
     super.initState();
+    HowTo.maybeShow(context, 'cases', widget.progress);
     _load();
   }
 
@@ -42,7 +44,7 @@ class _CaseListState extends State<CaseListScreen> {
   Widget build(BuildContext context) {
     final p = widget.progress;
     return Scaffold(
-      appBar: AppBar(title: Text(S.t('mode_cases'))),
+      appBar: AppBar(title: Text(S.t('mode_cases')), actions: [HowTo.button(context, 'cases', p)]),
       body: Stack(fit: StackFit.expand, children: [
         const MatrixRain(opacity: 0.12),
         const CrtOverlay(),

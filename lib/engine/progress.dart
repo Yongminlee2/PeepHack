@@ -93,10 +93,14 @@ class Progress {
     if (v > _int(k)) await _p.setInt(k, v);
   }
 
+  // 하는 법 카드: howto.<모드>
+  bool seenHowTo(String mode) => _bool('howto.$mode');
+  Future<void> markHowTo(String mode) => _p.setBool('howto.$mode', true);
+
   Future<void> reset() async {
     for (final k in _p.getKeys().toList()) {
       if (k.startsWith('done.') || k.startsWith('stars.') || k.startsWith('hints.') ||
-          k.startsWith('breach.') || k.startsWith('daily.') || k.startsWith('case.') || k == 'credits' || k == 'owned') {
+          k.startsWith('breach.') || k.startsWith('daily.') || k.startsWith('case.') || k.startsWith('howto.') || k == 'credits' || k == 'owned') {
         await _p.remove(k);
       }
     }

@@ -1,7 +1,7 @@
 {
   "id": "m1_01", "chapter": 1, "title": "@m1_01_title",
   "brief": ["@m1_01_brief_1", "@m1_01_brief_2"], "done": ["@m1_01_done_1"],
-  "input": "chips",
+  "input": "chips", "tutorial": true,
   "commands": ["scan", "connect", "open"],
   "hosts": {
     "home": {"name": "my-laptop", "fs": {"readme.txt": "@m1_01_f_readme"}},

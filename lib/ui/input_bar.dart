@@ -14,10 +14,12 @@ class InputBar extends StatefulWidget {
   final bool password;
   /// 지금 있는 곳(서버:폴더). 파일 칩 위에 띄우고, 바뀌면 칩이 튀어 오른다.
   final String place;
+  /// 따라 하기: 지금 만들 명령 한 줄. 다음에 누를 칩·실행 단추를 빛낸다(첫 임무).
+  final String? guideLine;
   /// 키보드가 떠 있다 — 칩을 한 줄로. (Scaffold 안에선 키보드 높이가 0으로 보여서 바깥에서 알려 준다)
   final bool compact;
   final void Function(String line) onRun;
-  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun, this.compact = false, this.place = ''});
+  const InputBar({super.key, required this.suggestions, required this.editable, required this.password, required this.onRun, this.compact = false, this.place = '', this.guideLine});
   @override
   State<InputBar> createState() => _InputBarState();
 }
@@ -77,8 +79,36 @@ class _InputBarState extends State<InputBar> {
     widget.onRun(line);
   }
 
-  Widget _chip(String t) => ActionChip(
+  // 따라 하기: 친 것이 안내 줄의 앞부분이면 다음 조각, 다 쳤으면 실행.
+  List<String> get _guide => widget.guideLine?.split(' ') ?? const [];
+  List<String> get _typed => _ctl.text.trim().isEmpty ? const [] : _ctl.text.trim().split(' ');
+  bool get _onTrack {
+    final g = _guide, t = _typed;
+    if (g.isEmpty || t.length > g.length) return false;
+    for (var i = 0; i < t.length; i++) {
+      if (t[i] != g[i]) return false;
+    }
+    return true;
+  }
+
+  String? get _guideToken => _onTrack && _typed.length < _guide.length ? _guide[_typed.length] : null;
+  bool get _guideRun => _onTrack && _guide.isNotEmpty && _typed.length == _guide.length;
+
+  Widget _chip(String t) => t == _guideToken
+      ? Container(
+          key: Key('guide_chip_$t'),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [BoxShadow(color: hqOrange.withValues(alpha: 0.6), blurRadius: 10, spreadRadius: 1)],
+          ),
+          child: _plainChip(t, guide: true),
+        )
+      : _plainChip(t);
+
+  Widget _plainChip(String t, {bool guide = false}) => ActionChip(
         key: Key('chip_$t'),
+        avatar: guide ? const Icon(Icons.touch_app, size: 16, color: hqOrange) : null,
+        side: guide ? const BorderSide(color: hqOrange, width: 2) : null,
         label: Text(t),
         visualDensity: VisualDensity.compact,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -112,6 +142,20 @@ class _InputBarState extends State<InputBar> {
         color: hqPanel,
         padding: const EdgeInsets.fromLTRB(0, 6, 0, 8),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
+          if (!widget.password && widget.guideLine != null)
+            Container(
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(color: const Color(0x3333260A), border: Border.all(color: hqOrange.withValues(alpha: 0.7))),
+              child: Row(children: [
+                const Icon(Icons.school_outlined, size: 18, color: hqOrange),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(S.tn('tut_ops_next', {'line': widget.guideLine!}),
+                      style: const TextStyle(color: hqOrange, fontSize: 14, fontWeight: FontWeight.w700)),
+                ),
+              ]),
+            ),
           if (!widget.password && _explain != null)
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
@@ -173,7 +217,21 @@ class _InputBarState extends State<InputBar> {
             ),
             IconButton(key: const Key('cmd_help'), icon: const Icon(Icons.help_outline), tooltip: S.t('cmd_help_title'), onPressed: _help),
             IconButton(key: const Key('clear_btn'), icon: const Icon(Icons.backspace_outlined), onPressed: () => setState(_ctl.clear)),
-            FilledButton(key: const Key('run_btn'), onPressed: _run, child: Text(S.t('btn_run'))),
+            _guideRun
+                ? Container(
+                    key: const Key('guide_run'),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [BoxShadow(color: hqOrange.withValues(alpha: 0.7), blurRadius: 12, spreadRadius: 1)],
+                    ),
+                    child: FilledButton(
+                      key: const Key('run_btn'),
+                      style: FilledButton.styleFrom(backgroundColor: hqOrange),
+                      onPressed: _run,
+                      child: Text('▶ ${S.t('btn_run')}'),
+                    ),
+                  )
+                : FilledButton(key: const Key('run_btn'), onPressed: _run, child: Text(S.t('btn_run'))),
             const SizedBox(width: 8),
           ]),
         ]),

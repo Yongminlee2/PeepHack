@@ -19,13 +19,15 @@ class Mission {
   final List<String> hints;
   final List<Object> solution; // String | PuzzleStep
   final int? traceOverride; // JSON 의 trace
+  /// 따라 하기 임무: 다음에 누를 칩과 실행 단추를 빛낸다(첫 임무).
+  final bool tutorial;
 
   Mission({
     required this.id, required this.chapter, required this.title,
     required this.brief, required this.done, required this.input,
     required this.commands, required this.words, required this.hosts,
     required this.start, required this.puzzles, required this.goal,
-    required this.hints, required this.solution, this.traceOverride,
+    required this.hints, required this.solution, this.traceOverride, this.tutorial = false,
   });
 
   /// 추적 한도(초). 0 이면 추적 없음. JSON 에 없으면 챕터 기본값.
@@ -56,6 +58,7 @@ class Mission {
         goal: Goal.fromJson(j['goal'] as Map<String, dynamic>),
         hints: _strs(j['hints']),
         traceOverride: j['trace'] as int?,
+        tutorial: j['tutorial'] == true,
         solution: [
           for (final s in j['solution'] as List)
             s is String ? s : PuzzleStep((s as Map)['puzzle'] as String)

@@ -5,6 +5,7 @@ import '../../engine/progress.dart';
 import '../../strings.dart';
 import '../fx/crt.dart';
 import '../fx/matrix_rain.dart';
+import '../how_to.dart';
 import '../theme.dart';
 import 'breach_play_screen.dart';
 
@@ -17,6 +18,12 @@ class BreachListScreen extends StatefulWidget {
 }
 
 class _BreachListState extends State<BreachListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    HowTo.maybeShow(context, 'breach', widget.progress);
+  }
+
   Future<void> _open(Widget screen) async {
     await Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
     setState(() {}); // 돌아오면 별 갱신
@@ -28,7 +35,7 @@ class _BreachListState extends State<BreachListScreen> {
     final today = DateTime.now();
     final daily = p.dailyStars(today);
     return Scaffold(
-      appBar: AppBar(title: Text(S.t('mode_breach'))),
+      appBar: AppBar(title: Text(S.t('mode_breach')), actions: [HowTo.button(context, 'breach', p)]),
       body: Stack(fit: StackFit.expand, children: [
         const MatrixRain(opacity: 0.12),
         const CrtOverlay(),
