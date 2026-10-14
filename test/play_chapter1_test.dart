@@ -161,4 +161,18 @@ void main() {
     expect(find.text(S.tn('hint_title', {'n': 1})), findsOneWidget);
     expect(find.text('${S.t('btn_hint')} ★'), findsOneWidget);
   });
+  testWidgets('영어로 본 메모 파일(번역되는 글)은 줄을 꺾는다 — 한 줄로 늘어져 잘리지 않게', (t) async {
+    t.view.physicalSize = const Size(375, 667); // 아이폰 SE
+    t.view.devicePixelRatio = 1;
+    addTearDown(t.view.reset);
+    final catalog = await Catalog.load();
+    final progress = await Progress.load();
+    await t.pumpWidget(MaterialApp(home: MissionScreen(mission: catalog.byId('m1_02')!, progress: progress, catalog: catalog)));
+    await settle(t);
+    await typeLine(t, 'open note.txt');
+    final note = find.descendant(of: find.byKey(const Key('file_view')), matching: find.byType(SelectableText));
+    expect(t.widget<SelectableText>(note).data, S.t('m1_02_f_note'));
+    expect(find.ancestor(of: note, matching: find.byWidgetPredicate(
+        (w) => w is SingleChildScrollView && w.scrollDirection == Axis.horizontal)), findsNothing);
+  });
 }

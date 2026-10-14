@@ -9,7 +9,8 @@ class FileView extends StatelessWidget {
   final String text;
   final VoidCallback onClose;
   final String? closeLabel; // 목표를 이룬 뒤엔 「임무 완료」
-  const FileView({super.key, required this.path, required this.text, required this.onClose, this.closeLabel});
+  final bool prose; // 번역되는 글(메모·쪽지) — ReadableText 참고
+  const FileView({super.key, required this.path, required this.text, required this.onClose, this.closeLabel, this.prose = false});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -26,7 +27,7 @@ class FileView extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(12),
-              child: ReadableText(text),
+              child: ReadableText(text, prose: prose),
             ),
           ),
           // 목표를 이뤘으면 아래에 큰 버튼. 위쪽 작은 글자만으로는 실기기에서 눈에 안 띄었다.
