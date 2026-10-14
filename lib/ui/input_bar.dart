@@ -154,6 +154,10 @@ class _InputBarState extends State<InputBar> {
                 keyboardType: TextInputType.visiblePassword,
                 autocorrect: false,
                 enableSuggestions: false,
+                // 아이폰 키보드는 ' " 를 둥근 따옴표로, -- 를 긴 줄표로 바꾼다. 명령·비밀번호가 틀어지지 않게 끈다.
+                smartQuotesType: SmartQuotesType.disabled,
+                smartDashesType: SmartDashesType.disabled,
+                textCapitalization: TextCapitalization.none,
                 style: const TextStyle(color: hqGreen, fontFamily: kMono),
                 decoration: InputDecoration(
                   isDense: true,

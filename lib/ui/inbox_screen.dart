@@ -49,11 +49,14 @@ class _InboxState extends State<InboxScreen> {
               setState(() {});
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.videogame_asset),
-            tooltip: S.t('btn_promo'),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PromoScreen())),
-          ),
+          // 「다른 게임」은 아직 "준비 중" 자리다. 아이폰 심사는 빈 자리를 미완성으로 보고(지침 2.1),
+          // 목록을 채울 때도 앱스토어 번호가 있는 게임만 보여야 한다(2.3.10) — 그때까지 아이폰에선 숨긴다.
+          if (defaultTargetPlatform != TargetPlatform.iOS)
+            IconButton(
+              icon: const Icon(Icons.videogame_asset),
+              tooltip: S.t('btn_promo'),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PromoScreen())),
+            ),
           IconButton(
             icon: const Icon(Icons.settings),
             tooltip: S.t('btn_settings'),

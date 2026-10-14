@@ -33,7 +33,11 @@ class Music {
   Future<void> _start() async {
     try {
       final pl = _player ??= AudioPlayer();
-      await pl.setAudioContext(AudioContext(android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none)));
+      // 아이폰은 ambient: 듣던 음악과 섞이고, 무음 스위치를 켜면 조용해진다(기본값 playback 은 둘 다 안 한다).
+      await pl.setAudioContext(AudioContext(
+        android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none),
+        iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
+      ));
       await pl.setReleaseMode(ReleaseMode.loop);
       await pl.setVolume(volume);
       await pl.play(AssetSource(asset));

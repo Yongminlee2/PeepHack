@@ -34,6 +34,24 @@ flutter analyze   # 경고 0 을 유지한다
 3. `python ../common/i18n/gen.py i18n --to flutter --out lib/l10n`
 4. `flutter test` — 빨간불이면 엔진이 아니라 임무 데이터를 고친다.
 
+## 아이폰 (같은 Dart 코드, `ios/`)
+
+맥에서 빌드한다. 번들 ID `com.peep.hack`(안드로이드 패키지와 같음), 팀 3276G27R59, 아이폰 전용·세로 전용, 최소 iOS 15.
+버전·빌드 번호는 `pubspec.yaml` 의 `version` 이 그대로 들어간다. Flutter 는 `~/flutter`(3.44.x, 윈도우와 같은 줄)를 쓴다.
+
+```bash
+flutter build ios --simulator          # 시뮬레이터 빌드 확인
+flutter test test/ios                  # 아이폰 설정이 안드로이드와 맞는지(번들 ID·이름·언어·아이콘·매니페스트)
+tool/ios_store_shots.sh                # 앱스토어 스크린샷 1320×2868, 한국어·영어 → store/ios/screenshots/
+tool/ios_archive.sh upload             # 보관 + App Store Connect 업로드
+```
+
+- 앱스토어 문구·설문·심사 메모: `store/ios/앱스토어-작성내용.md`. 개인정보처리방침은 legal 저장소 `hackquest/`.
+- 아이폰에서만 다른 것: 명령 입력칸의 둥근 따옴표·긴 줄표 자동 바꾸기를 끈다(`input_bar.dart`), 소리는 ambient 세션
+  (듣던 음악과 섞이고 무음 스위치를 따른다), 「다른 게임」 단추는 아직 "준비 중" 이라 아이폰에서 숨긴다(심사 2.1·2.3.10).
+- 아이콘을 바꾸면 `tool/apply_icon.py` 가 아이폰 1024 아이콘도 같이 만든다.
+- 이 맥의 시뮬레이터는 바깥 탭을 앱이 못 받는다 — 스크린샷은 `integration_test/store_shots_test.dart` 가 앱 안에서 눌러 찍는다.
+
 ## 함정
 
 - `lib/engine/` 에는 Flutter 를 import 하지 않는다(순수 Dart, 테스트·도구용).
