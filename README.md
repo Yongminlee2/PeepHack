@@ -45,6 +45,7 @@ flutter test test/ios                  # 아이폰 설정이 안드로이드와 
 tool/ios_store_shots.sh                # 앱스토어 스크린샷 1320×2868, 한국어·영어 → store/ios/screenshots/
 tool/ios_screen_tour.sh                # 아이폰 SE·17 Pro Max 에서 모든 화면(27개 × 한·영)을 돌며 글자 넘침을 잡고 찍는다 → build/ios_tour/
 tool/ios_archive.sh upload             # 보관 + App Store Connect 업로드
+tools/device-test/run.sh <UDID>        # USB 로 꽂힌 아이폰에서 UI 테스트가 직접 눌러 본다(키보드·홈 갔다 오기·뒤로 쓸기·한국어) → build/device-test/
 ```
 
 - 폰에 깔아 시험하는 법과 아이폰에서 꼭 볼 것: `store/ios/아이폰-테스트-방법.md`.
