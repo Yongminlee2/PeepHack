@@ -23,6 +23,7 @@ import 'package:hack_quest/main.dart';
 import 'package:hack_quest/strings.dart';
 import 'package:hack_quest/ui/breach/breach_play_screen.dart';
 import 'package:hack_quest/ui/cases/case_screen.dart';
+import 'package:hack_quest/ui/how_to.dart';
 import 'package:hack_quest/ui/mission_screen.dart';
 import 'package:hack_quest/ui/result_screen.dart';
 import 'package:integration_test/integration_test.dart';
@@ -95,6 +96,9 @@ void main() {
         await p.complete(id, 0);
       }
       await p.addCredits(1250);
+      for (final mode in HowTo.pages.keys) {
+        await p.markHowTo(mode); // 하는 법 카드가 화면을 가리지 않게
+      }
 
       await t.pumpWidget(HackQuestApp(key: UniqueKey(), progress: p, catalog: catalog));
       await wait(2500);

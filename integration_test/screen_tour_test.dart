@@ -23,6 +23,7 @@ import 'package:hack_quest/ui/breach/breach_play_screen.dart';
 import 'package:hack_quest/ui/brief_screen.dart';
 import 'package:hack_quest/ui/cases/case_list_screen.dart';
 import 'package:hack_quest/ui/cases/case_screen.dart';
+import 'package:hack_quest/ui/how_to.dart';
 import 'package:hack_quest/ui/inbox_screen.dart';
 import 'package:hack_quest/ui/mission_screen.dart';
 import 'package:hack_quest/ui/result_screen.dart';
@@ -109,6 +110,16 @@ void main() {
       return m;
     }
 
+    // 모드에 처음 들어가면 뜨는 「하는 법」 카드를 장마다 찍고 닫는다.
+    Future<void> howTo(String mode) async {
+      for (var i = 1; i <= HowTo.pages[mode]!; i++) {
+        expect(find.byKey(const Key('howto_next')), findsOneWidget, reason: '하는 법 카드($mode)');
+        await shot('howto_${mode}_$i');
+        await tap(find.byKey(const Key('howto_next')));
+        await wait(300);
+      }
+    }
+
     for (final l in _langsArg.split(',')) {
       lang = l;
       n = 0;
@@ -129,6 +140,7 @@ void main() {
       await shot('modes');
 
       await push(InboxScreen(progress: p, catalog: catalog));
+      await howTo('ops');
       await shot('inbox');
       await push(BriefScreen(mission: catalog.byId('m3_01')!, progress: p, catalog: catalog));
       await shot('brief');
@@ -188,6 +200,7 @@ void main() {
 
       // 브리치
       await push(BreachListScreen(progress: p));
+      await howTo('breach');
       await shot('breach_list');
       await push(BreachPlayScreen.stage(progress: p, n: 1));
       await shot('breach_tutorial');
@@ -210,6 +223,7 @@ void main() {
 
       // 사건 파일: 목록, 마지막 사건(자료 많음), 잠금, 질문(보기 많음)
       await push(CaseListScreen(progress: p));
+      await howTo('cases');
       await shot('case_list');
       final c12 = CaseFile.parse(await rootBundle.loadString('assets/cases/c12.json'));
       await push(CaseScreen(file: c12, progress: p));

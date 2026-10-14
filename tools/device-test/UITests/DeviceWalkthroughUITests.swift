@@ -43,9 +43,27 @@ final class DeviceWalkthroughUITests: XCTestCase {
         sleep(1)
     }
 
+    /// 실행 단추. 첫 임무 따라 하기에서는 「▶ Run」 으로 빛난다.
+    func tapRun(wait: UInt32) {
+        let b = app.buttons.matching(NSPredicate(format: "label ENDSWITH %@", "Run")).firstMatch
+        XCTAssertTrue(b.waitForExistence(timeout: 8), "Run")
+        b.tap(); sleep(wait)
+    }
+
     func run(_ toks: [String]) {
         for t in toks { chip(t) }
-        tap("Run", exact: true, wait: 2)
+        tapRun(wait: 2)
+    }
+
+    /// 모드에 처음 들어가면 뜨는 「하는 법」 카드를 끝까지 넘긴다(장마다 찍는다).
+    func howTo(_ mode: String) {
+        for i in 1...6 {
+            let start = el("Let's go", exact: true)
+            if start.waitForExistence(timeout: 2) { snap("howto_\(mode)_\(i)"); start.tap(); sleep(2); return }
+            let next = el("Next", exact: true)
+            guard next.exists else { return }
+            snap("howto_\(mode)_\(i)"); next.tap(); sleep(1)
+        }
     }
 
     func launch(_ lang: String) {
@@ -62,6 +80,7 @@ final class DeviceWalkthroughUITests: XCTestCase {
         tap("> Jack in")
         snap("modes")
         tap("Operations")
+        howTo("ops")
         tap("First Connection")
         snap("brief")
         tap("> Connect", wait: 4)
@@ -86,13 +105,13 @@ final class DeviceWalkthroughUITests: XCTestCase {
         let got = (field.value as? String) ?? "(값 없음)"
         note("typed_value", "친 글: \(probe)\n칸의 값: \(got)\n같은가: \(got.hasSuffix(probe) || got == probe)")
         XCTAssertTrue(got.contains(probe), "스마트 구두점·자동 대문자로 바뀜: \(got)")
-        tap("Run", exact: true, wait: 2)                 // 틀린 비밀번호
+        tapRun(wait: 2)                 // 틀린 비밀번호
         snap("wrong_password")                           // 틀리면 명령 입력으로 돌아간다(안드로이드와 같음)
         run(["connect", "vault-box"])
         let field2 = app.textFields.firstMatch
         XCTAssertTrue(field2.waitForExistence(timeout: 5), "입력칸")
         field2.typeText("opensesame"); sleep(1)
-        tap("Run", exact: true, wait: 3)
+        tapRun(wait: 3)
         snap("unlocked")
 
         // 홈으로 나갔다가 돌아오기
@@ -107,6 +126,7 @@ final class DeviceWalkthroughUITests: XCTestCase {
         launch("en")
         tap("> Jack in")
         tap("Case files")
+        howTo("cases")
         tap("Case 1")
         snap("case")
         tap("admin_access.log", exact: true)
@@ -123,6 +143,7 @@ final class DeviceWalkthroughUITests: XCTestCase {
         launch("en")
         tap("> Jack in")
         tap("Breach")
+        howTo("breach")
         snap("breach_list")
 
         // 한국어로 다시 켜기
